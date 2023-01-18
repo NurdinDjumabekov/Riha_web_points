@@ -1,0 +1,43 @@
+.home {
+  height: 100vh;
+  background-color: #000;
+}
+.parent_main {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+.parent {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.child_1 > span {
+  font-size: 23px;
+  line-height: 29px;
+  color: #fff;
+}
+
+.child_1 > h1 {
+  font-size: 90px;
+  line-height: 117px;
+  width: 453px;
+  color: #dcca87;
+  margin-top: 20px;
+  margin-bottom: 32px;
+}
+
+.child_1 > p {
+  font-size: 23px;
+  line-height: 28px;
+  color: #aaa;
+  font-family: "Open Sans";
+  width: 453px;
+  margin-bottom: 32px;
+}
+.child_2 > img {
+  width: 667px;
+  height: 736px;
+}
