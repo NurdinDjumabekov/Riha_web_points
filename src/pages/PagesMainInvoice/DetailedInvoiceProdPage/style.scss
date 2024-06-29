@@ -1,0 +1,65 @@
+.detailedMain {
+    flex: 1;
+
+    &__inner {
+        flex: 1;
+        background-color: #fff;
+        min-width: 100%;
+        margin: 10px 0px;
+        border-radius: 8px;
+        padding-top: 5px;
+        
+        .date {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 5px;
+          gap: 4px;
+          padding: 0px 10px;
+        }
+      }
+
+      .titleDate {
+        font-size: 18px;
+        font-weight: 500;
+        color: #222;
+        padding: 8px 0px;
+      }
+      
+      .totalAcceptMainInv {
+        border-top: 1px solid #222;
+        padding-top: 15px;
+
+        .actionBlock {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          padding: 10px 10px 30px;
+  
+          .acceptBtn, .rejectBtn {
+            background-color: rgba(12, 169, 70, 0.9);
+            color: #fff;
+            width: 47%;
+            align-self: center;
+            font-size: 15px;
+            padding: 12px 8px;
+            border-radius: 8px;
+            font-weight: 600;
+            @media screen and (max-width: 415px) {
+                font-size: 13px;
+                @media screen and (max-width:370px) {
+                    font-size: 12px;
+                }
+            }
+          }
+          
+          .rejectBtn {
+            background-color: red;
+          }
+        }
+      }
+      
+}
+  

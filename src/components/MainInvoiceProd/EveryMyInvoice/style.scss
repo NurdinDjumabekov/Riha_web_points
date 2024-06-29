@@ -1,0 +1,100 @@
+.invoiceParent {
+    background-color: rgba(162, 178, 238, 0.102);
+    min-width: 100%;
+    padding: 15px 8px;
+    border-bottom: 1px solid rgba(47, 71, 190, 0.287);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    &__inner {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        width: 58%;
+        gap: 5px;
+    }
+  }
+  
+  .titleNum {
+    font-size: 19px;
+    font-weight: 700;
+    color: rgba(47, 71, 190, 0.672);
+    border: 1px solid rgba(47, 71, 190, 0.672);
+    background-color: #d4dfee;
+    padding: 3px;
+    padding-left: 6px;
+    padding-right: 4px;
+    border-radius: 5px;
+  }
+  
+  .titleDate {
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 5px;
+    line-height: 17px;
+  }
+  
+  .role {
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 5px;
+    line-height: 17px;
+    color: rgba(47, 71, 190, 0.672);
+    width: 80%;
+    display: -webkit-box; /* Для поддержки старых версий Safari */
+    -webkit-box-orient: vertical; /* Определяет направление текста */
+    -webkit-line-clamp: 1; /* Максимум 4 строки */
+    overflow: hidden; /* Скрыть излишек текста */
+    text-overflow: ellipsis;
+  }
+  
+  .totalPrice {
+    font-size: 16px;
+    font-weight: 400;
+  }
+  
+  .comments {
+    max-width: 230px;
+    display: -webkit-box; /* Для поддержки старых версий Safari */
+    -webkit-box-orient: vertical; /* Определяет направление текста */
+    -webkit-line-clamp: 4; /* Максимум 4 строки */
+    overflow: hidden; /* Скрыть излишек текста */
+    text-overflow: ellipsis;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  
+  .mainData {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .mainDataArrow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 15px;
+    width: 37%;
+
+    p {
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    span {
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 12px;
+    }
+
+    .arrow {
+        margin-right: 0px;
+        border-top: 3px solid rgba(162, 178, 238, 0.439);
+        border-right: 3px solid rgba(162, 178, 238, 0.439);
+    }
+  }
+  
