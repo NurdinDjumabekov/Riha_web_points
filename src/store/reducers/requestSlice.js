@@ -846,17 +846,16 @@ export const createInvoiceSoputkaTT = createAsyncThunk(
   /// создание накладной для сопутки
   "createInvoiceSoputkaTT",
   async function (props, { dispatch, rejectWithValue }) {
-    const { dataObj, navigation } = props;
+    const { dataObj, navigate } = props;
     try {
-      const response = await axios({
-        method: "POST",
-        url: `${API}/tt/create_invoice_soputka`,
-        data: dataObj,
-      });
+      const url = `${API}/tt/create_invoice_soputka`;
+      const response = await axios({ method: "POST", url, data: dataObj });
+
       if (response.status >= 200 && response.status < 300) {
-        navigation?.navigate("AddProdSoputkaSrceen", {
-          forAddTovar: response?.data,
+        navigate("/soputka/add", {
+          state: { forAddTovar: response?.data },
         });
+
         return response?.data;
       } else {
         throw Error(`Error: ${response.status}`);
@@ -941,11 +940,9 @@ export const getHistorySoputka = createAsyncThunk(
   /// список историй товаров сопутки
   "getHistorySoputka",
   async function (guidInvoice, { dispatch, rejectWithValue }) {
+    const url = `${API}/tt/get_invoice_soputka?seller_guid=${guidInvoice}`;
     try {
-      const response = await axios({
-        method: "GET",
-        url: `${API}/tt/get_invoice_soputka?seller_guid=${guidInvoice}`,
-      });
+      const response = await axios(url);
       if (response.status >= 200 && response.status < 300) {
         return response?.data;
       } else {

@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 import MyTable from "../../../components/Tables/MyTable/MyTable";
 import ResultCounts from "../../../common/ResultCounts/ResultCounts";
 import ConfirmationModal from "../../../common/ConfirmationModal/ConfirmationModal";
+import NavMenu from "../../../common/NavMenu/NavMenu";
 
 ///states
 import { getMyEveryInvoice } from "../../../store/reducers/requestSlice";
@@ -17,7 +18,6 @@ import { formatCount } from "../../../helpers/amounts";
 
 ////style
 import "./style.scss";
-import NavMenu from "../../../common/NavMenu/NavMenu";
 
 const DetailedInvoiceProdPage = ({ navigation }) => {
   const dispatch = useDispatch();

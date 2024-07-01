@@ -76,6 +76,33 @@ img {
   background-color: green;
 }
 
+.indexNums {
+  font-size: 19px;
+  font-weight: 700;
+  color: rgba(47, 71, 190, 0.672);
+  border: 1px solid rgba(47, 71, 190, 0.672);
+  background-color: #d4dfee;
+  padding: 3px;
+  padding-left: 6px;
+  padding-right: 4px;
+  border-radius: 5px;
+}
+
+.noneData {
+  padding-top: 200px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 500;
+  color: #222;
+  height: 100vh;
+}
+
+.titleSelectBottomSheet {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 10px 10px 0px 10px;
+}
+
 @keyframes animationBlock {
   from {
     opacity: 0;

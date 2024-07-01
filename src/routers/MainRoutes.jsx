@@ -6,6 +6,7 @@ import LoginPage from "../pages/LoginPage/LoginPage";
 import Layouts from "../Layouts/Layouts";
 import AllCategPage from "../pages/AllCategPage/AllCategPage";
 import PagesMainInvoice from "../pages/PagesMainInvoice/PagesMainInvoice";
+import PagesSoputka from "../pages/PagesSoputka/PagesSoputka";
 // import Alerts from "../components/Alerts/Alerts";
 // import MoreInfo from "../components/MoreInfo/MoreInfo";
 
@@ -20,6 +21,7 @@ const MainRoutes = () => {
       <Route element={<Layouts />}>
         <Route path="/categs" element={<AllCategPage />} />
         <Route path="/main_invoice/*" element={<PagesMainInvoice />} />
+        <Route path="/soputka/*" element={<PagesSoputka />} />
       </Route>
     </Routes>
   );

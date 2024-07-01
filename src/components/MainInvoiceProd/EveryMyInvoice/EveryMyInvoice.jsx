@@ -83,7 +83,7 @@ export const EveryMyInvoice = (props) => {
     <button className="invoiceParent" onClick={lookInvoice}>
       <div className="invoiceParent__inner">
         <div className="mainData">
-          <p className="titleNum">{obj.codeid}</p>
+          <p className="indexNums">{obj?.codeid}</p>
           <div>
             <p className="titleDate role">{obj?.agent}</p>
             <p className="titleDate">{obj.date}</p>

@@ -1,10 +1,6 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import { debounce } from "lodash";
 
-///// tags
-import { Image, View } from "react-native";
-import { TextInput, TouchableOpacity } from "react-native";
-
 ////// redux
 import { useDispatch, useSelector } from "react-redux";
 import { changeSearchProd } from "../../../store/reducers/stateSlice";
@@ -16,14 +12,17 @@ import { getLocalDataUser } from "../../../helpers/returnDataUser";
 
 ///// imgs
 import searchIcon from "../../../assets/icons/searchIcon.png";
+import arrowNav from "../../../assets/icons/arrowNav.svg";
 
 ////style
-import styles from "./style";
+import "./style.scss";
+import { useNavigate } from "react-router-dom";
 
-export const SearchProdsSoputka = ({ getData, location }) => {
+const SearchProdsSoputka = ({ getData, location }) => {
   const refInput = useRef();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { searchProd } = useSelector((state) => state.stateSlice);
 
@@ -41,7 +40,8 @@ export const SearchProdsSoputka = ({ getData, location }) => {
     [data]
   );
 
-  const onChange = (text) => {
+  const onChange = (e) => {
+    const text = e.target.value;
     dispatch(changeSearchProd(text));
     text?.length === 0 ? getData() : searchData(text);
   };
@@ -51,18 +51,21 @@ export const SearchProdsSoputka = ({ getData, location }) => {
   }, []);
 
   return (
-    <View style={styles.blockSearch}>
-      <TextInput
-        style={styles.inputSearch}
-        placeholderTextColor={"#222"}
+    <div className="blockSearchSoputka">
+      <button onClick={() => navigate(-1)} className="navLine">
+        <img src={arrowNav} alt="o" />
+      </button>
+      <input
         placeholder="Поиск товаров ..."
-        onChangeText={onChange}
+        onChange={onChange}
         value={searchProd}
         ref={refInput}
       />
-      <TouchableOpacity onPress={() => refInput?.current?.focus()}>
-        <Image style={styles.iconSearch} source={searchIcon} />
-      </TouchableOpacity>
-    </View>
+      <button onClick={() => refInput?.current?.focus()}>
+        <img src={searchIcon} alt="o" />
+      </button>
+    </div>
   );
 };
+
+export default SearchProdsSoputka;

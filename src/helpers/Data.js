@@ -9,9 +9,9 @@ export const dataCategory = [
   {
     codeid: 10,
     name: "Сопутка",
-    link: "Soputka",
+    link: "soputka/main",
     img: "https://img.freepik.com/premium-vector/budget-planning-flat-illustration-is-scalable-and-easy-to-use_203633-7957.jpg?w=900",
-    pathApi: "Soputka",
+    pathApi: "soputka/main",
   },
   {
     codeid: 2,

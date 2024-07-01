@@ -1,0 +1,71 @@
+.mainSoputkaProds {
+    flex: 1;
+    height: 100vh;
+    
+    &__inner {
+        &__every {
+          background-color: rgba(162, 178, 238, 0.102);
+          min-width: 100%;
+          padding: 10px 8px;
+          border-bottom: 1px solid rgba(47, 71, 190, 0.287);
+
+          .mainInfo {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+          }
+          
+          .titleDate {
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 5px;
+            line-height: 16px;
+            color: rgba(47, 71, 190, 0.672);
+          }
+
+
+          .krest {
+            position: relative !important;
+          }
+          
+          .title {
+            font-size: 15px;
+            font-weight: 500;
+            border-radius: 5px;
+            line-height: 17px;
+            color: #222;
+            margin-top: 10px;
+          }
+          
+          .totalPrice {
+            font-size: 14px;
+            font-weight: 500;
+            color: rgba(12, 169, 70, 0.9);
+          }
+         
+        }
+        .actionBlock {
+            padding: 13px 0px;
+            .totalItemSumm {
+              font-size: 18px;
+              font-weight: 500;
+              color: rgba(47, 71, 190, 0.991);
+              padding: 0px 10px;
+            }
+            
+            .sendBtn {
+                display: block;
+                background-color: #fff;
+                color: #fff;
+                min-width: 95%;
+                padding: 13px;
+                border-radius: 10px;
+                font-weight: 600;
+                background-color: rgba(12, 169, 70, 0.9);
+                border: 1px solid rgb(217, 223, 232);
+                margin: 20px auto 40px !important;
+            }
+          }
+          
+    }
+  }

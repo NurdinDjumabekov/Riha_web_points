@@ -1,25 +1,23 @@
-///// tags
-import { Text, View, TouchableOpacity, Alert } from "react-native";
-import { TextInput } from "react-native";
-
 ///hooks
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
 ////style
-import styles from "./style.js";
+import "./style.scss";
 
 ////components
-import { ViewButton } from "../../../customsTags/ViewButton.jsx";
 import { getEveryProd } from "../../../store/reducers/requestSlice.js";
 import { addProductInvoiceTT } from "../../../store/reducers/requestSlice.js";
 
-const EverySaleProdScreen = ({ route, navigation }) => {
+const EverySaleProdScreen = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const refInput = useRef(null);
 
-  const { obj } = route.params;
+  const { obj } = location.state;
 
   const { infoKassa } = useSelector((state) => state.requestSlice);
 
@@ -29,13 +27,13 @@ const EverySaleProdScreen = ({ route, navigation }) => {
 
   const [sum, setSum] = useState("");
 
-  const onChange = (text) => {
-    if (/^\d*\.?\d*$/.test(text)) {
+  const onChange = (p) => {
+    if (/^\d*\.?\d*$/.test(p)) {
       // Проверяем, не является ли точка первым символом
-      if (text === "." || text?.indexOf(".") === 0) {
+      if (p === "." || p?.indexOf(".") === 0) {
         return;
       }
-      setSum(text);
+      setSum(p);
     }
   };
 
@@ -49,7 +47,7 @@ const EverySaleProdScreen = ({ route, navigation }) => {
     /////// получаю каждый прожуке для продажи
   }, []);
 
-  const confText = `Недостаточное количество товара, у вас остаток ${everyProdSale?.end_outcome} ${everyProdSale?.unit}`;
+  const confp = `Недостаточное количество товара, у вас остаток ${everyProdSale?.end_outcome} ${everyProdSale?.unit}`;
 
   const typeProd = `Введите ${
     everyProdSale?.unit_codeid == 1 ? "количество" : "вес"
@@ -57,17 +55,17 @@ const EverySaleProdScreen = ({ route, navigation }) => {
 
   const addInInvoice = () => {
     if (sum == "" || sum == 0) {
-      Alert.alert(typeProd);
+      alert(typeProd);
     } else {
       const { price, sale_price, count_type } = everyProdSale;
       const sendData = { guid: obj?.guid, count: sum, sale_price };
       const data = { invoice_guid: infoKassa?.guid, price, ...sendData };
-      dispatch(addProductInvoiceTT({ data, navigation, count_type }));
+      dispatch(addProductInvoiceTT({ data, navigate, count_type }));
       ///// продаю товар
     }
   };
 
-  const onClose = () => navigation.goBack();
+  const onClose = () => navigate(-1);
 
   const typeVes = {
     1: `Введите ${
@@ -77,45 +75,42 @@ const EverySaleProdScreen = ({ route, navigation }) => {
   };
 
   return (
-    <View style={styles.parent}>
-      <Text style={styles.title}>{everyProdSale?.product_name}</Text>
-      <TouchableOpacity style={styles.krest} onPress={onClose}>
-        <View style={[styles.line, styles.deg]} />
-        <View style={[styles.line, styles.degMinus]} />
-      </TouchableOpacity>
-      <Text style={styles.leftovers}>
+    <div className="parentEveryProdSale">
+      <p className="title">{everyProdSale?.product_name}</p>
+      <button className="krest" onPress={onClose}>
+        <div className="line deg" />
+        <div className="line degMinus" />
+      </button>
+      <p className="leftovers">
         Остаток: {everyProdSale?.end_outcome} {everyProdSale?.unit}
-      </Text>
-      <View style={styles.addDataBlock}>
-        <View style={styles.inputBlock}>
-          <Text style={styles.inputTitle}>
+      </p>
+      <div className="addDataBlock">
+        <div className="inputBlock">
+          <p className="inputTitle">
             Цена продажи {everyProdSale?.unit && `за ${everyProdSale?.unit}`}
-          </Text>
-          <TextInput
-            style={styles.input}
+          </p>
+          <input
+            className="input"
             value={`${everyProdSale?.sale_price?.toString()} сом`}
-            keyboardType="numeric"
             maxLength={8}
+            readOnly
           />
-        </View>
-        <View style={styles.inputBlock}>
-          <Text style={styles.inputTitle}>
-            {typeVes?.[+everyProdSale?.count_type]}
-          </Text>
-          <TextInput
-            style={styles.input}
+        </div>
+        <div className="inputBlock">
+          <p className="inputTitle">{typeVes?.[+everyProdSale?.count_type]}</p>
+          <input
+            className="input"
             ref={refInput}
             value={sum}
-            onChangeText={onChange}
-            keyboardType="numeric"
+            onChange={onChange}
             maxLength={8}
           />
-        </View>
-      </View>
-      <ViewButton styles={styles.btnAdd} onclick={addInInvoice}>
+        </div>
+      </div>
+      <button className="btnAdd" onclick={addInInvoice}>
         Продать товар
-      </ViewButton>
-    </View>
+      </button>
+    </div>
   );
 };
 

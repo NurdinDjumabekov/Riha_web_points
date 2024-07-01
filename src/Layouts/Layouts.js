@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 ////// style
 import "./style.scss";
-import NavMenu from "../common/NavMenu/NavMenu";
 
 const Layouts = () => {
   const navigate = useNavigate();
@@ -14,7 +13,6 @@ const Layouts = () => {
 
   return (
     <div className="layoutBlock">
-      {/* <NavMenu /> */}
       <Outlet />
     </div>
   );
