@@ -16,9 +16,9 @@ export const dataCategory = [
   {
     codeid: 2,
     name: "Остатки",
-    link: "Leftovers",
+    link: "leftovers",
     img: "https://img.freepik.com/free-vector/button-style-concept-illustration_114360-4428.jpg?size=626&ext=jpg&ga=GA1.1.712878996.1706520692&semt=ais",
-    pathApi: "Leftovers",
+    pathApi: "leftovers",
   },
   {
     codeid: 3,

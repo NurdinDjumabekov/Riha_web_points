@@ -4,8 +4,10 @@ import "./style.scss";
 const Krest = ({ onClick }) => {
   return (
     <button className="krest" onClick={onClick}>
-      <div className="line deg" />
-      <div className="line degMinus" />
+      <div className="krest__inner">
+        <div className="line deg" />
+        <div className="line degMinus" />
+      </div>
     </button>
   );
 };

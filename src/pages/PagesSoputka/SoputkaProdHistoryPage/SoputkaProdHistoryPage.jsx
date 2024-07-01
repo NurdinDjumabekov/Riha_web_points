@@ -1,6 +1,7 @@
 //// hooks
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
 //// redux
 import { confirmSoputka } from "../../../store/reducers/requestSlice";
@@ -13,41 +14,40 @@ import { formatCount, sumSoputkaProds } from "../../../helpers/amounts";
 /////components
 import ConfirmationModal from "../../../common/ConfirmationModal/ConfirmationModal";
 import ResultCounts from "../../../common/ResultCounts/ResultCounts";
+import NavMenu from "../../../common/NavMenu/NavMenu";
 
 //// style
 import "./style.scss";
+import Krest from "../../../common/Krest/Krest";
 
-const SoputkaProdHistoryPage = ({ navigation, route }) => {
+const SoputkaProdHistoryPage = () => {
   //// история каждой накладной сапутки
   const dispatch = useDispatch();
-  const { guidInvoice } = route.params;
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const { guidInvoice } = location.state;
 
   const [modalItemGuid, setModalItemGuid] = useState(null); // Состояние для идентификатора элемента, для которого открывается модальное окно
 
   const [confirm, setConfirm] = useState(false); // Состояние для идентификатора элемента, для которого открывается модальное окно
 
-  const { preloader, listProdSoputka } = useSelector(
-    (state) => state.requestSlice
-  );
+  const { listProdSoputka } = useSelector((state) => state.requestSlice);
+
+  const getData = () => dispatch(getListSoputkaProd(guidInvoice));
 
   useEffect(() => {
-    navigation.setOptions({ title: `${listProdSoputka?.[0]?.date}` });
-  }, [listProdSoputka?.[0]?.date]);
-
-  useEffect(() => getData(), []);
-
-  const getData = () => {
-    dispatch(getListSoputkaProd(guidInvoice));
-  };
+    getData();
+  }, []);
 
   const confirmBtn = () => {
-    dispatch(confirmSoputka({ invoice_guid: guidInvoice, navigation }));
+    dispatch(confirmSoputka({ invoice_guid: guidInvoice, navigate }));
     /// подтверждение накладной сопутки
   };
 
   const addProd = () => {
     const forAddTovar = { invoice_guid: guidInvoice };
-    navigation?.navigate("AddProdSoputkaSrceen", { forAddTovar });
+    navigate("/soputka/add", { state: { forAddTovar } });
     /// д0бавление товара в накладную сопутки
   };
 
@@ -63,62 +63,46 @@ const SoputkaProdHistoryPage = ({ navigation, route }) => {
 
   return (
     <>
+      <NavMenu navText={listProdSoputka?.[0]?.date} />
       <div className="soputkaHistoryParent">
         <div
           className={`soputkaHistoryParent__inner ${!status && "moreSoputka"}`}
         >
-          {/* <FlatList
-            data={listData}
-            renderItem={({ item, index }) => (
-              <>
-                <View style={styles.EveryInner}>
-                  <View style={styles.mainData}>
-                    <View style={styles.mainDataInner}>
-                      <Text style={styles.titleNum}>{index + 1}</Text>
-                      <Text style={styles.sum}>
-                        {item?.sale_price} сом х {item?.count} {item?.unit} ={" "}
-                        {formatCount(item?.total_soputka)} сом
-                      </Text>
-                    </View>
-                    {status && (
-                      <TouchableOpacity
-                        style={styles.krest}
-                        onPress={() => setModalItemGuid(item?.guid)}
-                      >
-                        <View style={[styles.line, styles.deg]} />
-                        <View style={[styles.line, styles.degMinus]} />
-                      </TouchableOpacity>
-                    )}
-                  </View>
-                  <Text style={styles.title}>{item?.product_name}</Text>
-                </View>
-                <ConfirmationModal
-                  visible={modalItemGuid == item?.guid}
-                  message="Отменить возврат ?"
-                  onYes={() => del(item?.guid)}
-                  onNo={() => setModalItemGuid(null)}
-                  onClose={() => setModalItemGuid(null)}
-                />
-              </>
-            )}
-            keyExtractor={(item, index) => `${item.guid}${index}`}
-            refreshControl={
-              <RefreshControl refreshing={preloader} onRefresh={getData} />
-            }
-          /> */}
+          {listData?.map((item, index) => (
+            <div key={item?.guid}>
+              <div className="soputkaHistoryParent__inner__every">
+                <div className="mainData">
+                  <div className="mainData__inner">
+                    <p className="indexNums">{index + 1}</p>
+                    <p className="sumNums">
+                      {item?.sale_price} сом х {item?.count} {item?.unit} ={" "}
+                      {formatCount(item?.total_soputka)} сом
+                    </p>
+                  </div>
+                  {status && (
+                    <Krest onClick={() => setModalItemGuid(item?.guid)} />
+                  )}
+                </div>
+                <p className="nameProd">{item?.product_name}</p>
+              </div>
+              <ConfirmationModal
+                visible={modalItemGuid == item?.guid}
+                message="Отменить добавление ?"
+                onYes={() => del(item?.guid)}
+                onNo={() => setModalItemGuid(null)}
+                onClose={() => setModalItemGuid(null)}
+              />
+            </div>
+          ))}
         </div>
         <ResultCounts list={listData} />
-        <p style={styles.totalItemSumm}>
+        <p className="soputkaHistoryParent__total">
           Сумма: {sumSoputkaProds(listProdSoputka?.[0]?.list)} сом
         </p>
         {status && (
-          <div style={styles.actions}>
-            <button styles={styles.sendBtn} onClick={() => setConfirm(true)}>
-              Подтвердить
-            </button>
-            <button styles={styles.sendBtn} onClick={addProd}>
-              Добавить товар
-            </button>
+          <div className="soputkaHistoryParent__actions">
+            <button onClick={() => setConfirm(true)}>Подтвердить</button>
+            <button onClick={addProd}>Добавить товар</button>
           </div>
         )}
       </div>

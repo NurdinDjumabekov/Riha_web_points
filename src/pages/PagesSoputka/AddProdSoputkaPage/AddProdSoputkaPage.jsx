@@ -21,6 +21,8 @@ const AddProdSoputkaPage = () => {
 
   const { forAddTovar } = location.state; //// хранятся данные накладной сапутки
 
+  console.log(forAddTovar, "forAddTovar");
+
   useEffect(() => {
     defaultActive();
 

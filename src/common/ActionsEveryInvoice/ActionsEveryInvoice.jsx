@@ -1,7 +1,3 @@
-///tags
-import { Text, View } from "react-native";
-import RNPickerSelect from "react-native-picker-select";
-
 ///// hooks
 import { useDispatch, useSelector } from "react-redux";
 
@@ -17,9 +13,12 @@ import { changeActiveSelectWorkShop } from "../../store/reducers/stateSlice";
 import { changeSearchProd } from "../../store/reducers/stateSlice";
 
 ////style
-import styles from "./style";
+import "./style.scss";
 
-export const ActionsEveryInvoice = ({ location, type }) => {
+/////// components
+import Selects from "../Selects/Selects";
+
+const ActionsEveryInvoice = ({ location, type }) => {
   const dispatch = useDispatch();
 
   const { listCategory, listWorkShopSale } = useSelector(
@@ -34,22 +33,20 @@ export const ActionsEveryInvoice = ({ location, type }) => {
 
   const { seller_guid } = data;
 
-  const onChangeWorkShop = (value) => {
+  const onChangeWorkShop = ({ value }) => {
     if (value !== activeSelectCategory) {
       dispatch(clearListCategory()); //// очищаю список категорий перед отправкой запроса
       const send = { seller_guid, type, workshop_guid: value };
-
       setTimeout(() => {
         dispatch(getCategoryTT({ ...send, location }));
       }, 300);
-
       dispatch(changeActiveSelectWorkShop(value));
       /// хранение активной категории, для сортировки товаров(храню guid категории)
       clear();
     }
   };
 
-  const onChangeCateg = (value) => {
+  const onChangeCateg = ({ value }) => {
     if (value !== activeSelectCategory) {
       dispatch(clearListProductTT()); //// очищаю список товаров перед отправкой запроса
       dispatch(clearLeftovers()); //// очищаю массив данныз остатков
@@ -77,36 +74,30 @@ export const ActionsEveryInvoice = ({ location, type }) => {
     ////// очищаю временный данные для продажи
   };
 
-  // console.log(activeSelectCategory, "activeSelectCategory");
-  // console.log(activeSelectWorkShop, "activeSelectWorkShop");
-  // console.log(listCategory, "listCategory");
-
   return (
-    <View style={styles.parentSelects}>
-      <Text style={styles.choiceCateg}>Выберите цех</Text>
-      <View style={styles.blockSelect}>
-        <RNPickerSelect
-          onValueChange={onChangeWorkShop}
-          items={listWorkShopSale}
-          useNativeAndroidPickerStyle={false}
-          value={activeSelectWorkShop}
-          // placeholder={{}}
-          style={styles}
+    <div className="parentSelects">
+      <p className="choiceCateg">Выберите цех</p>
+      <div className="blockSelect">
+        <Selects
+          list={listWorkShopSale}
+          activeValue={activeSelectWorkShop}
+          onChange={onChangeWorkShop}
+          placeholder={"Выберите цех"}
         />
-        <View style={styles.arrow}></View>
-      </View>
-      <Text style={styles.choiceCateg}>Выберите категорию</Text>
-      <View style={styles.blockSelect}>
-        <RNPickerSelect
-          onValueChange={onChangeCateg}
-          items={listCategory}
-          useNativeAndroidPickerStyle={false}
-          value={activeSelectCategory}
-          // placeholder={{}}
-          style={styles}
+        <div className="arrowSelect"></div>
+      </div>
+      <p className="choiceCateg">Выберите категорию</p>
+      <div className="blockSelect">
+        <Selects
+          list={listCategory}
+          activeValue={activeSelectCategory}
+          onChange={onChangeCateg}
+          placeholder={"Выберите категорию"}
         />
-        <View style={styles.arrow}></View>
-      </View>
-    </View>
+        <div className="arrowSelect"></div>
+      </div>
+    </div>
   );
 };
+
+export default ActionsEveryInvoice;

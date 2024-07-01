@@ -7,6 +7,7 @@ import Layouts from "../Layouts/Layouts";
 import AllCategPage from "../pages/AllCategPage/AllCategPage";
 import PagesMainInvoice from "../pages/PagesMainInvoice/PagesMainInvoice";
 import PagesSoputka from "../pages/PagesSoputka/PagesSoputka";
+import LeftoversPage from "../pages/LeftoversPage/LeftoversScreen";
 // import Alerts from "../components/Alerts/Alerts";
 // import MoreInfo from "../components/MoreInfo/MoreInfo";
 
@@ -22,6 +23,7 @@ const MainRoutes = () => {
         <Route path="/categs" element={<AllCategPage />} />
         <Route path="/main_invoice/*" element={<PagesMainInvoice />} />
         <Route path="/soputka/*" element={<PagesSoputka />} />
+        <Route path="/leftovers" element={<LeftoversPage />} />
       </Route>
     </Routes>
   );
