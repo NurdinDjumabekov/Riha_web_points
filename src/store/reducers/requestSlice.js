@@ -31,7 +31,7 @@ export const logInAccount = createAsyncThunk(
           dispatch(changeLocalData(obj));
 
           if (seller_guid) {
-            navigate("/categs");
+            navigate("/");
             dispatch(clearLogin());
           }
         }
@@ -188,7 +188,7 @@ export const acceptInvoiceTT = createAsyncThunk(
         data: props,
       });
       if (response.status >= 200 && response.status < 300) {
-        navigate("/categs");
+        navigate("/");
         return status;
       } else {
         throw Error(`Error: ${response.status}`);
@@ -638,7 +638,6 @@ export const acceptMoney = createAsyncThunk(
 
       if (response.status >= 200 && response.status < 300) {
         closeModal();
-        navigate("/pay");
         getData();
       } else {
         throw Error(`Error: ${response.status}`);
@@ -753,7 +752,7 @@ export const acceptInvoiceReturn = createAsyncThunk(
         data: props,
       });
       if (response.status >= 200 && response.status < 300) {
-        navigate("/categs");
+        navigate("/");
         return status;
       } else {
         throw Error(`Error: ${response.status}`);
@@ -956,7 +955,7 @@ export const confirmSoputka = createAsyncThunk(
       });
       if (response.status >= 200 && response.status < 300) {
         if (+response?.data?.result === 1) {
-          navigate("/categs");
+          navigate("/");
         }
       } else {
         throw Error(`Error: ${response.status}`);
@@ -1084,7 +1083,7 @@ export const sendCheckListProduct = createAsyncThunk(
       });
       if (response.status >= 200 && response.status < 300) {
         if (+response?.data?.result === 1) {
-          navigate("/categs");
+          navigate("/");
           alert("Накладная для ревизии была успешно создана");
         } else {
           alert("Не удалось создать накладную для ревизии");
@@ -1175,7 +1174,7 @@ export const acceptInvoiceRevision = createAsyncThunk(
       });
       if (response.status >= 200 && response.status < 300) {
         if (+response?.data?.result === 1) {
-          navigate("/categs");
+          navigate("/");
         }
       } else {
         throw Error(`Error: ${response.status}`);

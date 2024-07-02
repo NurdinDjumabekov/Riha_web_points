@@ -11,13 +11,13 @@ import { getListAgents } from "../../../store/reducers/requestSlice";
 /////components
 import EveryPay from "../../../components/Pay/EveryPay/EveryPay";
 import NavMenu from "../../../common/NavMenu/NavMenu";
+import ModalPayTA from "../../../components/Pay/ModalPayTA/ModalPayTA";
 
 //////helpers
 import { getLocalDataUser } from "../../../helpers/returnDataUser";
 
 ////style
 import "./style.scss";
-import ModalPayTA from "../../../components/Pay/ModalPayTA/ModalPayTA";
 
 const PayMoneyPage = () => {
   ///// оплата ТА (принятие денег ТА)
