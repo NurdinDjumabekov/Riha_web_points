@@ -41,7 +41,7 @@ const AddProdSoputkaPage = () => {
   };
 
   return (
-    <div className="parentBlockSoputka">
+    <div className="parentBlockSale-soputka">
       <button onClick={listProdSale}>
         <p>Список сопутствующих товаров</p>
         <div className="arrow"></div>

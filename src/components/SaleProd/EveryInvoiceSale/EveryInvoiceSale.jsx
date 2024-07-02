@@ -1,14 +1,11 @@
 ////hooks
 import { useEffect } from "react";
-import { useRoute } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
-
-///tags
-import { FlatList, RefreshControl } from "react-native";
-import { SafeAreaView, Text, View } from "react-native";
+import { useLocation } from "react-router-dom";
 
 /// components
-import { ActionsEveryInvoice } from "../../../common/ActionsEveryInvoice/ActionsEveryInvoice";
+import ActionsEveryInvoice from "../../../common/ActionsEveryInvoice/ActionsEveryInvoice";
+import NavMenu from "../../../common/NavMenu/NavMenu";
 import { EveryProduct } from "../EveryProduct/EveryProduct";
 
 /////fns
@@ -17,19 +14,13 @@ import { changeSearchProd } from "../../../store/reducers/stateSlice";
 import SaleMenu from "../../../common/SaleMenu/SaleMenu";
 
 ////style
-import styles from "./style";
+import "./style.scss";
 
-export const EveryInvoiceSale = ({ forAddTovar, navigation }) => {
+export const EveryInvoiceSale = () => {
   const dispatch = useDispatch();
-  const route = useRoute();
+  const location = useLocation();
 
-  /////////////////////////////////////////////////
-  const location = route.name;
-  /////////////////////////////////////////////////
-
-  const { preloader, listProductTT } = useSelector(
-    (state) => state.requestSlice
-  );
+  const { listProductTT } = useSelector((state) => state.requestSlice);
   const { data } = useSelector((state) => state.saveDataSlice);
 
   const getData = () => {
@@ -48,33 +39,29 @@ export const EveryInvoiceSale = ({ forAddTovar, navigation }) => {
   const emptyDataProd = listProductTT?.length === 0;
 
   return (
-    <View style={styles.container}>
-      <SafeAreaView style={styles.parentBlock}>
-        <ActionsEveryInvoice location={location} type={"sale"} />
-        <Text style={styles.textTovar}>Список товаров</Text>
-        {emptyDataProd ? (
-          <Text style={styles.noneData}>Список пустой</Text>
-        ) : (
-          <View style={styles.blockSelectProd}>
-            <FlatList
-              data={listProductTT}
-              renderItem={({ item, index }) => (
+    <>
+      <NavMenu navText={"Продажи"} />
+      <div className="containerSale">
+        <div className="containerSale__inner">
+          <ActionsEveryInvoice location={location} type={"sale"} />
+          <p className="textTovar">Список товаров</p>
+          {emptyDataProd ? (
+            <p className="noneData">Список пустой</p>
+          ) : (
+            <div className="blockSelectProd">
+              {listProductTT?.map((item, index) => (
                 <EveryProduct
+                  key={item?.guid}
                   obj={item}
                   index={index}
                   type={"sale"}
-                  navigation={navigation}
                 />
-              )}
-              keyExtractor={(item, index) => `${item?.guid}${index}`}
-              refreshControl={
-                <RefreshControl refreshing={preloader} onRefresh={getData} />
-              }
-            />
-          </View>
-        )}
-      </SafeAreaView>
-      <SaleMenu navigation={navigation} />
-    </View>
+              ))}
+            </div>
+          )}
+        </div>
+        <SaleMenu />
+      </div>
+    </>
   );
 };

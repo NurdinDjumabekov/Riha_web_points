@@ -8,6 +8,8 @@ import AllCategPage from "../pages/AllCategPage/AllCategPage";
 import PagesMainInvoice from "../pages/PagesMainInvoice/PagesMainInvoice";
 import PagesSoputka from "../pages/PagesSoputka/PagesSoputka";
 import LeftoversPage from "../pages/LeftoversPage/LeftoversScreen";
+import PagesSale from "../pages/PagesSale/PagesSale";
+import StoreSpendingPage from "../pages/SpendingPage/StoreSpendingPage";
 // import Alerts from "../components/Alerts/Alerts";
 // import MoreInfo from "../components/MoreInfo/MoreInfo";
 
@@ -24,6 +26,8 @@ const MainRoutes = () => {
         <Route path="/main_invoice/*" element={<PagesMainInvoice />} />
         <Route path="/soputka/*" element={<PagesSoputka />} />
         <Route path="/leftovers" element={<LeftoversPage />} />
+        <Route path="/sale/*" element={<PagesSale />} />
+        <Route path="/spending" element={<StoreSpendingPage />} />
       </Route>
     </Routes>
   );

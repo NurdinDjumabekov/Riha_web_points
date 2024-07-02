@@ -1,17 +1,15 @@
-import { FlatList, View, Text, RefreshControl } from "react-native";
-
 import { useSelector } from "react-redux";
 
 ////style
-import styles from "./style";
+import "./style.scss";
 
-export const ListExpense = ({ getData }) => {
-  const { preloader, listExpense } = useSelector((state) => state.requestSlice);
+const ListExpense = () => {
+  const { listExpense } = useSelector((state) => state.requestSlice);
 
   const emptyData = listExpense?.length === 0;
 
   if (emptyData) {
-    return <Text style={styles.noneData}>Список пустой</Text>;
+    return <p className="noneData">Список пустой</p>;
   }
 
   const objType = {
@@ -20,40 +18,30 @@ export const ListExpense = ({ getData }) => {
     2: { text: "Одобрено", color: "green" },
   };
 
-  console.log(listExpense, "listExpense");
-
   return (
-    <View style={styles.parentBlock}>
-      <FlatList
-        contentContainerStyle={styles.flatlist}
-        data={listExpense}
-        renderItem={({ item }) => (
-          <View style={styles.everyProd}>
-            <View style={styles.everyProdInner}>
-              <View style={styles.blockTitle}>
-                <Text style={styles.title}>{item?.name}</Text>
-                <Text style={styles.comment}>
-                  {item?.comment ? item?.comment : "..."}
-                </Text>
-              </View>
-              <View style={styles.blockTitle}>
-                <Text style={styles?.[`${objType?.[+item?.status]?.color}`]}>
-                  {objType?.[+item?.status]?.text}
-                </Text>
-                <Text style={styles.date}>{item?.date_system}</Text>
-                <Text style={styles.sum}>{item?.amount} сом</Text>
-              </View>
-            </View>
-            {item?.cancel_comment && (
-              <Text style={styles.commentAdmin}>{item?.cancel_comment}</Text>
-            )}
-          </View>
-        )}
-        keyExtractor={(item, index) => `${item?.guid}${index}`}
-        refreshControl={
-          <RefreshControl refreshing={preloader} onRefresh={() => getData()} />
-        }
-      />
-    </View>
+    <div className="spendingList">
+      {listExpense?.map((item) => (
+        <div className="everyProdSpending">
+          <div className="everyProdSpending__inner">
+            <div className="blockTitle">
+              <h5>{item?.name}</h5>
+              <p>{item?.comment ? item?.comment : "..."}</p>
+            </div>
+            <div className="blockMoreText">
+              <span style={{ color: `${objType?.[+item?.status]?.color}` }}>
+                {objType?.[+item?.status]?.text}
+              </span>
+              <p>{item?.date_system}</p>
+              <b>{item?.amount} сом</b>
+            </div>
+          </div>
+          {item?.cancel_comment && (
+            <p className="commentAdmin">{item?.cancel_comment}</p>
+          )}
+        </div>
+      ))}
+    </div>
   );
 };
+
+export default ListExpense;

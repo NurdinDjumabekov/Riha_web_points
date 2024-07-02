@@ -12,11 +12,11 @@ import { clearTemporaryData } from "../../store/reducers/stateSlice";
 import { changeActiveSelectWorkShop } from "../../store/reducers/stateSlice";
 import { changeSearchProd } from "../../store/reducers/stateSlice";
 
-////style
-import "./style.scss";
-
 /////// components
 import Selects from "../Selects/Selects";
+
+////style
+import "./style.scss";
 
 const ActionsEveryInvoice = ({ location, type }) => {
   const dispatch = useDispatch();
@@ -73,6 +73,8 @@ const ActionsEveryInvoice = ({ location, type }) => {
     dispatch(clearTemporaryData());
     ////// очищаю временный данные для продажи
   };
+
+  console.log(location, "location");
 
   return (
     <div className="parentSelects">

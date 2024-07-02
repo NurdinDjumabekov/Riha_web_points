@@ -17,7 +17,7 @@ export const EveryProduct = (props) => {
 
   const addInTemporary = () => {
     if (type == "sale") {
-      // navigate("EverySaleProdScreen", { obj }); //// продолжить
+      navigate("/sale/every_prod", { state: { obj } });
     } else if (type == "soputka") {
       dispatch(changeTemporaryData(obj));
     }

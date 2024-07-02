@@ -17,10 +17,10 @@ import { getLocalDataUser } from "../../helpers/returnDataUser";
 /////// components
 import ActionsEveryInvoice from "../../common/ActionsEveryInvoice/ActionsEveryInvoice";
 import NavMenu from "../../common/NavMenu/NavMenu";
+import TablesLeftovers from "../../components/Tables/TablesLeftovers/TablesLeftovers";
 
 /////// style
 import "./style.scss";
-import TablesLeftovers from "../../components/Tables/TablesLeftovers/TablesLeftovers";
 
 const LeftoversPage = () => {
   const dispatch = useDispatch();
@@ -49,14 +49,14 @@ const LeftoversPage = () => {
 
     const sendData = { seller_guid: data?.seller_guid, type: "leftovers" };
     // ////// внутри есть getCategoryTT и getProductTT
-    dispatch(getWorkShopsGorSale({ ...sendData, location: "SalePointScreen" }));
+    dispatch(getWorkShopsGorSale({ ...sendData, location: "leftovers" }));
   };
 
   return (
     <>
       <NavMenu navText={"Остатки"} />
       <div className="leftoversContainer">
-        <ActionsEveryInvoice type={"leftovers"} location={"SalePointScreen"} />
+        <ActionsEveryInvoice type={"leftovers"} location={"leftovers"} />
         {listLeftovers?.length === 0 ? (
           <p className="noneData">Остатков нет...</p>
         ) : (

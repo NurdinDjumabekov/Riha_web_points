@@ -240,21 +240,18 @@ export const getCategoryTT = createAsyncThunk(
     const { location, seller_guid, type, workshop_guid } = props;
 
     const check =
-      location == "SalePointScreen" || location == "AddProdReturnSrceen"; ///// продажа и возрат
+      location.pathname == "/sale/main" ||
+      location?.pathname == "AddProdReturnSrceen"; ///// продажа и возрат
 
     const urlLink = check
       ? `${API}/tt/get_category?seller_guid=${seller_guid}&workshop_guid=${workshop_guid}` //// для пр0дажи и возрата
       : `${API}/tt/get_category_all`; //// для сопутки
-
-    console.log(urlLink, "urlLink getCategoryTT");
 
     try {
       const response = await axios(urlLink);
       if (response.status >= 200 && response.status < 300) {
         const category_guid = response.data?.[0]?.category_guid || "";
         dispatch(changeActiveSelectCategory(category_guid)); /// исользую в продаже и в остатках
-
-        console.log(workshop_guid, "workshop_guid");
 
         if (type === "leftovers") {
           if (category_guid) {
@@ -289,13 +286,12 @@ export const getProductTT = createAsyncThunk(
     const { guid, seller_guid, location, workshop_guid } = props;
 
     const check =
-      location == "SalePointScreen" || location == "AddProdReturnSrceen"; ///// продажа и возрат
+      location?.pathname == "leftovers" || location?.pathname == "/sale/main"; ///// продажа и возрат
 
     const urlLink = check
       ? `${API}/tt/get_product?categ_guid=${guid}&seller_guid=${seller_guid}&workshop_guid=${workshop_guid}` ///// продажа и возрат
       : `${API}/tt/get_product_all?categ_guid=${guid}&workshop_guid=${workshop_guid}`; //// для сопутки
 
-    console.log(urlLink, "urlLink getProductTT");
     try {
       const response = await axios(urlLink);
       if (response.status >= 200 && response.status < 300) {
@@ -433,18 +429,16 @@ export const addProductInvoiceTT = createAsyncThunk(
   /// добавление продукта(по одному) в накладную торговой точки
   "addProductInvoiceTT",
   async function (props, { dispatch, rejectWithValue }) {
-    const { data, navigation, count_type } = props;
+    const { data, navigate, count_type } = props;
     try {
-      const response = await axios({
-        method: "POST",
-        url: `${API}/tt/create_invoice_product`,
-        data,
-      });
+      const url = `${API}/tt/create_invoice_product`;
+      const response = await axios({ method: "POST", url, data });
+
       if (response.status >= 200 && response.status < 300) {
         const { result } = response?.data;
         if (+result === 1) {
           dispatch(clearTemporaryData()); // очищаю { price: "", ves: ""}
-          navigation.goBack();
+          navigate("/sale/main");
         }
         return { result, count_type };
       } else {
@@ -472,15 +466,15 @@ export const getEveryProd = createAsyncThunk(
       const response = await axios(url);
       if (response.status >= 200 && response.status < 300) {
         if (response?.data?.length === 0) {
-          navigate("SalePointScreen");
+          navigate("/sale/main");
           alert("Не удалось найти такой продукт");
         } else {
           const { guid, product_name } = response?.data?.[0];
           const obj = { guid, product_name };
 
           if (!!qrcode) {
-            await navigate("SalePointScreen");
-            await navigate("EverySaleProdScreen", { obj });
+            await navigate("/sale/main");
+            await navigate("/sale/every_prod", { obj });
             ///// закрываю модалку для ввода ручного qr кода
             closeModal();
           }
