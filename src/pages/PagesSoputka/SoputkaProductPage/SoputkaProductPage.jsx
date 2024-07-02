@@ -37,6 +37,7 @@ const SoputkaProductPage = ({}) => {
 
   useEffect(() => {
     getData();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [guidInvoice]);
 
   const del = (product_guid) => {

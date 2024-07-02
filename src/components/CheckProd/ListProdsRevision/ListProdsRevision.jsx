@@ -1,38 +1,40 @@
-import { Text, TouchableOpacity, View } from "react-native";
+/////// helpers
+import { useNavigate } from "react-router-dom";
 import { statusColor, statusRevision } from "../../../helpers/Data";
 
-////style
-import styles from "./style";
+/////// style
+import "./style.scss";
 
-export const ListProdsRevision = ({ item, navigation, disable }) => {
+const ListProdsRevision = ({ item, disable }) => {
+  const navigate = useNavigate();
+
   const lookInvoice = (invoice_guid) => {
-    const data = { invoice_guid, disable };
-
-    navigation.navigate("EveryRevisionRequestScreen", data);
+    navigate("/revision/every", { state: { invoice_guid, disable } });
   };
 
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => lookInvoice(item?.guid)}
+    <button
+      className="containerListRevision"
+      onClick={() => lookInvoice(item?.guid)}
     >
-      <View style={styles.innerBlock}>
-        <Text style={styles.titleDate}>{item?.date}</Text>
-        <View style={styles.mainData}>
-          <Text style={styles.titleNum}>{item?.codeid} </Text>
-          <View>
-            <Text style={[styles.titleDate, styles.role]}>
-              {item?.seller_from}
-            </Text>
-            <Text
-              style={[styles.titleDate, { color: statusColor?.[item?.status] }]}
+      <div className="innerBlock">
+        <h6 className="titleDate">{item?.date}</h6>
+        <div className="mainData">
+          <p className="indexNums">{item?.codeid}</p>
+          <div>
+            <p className="titleDate roleRevision">{item?.seller_from}</p>
+            <p
+              className="titleDate"
+              style={{ color: statusColor?.[item?.status] }}
             >
               {statusRevision?.[item.status]}
-            </Text>
-          </View>
-        </View>
-      </View>
-      <View style={styles.arrow}></View>
-    </TouchableOpacity>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="arrow"></div>
+    </button>
   );
 };
+
+export default ListProdsRevision;

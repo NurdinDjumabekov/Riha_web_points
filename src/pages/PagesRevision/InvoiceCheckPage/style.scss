@@ -1,0 +1,47 @@
+.invoiceRevision {
+    min-height: 90vh;
+
+    &__inner {
+        min-width: 100%;
+        margin-bottom: 50px;
+        margin-top: 0;
+        border-radius: 8px;
+        padding-top: 5px;
+
+        
+
+        .actionBlockRes {
+            width: 100%;
+            padding-right: 20px;
+            padding-left: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #222;
+            position: fixed !important;
+            bottom: 0;
+            left: 0;
+            z-index: 10;
+            background: #fff;
+
+            > div {
+
+                .totalItemCount {
+                    font-size: 17px;
+                    font-weight: 500;
+                    color: #222;
+                    padding-left: 0px !important;
+                }
+            }
+            > button {
+                display: block;
+                font-size: 16px;
+                color: #fff;
+                width: 100%;
+                padding: 14px 0;
+                border-radius: 10px;
+                font-weight: 600;
+                background-color: rgba(97, 100, 239, 0.7);
+                margin: 20px auto;
+            }
+        }
+    }
+}

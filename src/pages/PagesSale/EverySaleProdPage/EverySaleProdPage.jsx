@@ -50,6 +50,8 @@ const EverySaleProdPage = () => {
     }
     dispatch(getEveryProd({ guid: obj?.guid, seller_guid: data?.seller_guid }));
     /////// получаю каждый прожуке для продажи
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const confp = `Недостаточное количество товара, у вас остаток ${everyProdSale?.end_outcome} ${everyProdSale?.unit}`;

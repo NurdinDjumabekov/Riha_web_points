@@ -38,24 +38,24 @@ export const dataCategory = [
   {
     codeid: 5,
     name: "Оплата",
-    link: "PayMoney",
+    link: "pay",
     img: "https://img.freepik.com/free-vector/euro-coins-concept-illustration_114360-15485.jpg?t=st=1710925698~exp=1710929298~hmac=4fb3746133437b6b0ca94daa3d06c8c634817a0562bb3e4ac1df5e613f3512bd&w=740",
-    pathApi: "PayMoney",
+    pathApi: "pay",
   },
 
   {
     codeid: 6,
     name: "Возврат",
-    link: "MyReturnsScreen",
+    link: "return/main",
     img: "https://img.freepik.com/premium-vector/teamwork-web-concept-with-character-scene-man-woman-work-together-construct-cubes-developing-project-people-situation-flat-design-vector-illustration-social-media-marketing-material_9209-12505.jpg?w=1380",
-    pathApi: "MyReturnsScreen",
+    pathApi: "return/main",
   },
   {
     codeid: 7,
     name: "Ревизия",
-    link: "CheckTovarScreen",
+    link: "revision/main",
     img: "https://img.freepik.com/free-vector/flat-university-concept_23-2148184535.jpg?t=st=1714467037~exp=1714470637~hmac=5c4ad18c3bd18c0d4b01c395340bf0b264b4c3ec37090fd429ec276be7a41b7d&w=900",
-    pathApi: "CheckTovarScreen",
+    pathApi: "revision/main",
   },
 ];
 

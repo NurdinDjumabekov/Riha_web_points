@@ -1,24 +1,22 @@
-////// tags
-import { Alert, FlatList, Text, View } from "react-native";
-import { Modal, TextInput, TouchableOpacity } from "react-native";
-import { ViewButton } from "../../../customsTags/ViewButton";
-
 ///// hooks
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 //////fns
 import { acceptMoney } from "../../../store/reducers/requestSlice";
 
 //////componets
-import { ChoiceAgents } from "../../../common/ChoiceAgents/ChoiceAgents";
+import Modals from "../../../common/Modals/Modals";
+import ChoiceAgents from "../../../common/ChoiceAgents/ChoiceAgents";
 
 ////style
-import styles from "./style";
+import "./style.scss";
 
-export const ModalPayTA = ({ modalState, setModalState, navigation }) => {
+const ModalPayTA = ({ modalState, setModalState, getData }) => {
   //// модалка для оплаты ТТ
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [obj, setObj] = useState({ comment: "", amount: "", agent_guid: "" });
 
@@ -30,25 +28,26 @@ export const ModalPayTA = ({ modalState, setModalState, navigation }) => {
     setObj({ comment: "", amount: "", agent_guid: "" });
   };
 
-  const onChange = (text, type) => {
-    if (type === "amount") {
-      if (/^-?\d*\.?\d*$/.test(text)) {
-        setObj({ ...obj, amount: text });
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    if (name === "amount") {
+      if (/^-?\d*\.?\d*$/.test(value)) {
+        setObj({ ...obj, amount: value });
       }
     } else {
-      setObj({ ...obj, comment: text });
+      setObj({ ...obj, comment: value });
     }
   };
 
   const sendMoney = () => {
     ///// отплачиваю деньги как ТТ ревизору
     if (!obj?.amount) {
-      Alert.alert("Введите сумму");
+      alert("Введите сумму");
     } else if (!obj?.agent_guid) {
-      Alert.alert("Выберите агента");
+      alert("Выберите агента");
     } else {
       const dataObj = { ...obj, seller_guid: data?.seller_guid };
-      dispatch(acceptMoney({ dataObj, closeModal, navigation }));
+      dispatch(acceptMoney({ dataObj, closeModal, navigate, getData }));
       // if (temporaryGuidPoint?.debit < temporaryGuidPoint?.amount) {
       //   Alert.alert("Введенная вами сумма больше зарабатка торговой точки!");
       // } else {
@@ -57,55 +56,40 @@ export const ModalPayTA = ({ modalState, setModalState, navigation }) => {
   };
 
   return (
-    <Modal
-      animationType="fade"
-      transparent={true}
-      visible={modalState}
-      onRequestClose={closeModal}
-    >
-      <TouchableOpacity
-        style={styles.modalOuter}
-        activeOpacity={1}
-        onPress={closeModal} // Закрыть модальное окно
-      >
-        <View style={styles.modalInner} onPress={() => setModalState(true)}>
-          <Text style={styles.titleSelect}>Выберите агента</Text>
-          <View style={styles.selectBlock}>
-            <FlatList
-              data={listAgents}
-              renderItem={({ item }) => (
-                <ChoiceAgents
-                  item={item}
-                  setState={setObj}
-                  prev={obj}
-                  keyGuid={"agent_guid"}
-                  keyText={"agent"}
-                />
-              )}
-              keyExtractor={(item, index) => `${item.guid}${index}`}
+    <Modals openModal={modalState} setOpenModal={() => setModalState(false)}>
+      <div className="modalInnerPay" onClick={() => setModalState(true)}>
+        <h6>Выберите агента</h6>
+        <div className="choiceSelectBlock">
+          {listAgents?.map((item) => (
+            <ChoiceAgents
+              item={item}
+              setState={setObj}
+              prev={obj}
+              keyGuid={"agent_guid"}
+              keyText={"agent"}
             />
-          </View>
-          <TextInput
-            style={styles.inputNum}
-            value={obj?.amount?.toString()}
-            onChangeText={(e) => onChange(e, "amount")}
+          ))}
+        </div>
+        <div className="inputsPay">
+          <input
+            value={obj?.amount}
+            onChange={onChange}
+            name="amount"
             placeholder="Сумма"
-            keyboardType="numeric"
             maxLength={8}
           />
-          <TextInput
-            style={styles.inputComm}
+          <textarea
             value={obj?.comment}
-            onChangeText={(e) => onChange(e, "comment")}
+            onChange={onChange}
             placeholder="Ваш комментарий"
-            multiline={true}
-            numberOfLines={4}
-          />
-          <ViewButton styles={styles.sendBtn} onclick={sendMoney}>
-            Оплатить
-          </ViewButton>
-        </View>
-      </TouchableOpacity>
-    </Modal>
+            name="comment"
+            rows="4"
+          ></textarea>
+          <button onClick={sendMoney}>Оплатить</button>
+        </div>
+      </div>
+    </Modals>
   );
 };
+
+export default ModalPayTA;

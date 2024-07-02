@@ -10,13 +10,13 @@ import { deleteSoldProd } from "../../../store/reducers/requestSlice";
 ////// components
 import ConfirmationModal from "../../../common/ConfirmationModal/ConfirmationModal";
 import Krest from "../../../common/Krest/Krest";
+import NavMenu from "../../../common/NavMenu/NavMenu";
 
 ////// helpers
 import { formatCount } from "../../../helpers/amounts";
 
 ////style
 import "./style.scss";
-import NavMenu from "../../../common/NavMenu/NavMenu";
 
 const SoldProductPage = () => {
   //// список проданных продуктов
@@ -32,6 +32,7 @@ const SoldProductPage = () => {
 
   useEffect(() => {
     getData();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const del = (product_guid) => {

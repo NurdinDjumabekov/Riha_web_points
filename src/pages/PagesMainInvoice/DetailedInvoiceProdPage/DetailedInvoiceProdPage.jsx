@@ -55,6 +55,7 @@ const DetailedInvoiceProdPage = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(getMyEveryInvoice(guid));
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const checkStatus = everyInvoice?.status !== 0;

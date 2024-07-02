@@ -72,7 +72,7 @@ const AddProductsInvoice = (props) => {
         dispatch(addProductSoputkaTT({ obj, getData }));
       } else if (location?.pathname === "AddProdReturnSrceen") {
         /// возврат
-        const obj = { ...data, ...forAddTovar }; //// доделать
+        // const obj = { ...data, ...forAddTovar }; //// доделать
         // dispatch(addProductReturn({ obj, getData }));
       }
     }

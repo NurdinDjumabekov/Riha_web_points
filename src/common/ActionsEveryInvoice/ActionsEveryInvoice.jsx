@@ -74,8 +74,6 @@ const ActionsEveryInvoice = ({ location, type }) => {
     ////// очищаю временный данные для продажи
   };
 
-  console.log(location, "location");
-
   return (
     <div className="parentSelects">
       <p className="choiceCateg">Выберите цех</p>

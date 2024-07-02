@@ -17,7 +17,7 @@ const TablesLeftovers = ({ arr }) => {
       </div>
       <div className="listProdsLeftovers">
         {arr?.map((item, index) => (
-          <div className="mainBlock">
+          <div className="mainBlock" key={index}>
             <p className="name">
               {index + 1}. {item?.product_name}
             </p>

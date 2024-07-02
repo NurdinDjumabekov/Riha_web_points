@@ -1,0 +1,71 @@
+.mainDetailedreturn {
+    min-height: 100vh;
+
+    &__inner {
+        flex: 1;
+        background-color: #fff;
+        min-width: 100%;
+        margin-bottom: 20px;
+        margin-top: 10px;
+        border-radius: 8px;
+        padding-top: 5px;
+
+        .dateReturn {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            gap: 4px;
+            padding: 0px 10px;
+
+            p {
+                font-size: 18px;
+                font-weight: 500;
+                color: #222;
+                padding: 8px 0px;
+            }
+        }
+
+        .totalReturn {
+            border-top: 1px solid #222;
+            padding-top: 8px;
+
+            > p {
+                font-size: 18px;
+                font-weight: 500;
+                color: rgba(47, 71, 190, 0.991);
+                padding: 5px 0px;
+                margin: 0px 10px;
+            }
+
+            .actionBlockReturn {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding: 5px 10px;
+
+                button:nth-child(1) {
+                    background-color: rgba(12, 169, 70, 0.9);
+                    color: #fff;
+                    width: 47%;
+                    align-self: center;
+                    font-size: 14px;
+                    padding: 12px 8px;
+                    border-radius: 5px;
+                }
+
+                button:nth-child(2) {
+                    background-color: red;
+                    color: #fff;
+                    width: 47%;
+                    align-self: center;
+                    font-size: 14px;
+                    padding: 12px 8px;
+                    border-radius: 5px;
+                }
+            }
+        }
+    }
+}

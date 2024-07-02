@@ -37,6 +37,7 @@ const AllCategPage = () => {
 
   useEffect(() => {
     getData();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const goPage = () => navigate("HistoryBalance");

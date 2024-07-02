@@ -25,6 +25,7 @@ const AddProdSoputkaPage = () => {
 
   useEffect(() => {
     defaultActive();
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
     return () => {
       dispatch(clearListCategory());

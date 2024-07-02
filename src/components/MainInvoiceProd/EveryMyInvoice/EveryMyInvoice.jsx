@@ -10,7 +10,7 @@ import { changePreloader } from "../../../store/reducers/requestSlice";
 ////style
 import "./style.scss";
 
-export const EveryMyInvoice = (props) => {
+const EveryMyInvoice = (props) => {
   const { obj, screns } = props;
 
   //// для принятия накладных и возврата товара
@@ -19,12 +19,12 @@ export const EveryMyInvoice = (props) => {
   //// 1(не принятые накладные),
   //// 2(принятые накладные)
 
-  const location = useLocation(); ///// MyReturnsScreen и AcceptInvoiceProdScreen
+  const location = useLocation(); ///// "/return/main" и "/main_invoice/accept_prod"
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   /////////////////////////////////////////////////
-  const check = location == "MyReturnsScreen";
+  const check = location.pathname == "/return/main";
   /////////////////////////////////////////////////
 
   const objType = {
@@ -107,3 +107,5 @@ export const EveryMyInvoice = (props) => {
     </button>
   );
 };
+
+export default EveryMyInvoice;

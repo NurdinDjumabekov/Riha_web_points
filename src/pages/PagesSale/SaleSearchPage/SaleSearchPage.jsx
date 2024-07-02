@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 /////components
 import { SearchProdsSale } from "../../../components/SaleProd/SearchProdsSale/SearchProdsSale";
 import { EveryProduct } from "../../../components/SaleProd/EveryProduct/EveryProduct";
+import NavMenu from "../../../common/NavMenu/NavMenu";
 
 ////fns
 import { clearListProdSearch } from "../../../store/reducers/requestSlice";
@@ -13,7 +14,6 @@ import { changeSearchProd } from "../../../store/reducers/stateSlice";
 
 ////style
 import "./style.scss";
-import NavMenu from "../../../common/NavMenu/NavMenu";
 
 const SaleSearchPage = () => {
   const dispatch = useDispatch();
@@ -24,6 +24,8 @@ const SaleSearchPage = () => {
   const { infoKassa } = useSelector((state) => state.requestSlice);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
     return () => {
       dispatch(clearListProdSearch());
       ////// очищаю список товаров

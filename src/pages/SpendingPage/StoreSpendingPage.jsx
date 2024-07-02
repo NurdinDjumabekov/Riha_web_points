@@ -6,18 +6,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeExpense } from "../../store/reducers/stateSlice";
 import { addExpenseTT, getExpense } from "../../store/reducers/requestSlice";
 import { getSelectExpense } from "../../store/reducers/requestSlice";
+import { changeLocalData } from "../../store/reducers/saveDataSlice";
 
 //////components
-import { changeLocalData } from "../../store/reducers/saveDataSlice";
 import NavMenu from "../../common/NavMenu/NavMenu";
 import Selects from "../../common/Selects/Selects";
+import ListExpense from "../../components/Spendings/ListExpense/ListExpense";
 
 //////helpers
 import { getLocalDataUser } from "../../helpers/returnDataUser";
 
 ////style
 import "./style.scss";
-import ListExpense from "../../components/Spendings/ListExpense/ListExpense";
 
 const StoreSpendingPage = () => {
   const dispatch = useDispatch();
@@ -34,6 +34,7 @@ const StoreSpendingPage = () => {
 
   useEffect(() => {
     getData();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const addExpense = () => {

@@ -29,6 +29,7 @@ const SalePointPage = () => {
   useEffect(() => {
     clearStates();
     getData();
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
     return () => {
       dispatch(clearListProductTT());

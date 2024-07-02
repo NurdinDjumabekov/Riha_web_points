@@ -30,6 +30,7 @@ const LeftoversPage = () => {
 
   useEffect(() => {
     getData();
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
     return () => {
       dispatch(clearLeftovers([]));
@@ -47,16 +48,23 @@ const LeftoversPage = () => {
     await getLocalDataUser({ changeLocalData, dispatch });
     dispatch(clearLeftovers()); //// очищаю массив данныз остатков
 
-    const sendData = { seller_guid: data?.seller_guid, type: "leftovers" };
+    const { seller_guid } = data;
+
+    const sendData = { seller_guid, type: "leftovers" };
+
+    const obj = { location: { pathname: "leftovers" } };
     // ////// внутри есть getCategoryTT и getProductTT
-    dispatch(getWorkShopsGorSale({ ...sendData, location: "leftovers" }));
+    dispatch(getWorkShopsGorSale({ ...sendData, ...obj }));
   };
 
   return (
     <>
       <NavMenu navText={"Остатки"} />
       <div className="leftoversContainer">
-        <ActionsEveryInvoice type={"leftovers"} location={"leftovers"} />
+        <ActionsEveryInvoice
+          type={"leftovers"}
+          location={{ pathname: "leftovers" }}
+        />
         {listLeftovers?.length === 0 ? (
           <p className="noneData">Остатков нет...</p>
         ) : (

@@ -1,0 +1,92 @@
+.checkModal {
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+
+    @media screen and (max-width: 430px) {
+        width: 340px;
+        @media screen and (max-width: 390px) {
+            width: 330px;
+        }
+    }
+
+    &__inner {
+        padding: 15px;
+        padding-top: 20px;
+        padding-bottom: 15px;
+        border-radius: 5px;
+        background-color: #ebeef2;
+        position: relative;
+        min-width: 90%;
+
+        h5 {
+            font-size: 17px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            max-width: 85%;
+        }
+
+        .krest {
+            top: 10px;
+        }
+
+        .addDataBlock {
+            width: 100%;
+            align-self: center;
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin: 20px 0px;
+            gap: 10px;
+
+            .inputBlock {
+                width: 48%;
+                min-width: 48%;
+
+                p {
+                    font-size: 13px;
+                    font-weight: 500;
+                    line-height: 15px;
+                    color: #222;
+                    margin-bottom: 5px;
+                    padding-left: 2px;
+                }
+
+                input {
+                    padding: 5px 10px;
+                    height: 40px;
+                    width: 100%;
+                    border-radius: 8px;
+                    border: 1px solid rgb(217, 223, 232);
+                    background-color: #fff;
+                    font-size: 14px;
+
+                    &::placeholder {
+                        color: #222;
+                    }
+            
+                    &:focus {
+                        border: none;
+                        outline: none;
+                    }
+                }
+            }
+
+            > button {
+                color: #fff;
+                padding-top: 8px;
+                padding-bottom: 8px;
+                border-radius: 8px;
+                font-weight: 600;
+                border-width: 1px;
+                border-color: rgb(217, 223, 232);
+                font-size: 18px;
+                margin-top: 10px;
+                background-color: rgba(97, 100, 239, 0.7);
+                width: 45%;
+            }
+        }
+    }
+}

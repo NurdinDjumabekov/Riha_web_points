@@ -1,7 +1,6 @@
-///// tags
-import { Text, View, TextInput, Modal } from "react-native";
-import { TouchableOpacity, TouchableWithoutFeedback } from "react-native";
-import { ViewButton } from "../../../customsTags/ViewButton";
+///// components
+import Modals from "../../../common/Modals/Modals";
+import Krest from "../../../common/Krest/Krest";
 
 ///// hooks
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeListActionLeftovers } from "../../../store/reducers/requestSlice";
 
 ////style
-import styles from "./style";
+import "./style.scss";
 
 const RevisionChangeCount = ({ objTemporary, setObjTemporary, inputRef }) => {
   const dispatch = useDispatch();
@@ -32,53 +31,41 @@ const RevisionChangeCount = ({ objTemporary, setObjTemporary, inputRef }) => {
     onClose();
   };
 
-  const onChange = (text) => {
+  const onChange = (e) => {
+    const text = e.target.value;
+
     if (/^\d*\.?\d*$/.test(text)) {
       setObjTemporary({ ...objTemporary, change_end_outcome: text });
     }
   };
 
   return (
-    <Modal
-      animationType="fade"
-      transparent={true}
-      visible={!!objTemporary?.guid}
-      onRequestClose={onClose}
-    >
-      <TouchableWithoutFeedback onPress={onClose}>
-        <View style={styles.parennt}>
-          <View style={styles.child}>
-            <Text style={styles.title}>{objTemporary?.product_name} </Text>
-            <TouchableOpacity style={styles.krest} onPress={() => onClose()}>
-              <View style={[styles.line, styles.deg]} />
-              <View style={[styles.line, styles.degMinus]} />
-            </TouchableOpacity>
-            <View style={styles.addDataBlock}>
-              <View style={styles.inputBlock}>
-                <Text style={styles.inputTitle}>
-                  Введите{" "}
-                  {objTemporary?.unit_codeid == 1
-                    ? "кол-во товара"
-                    : "вес товара"}{" "}
-                  ({objTemporary?.unit})
-                </Text>
-                <TextInput
-                  style={styles.input}
-                  value={objTemporary?.change_end_outcome?.toString()}
-                  onChangeText={(text) => onChange(text)}
-                  keyboardType="numeric"
-                  maxLength={8}
-                  ref={inputRef}
-                />
-              </View>
-              <ViewButton styles={styles.btnAdd} onclick={changeCount}>
-                Изменить
-              </ViewButton>
-            </View>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-    </Modal>
+    <Modals openModal={!!objTemporary?.guid} setOpenModal={onClose}>
+      <div className="checkModal">
+        <div className="checkModal__inner">
+          <h5>{objTemporary?.product_name} </h5>
+          <Krest onClick={onClose} />
+          <div className="addDataBlock">
+            <div className="inputBlock">
+              <p>
+                Введите{" "}
+                {objTemporary?.unit_codeid == 1
+                  ? "кол-во товара"
+                  : "вес товара"}{" "}
+                ({objTemporary?.unit})
+              </p>
+              <input
+                value={objTemporary?.change_end_outcome}
+                onChange={onChange}
+                maxLength={8}
+                ref={inputRef}
+              />
+            </div>
+            <button onClick={changeCount}>Изменить</button>
+          </div>
+        </div>
+      </div>
+    </Modals>
   );
 };
 

@@ -21,13 +21,12 @@ export const LogOut = () => {
 
   const logOut = () => {
     dispatch(changePreloader(true));
-    window.location.reload();
+    dispatch(clearLogin());
+    dispatch(clearLocalData());
     setTimeout(() => {
       navigate("/");
       dispatch(changePreloader(false));
     }, 300);
-    dispatch(clearLogin());
-    dispatch(clearLocalData());
   };
 
   return (

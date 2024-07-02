@@ -38,6 +38,7 @@ const SoputkaProdHistoryPage = () => {
 
   useEffect(() => {
     getData();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const confirmBtn = () => {

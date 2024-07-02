@@ -4,15 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 ////// components
-// import { EveryMyInvoice } from "../../../components/MainInvoiceProd/EveryMyInvoice/EveryMyInvoice";
+import NavMenu from "../../../common/NavMenu/NavMenu";
+import EveryMyInvoice from "../../../components/MainInvoiceProd/EveryMyInvoice/EveryMyInvoice";
 
 ////// fns
 import { getMyInvoice } from "../../../store/reducers/requestSlice";
 
 ////style
 import "./style.scss";
-import { EveryMyInvoice } from "../../../components/MainInvoiceProd/EveryMyInvoice/EveryMyInvoice";
-import NavMenu from "../../../common/NavMenu/NavMenu";
 
 const AcceptInvoiceProdPage = () => {
   ////// загрузки
@@ -26,6 +25,7 @@ const AcceptInvoiceProdPage = () => {
 
   useEffect(() => {
     getData();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const getHistory = () => navigate("/main_invoice/accept_history");

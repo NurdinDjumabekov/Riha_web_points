@@ -1,0 +1,45 @@
+.containerListRevision {
+    background-color: rgba(162, 178, 238, 0.102);
+    min-width: 100%;
+    padding: 20px 8px;
+    padding-right: 25px;
+    border-bottom: 1px solid rgba(47, 71, 190, 0.287);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    .innerBlock {
+        display: flex;
+        flex-direction: column;
+        width: 58%;
+        gap: 3px;
+
+        .titleDate {
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 5px;
+            line-height: 17px;
+        }
+
+        .mainData {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+
+            .roleRevision {
+                font-size: 13px;
+                font-weight: 500;
+                border-radius: 5px;
+                line-height: 17px;
+                color: rgba(47, 71, 190, 0.672);
+            }
+        }
+    }
+
+    .arrow {
+        border-top: 3px solid rgba(162, 178, 238, 0.439);
+        border-right: 3px solid rgba(162, 178, 238, 0.439);
+    }
+}
