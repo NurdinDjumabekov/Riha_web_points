@@ -1,52 +1,36 @@
-///// tags
-import { FlatList, Text, View } from "react-native";
-
 ////// helpers
 import { objTitleLeftov } from "../../../helpers/Data";
 
 ///// style
-import styles from "./style";
+import "./style.scss";
 
-export const TablesLeftovers = ({ arr }) => {
+const TablesLeftovers = ({ arr }) => {
   return (
-    <View style={styles.parentFlatList}>
-      <View style={[styles.mainBlock, styles.more]}>
-        <Text style={[styles.name, styles.moreText]}>
-          {objTitleLeftov?.[1]}
-        </Text>
-        <Text style={[styles.price, styles.moreText]}>
-          {objTitleLeftov?.[2]}
-        </Text>
-        <Text style={[styles.ostatokStart, styles.moreText]}>
-          {objTitleLeftov?.[3]}
-        </Text>
-        <Text style={[styles.prihod, styles.moreText]}>
-          {objTitleLeftov?.[4]}
-        </Text>
-        <Text style={[styles.rashod, styles.moreText]}>
-          {objTitleLeftov?.[5]}
-        </Text>
-        <Text style={[styles.ostatokEnd, styles.moreText]}>
-          {objTitleLeftov?.[6]}
-        </Text>
-      </View>
-      <FlatList
-        data={arr}
-        renderItem={({ item, index }) => (
-          <View style={styles.mainBlock}>
-            <Text style={styles.name}>
+    <div className="parentListLeftovers">
+      <div className="mainBlock more">
+        <p className="name moreText">{objTitleLeftov?.[1]}</p>
+        <p className="price moreText">{objTitleLeftov?.[2]}</p>
+        <p className="ostatokStart moreText">{objTitleLeftov?.[3]}</p>
+        <p className="prihod moreText">{objTitleLeftov?.[4]}</p>
+        <p className="rashod moreText">{objTitleLeftov?.[5]}</p>
+        <p className="ostatokEnd moreText">{objTitleLeftov?.[6]}</p>
+      </div>
+      <div className="listProdsLeftovers">
+        {arr?.map((item, index) => (
+          <div className="mainBlock" key={index}>
+            <p className="name">
               {index + 1}. {item?.product_name}
-            </Text>
-            <Text style={styles.price}>{item?.price}</Text>
-            <Text style={styles.ostatokStart}>{item?.start_outcome}</Text>
-            <Text style={styles.prihod}>{item?.income}</Text>
-            <Text style={styles.rashod}>{item?.outcome}</Text>
-            <Text style={styles.ostatokEnd}>{item?.end_outcome}</Text>
-          </View>
-        )}
-        keyExtractor={(item, index) => `${item.guid}${index}`}
-        nestedScrollEnabled
-      />
-    </View>
+            </p>
+            <p className="price">{item?.price}</p>
+            <p className="ostatokStart">{item?.start_outcome}</p>
+            <p className="prihod">{item?.income}</p>
+            <p className="rashod">{item?.outcome}</p>
+            <p className="ostatokEnd">{item?.end_outcome}</p>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
+
+export default TablesLeftovers;

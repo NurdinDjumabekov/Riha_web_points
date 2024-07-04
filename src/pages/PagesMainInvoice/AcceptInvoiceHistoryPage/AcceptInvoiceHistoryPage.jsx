@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 ////// components
-import { EveryMyInvoice } from "../../../components/MainInvoiceProd/EveryMyInvoice/EveryMyInvoice";
+import EveryMyInvoice from "../../../components/MainInvoiceProd/EveryMyInvoice/EveryMyInvoice";
 
 ////// fns
 import { getAcceptInvoice } from "../../../store/reducers/requestSlice";
@@ -20,6 +20,7 @@ const AcceptInvoiceHistoryPage = () => {
 
   useEffect(() => {
     getData();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const getData = () => dispatch(getAcceptInvoice(data?.seller_guid));

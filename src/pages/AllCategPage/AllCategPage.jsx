@@ -4,28 +4,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
 /////  components
-// import { EveryCategory } from "../../components/AllCategory/EveryCategory";
+import EveryCategory from "../../components/AllCategory/EveryCategory";
+import NavMenu from "../../common/NavMenu/NavMenu";
+import { LogOut } from "../../components/Header/LogOut/LogOut";
+import UserInfo from "../../components/Header/UserInfo/UserInfo";
 
 ////// helpers
 import { dataCategory } from "../../helpers/Data";
-import { getLocalDataUser } from "../../helpers/returnDataUser";
 
 ///// fns
 import { getBalance } from "../../store/reducers/requestSlice";
 
 ////// styles
 import "./style.scss";
-import EveryCategory from "../../components/AllCategory/EveryCategory";
-import NavMenu from "../../common/NavMenu/NavMenu";
-import { LogOut } from "../../components/Header/LogOut/LogOut";
-import UserInfo from "../../components/Header/UserInfo/UserInfo";
 
 const AllCategPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { data } = useSelector((state) => state.saveDataSlice);
-  const { preloader, balance } = useSelector((state) => state.requestSlice);
+  const { balance } = useSelector((state) => state.requestSlice);
 
   // useFocusEffect(
   //   useCallback(() => {
@@ -37,9 +35,10 @@ const AllCategPage = () => {
 
   useEffect(() => {
     getData();
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  const goPage = () => navigate("HistoryBalance");
+  const goPage = () => navigate("/pay/history");
 
   return (
     <>

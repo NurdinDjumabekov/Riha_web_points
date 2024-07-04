@@ -1,28 +1,27 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+/////// helpers
 import { typesPay } from "../../../helpers/Data";
 import { formatCount } from "../../../helpers/amounts";
 
-////style
-import styles from "./style";
+////// style
+import "./style.scss";
 
 const EveryPay = ({ item }) => {
   return (
-    <View style={styles.everyProd}>
-      <View style={styles.everyProdInner}>
-        <View style={styles.blockTitle}>
-          <View style={styles.blockTitleInner}>
-            <Text style={styles.date}>{item?.date_system}</Text>
-          </View>
-          <Text style={styles.type}>{typesPay?.[item?.transaction_type]}</Text>
-          <Text style={styles.comment}>{item.comment || "..."}</Text>
-        </View>
-        <View style={styles.status}>
-          <Text style={styles.good}>Успешно</Text>
-          <Text style={styles.sum}>{formatCount(item?.total)} сом</Text>
-        </View>
-      </View>
-    </View>
+    <div className="everyProdPay">
+      <div className="everyProdPay__inner">
+        <div className="blockTitlePay">
+          <div className="blockTitlePay__inner">
+            <p>{item?.date_system}</p>
+          </div>
+          <span>{typesPay?.[item?.transaction_type]}</span>
+          <b>{item.comment || "..."}</b>
+        </div>
+        <div className="status">
+          <p>Успешно</p>
+          <span>{formatCount(item?.total)} сом</span>
+        </div>
+      </div>
+    </div>
   );
 };
 

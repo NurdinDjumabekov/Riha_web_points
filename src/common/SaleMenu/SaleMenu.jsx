@@ -1,14 +1,6 @@
-///// tags
-import { View, Text, TouchableOpacity, Image } from "react-native";
-import { ViewButton } from "../../customsTags/ViewButton";
-import { TextInput, Modal, Alert } from "react-native";
-
 /////hooks
 import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-///// style
-import styles from "./style";
 
 /////imgs
 import searchIcon from "../../assets/icons/searchIcon.png";
@@ -17,24 +9,27 @@ import inputIcon from "../../assets/icons/inputIcon.png";
 
 ///// fns
 import { getEveryProd } from "../../store/reducers/requestSlice";
-import { changeSearchProd } from "../../store/reducers/stateSlice";
+import { useNavigate } from "react-router-dom";
 
-const SaleMenu = ({ navigation }) => {
+///// components
+import Modals from "../Modals/Modals";
+
+///// style
+import "./style.scss";
+
+const SaleMenu = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const refInput = useRef();
 
   const { data } = useSelector((state) => state.saveDataSlice);
 
   const [obj, setObj] = useState({ qrcode: "", seller_guid: "" });
 
-  const navQRCode = () => navigation.navigate("ScannerSaleScreen");
+  const navQRCode = () => navigate("/sale/scanner");
   ///// перехожу на страницу сканера
 
-  const navSearch = () => {
-    navigation.navigate("SaleSearchScreen");
-    dispatch(changeSearchProd(""));
-    ////// очищаю поиск
-  };
+  const navSearch = () => navigate("/sale/search");
 
   const navInputQrCode = () => {
     setObj({ ...obj, seller_guid: data?.seller_guid });
@@ -47,7 +42,9 @@ const SaleMenu = ({ navigation }) => {
 
   const closeModal = () => setObj({ qrcode: "", seller_guid: "" });
 
-  const onChange = (text) => {
+  const onChange = (e) => {
+    const text = e.target.value;
+
     if (/^[0-9]*$/.test(text)) {
       setObj({ ...obj, qrcode: text });
     }
@@ -55,60 +52,44 @@ const SaleMenu = ({ navigation }) => {
 
   const sendData = () => {
     if (obj?.qrcode?.length != 6) {
-      Alert.alert("Введите 6ти значный код товара");
+      alert("Введите 6ти значный код товара");
     } else {
       const sendData = { qrcode: obj?.qrcode, seller_guid: data?.seller_guid };
-      dispatch(getEveryProd({ ...sendData, navigation, closeModal }));
+      dispatch(getEveryProd({ ...sendData, navigate, closeModal }));
     }
   };
 
   return (
     <>
       {/* ///// menu  */}
-      <View style={styles.blockBtn}>
-        <TouchableOpacity style={styles.btnNav} onPress={navSearch}>
-          <Image style={styles.imgIcon} source={searchIcon} />
-          <Text style={styles.textIcon}>Поиск</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.blockBtn_inner_QR} onPress={navQRCode}>
-          <Image style={styles.qrCodeImg} source={qrCode} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btnNav} onPress={navInputQrCode}>
-          <Image style={styles.imgIcon} source={inputIcon} />
-          <Text style={styles.textIcon}>Ввод</Text>
-        </TouchableOpacity>
-      </View>
-      {/* /////////////////// */}
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={!!obj?.seller_guid}
-        onRequestClose={closeModal}
-      >
-        <TouchableOpacity
-          style={styles.modalOuter}
-          activeOpacity={1}
-          onPress={closeModal} // Закрыть модальное окно
-        >
-          <View style={styles.modalInner}>
-            <Text style={styles.titleSelect}>
-              Введите 6ти значный QR Code товара
-            </Text>
-            <TextInput
-              style={styles.input}
-              value={obj?.qrcode?.toString()}
-              onChangeText={onChange}
-              placeholder="763546"
-              keyboardType="numeric"
-              maxLength={6}
-              ref={refInput}
-            />
-            <ViewButton styles={styles.sendBtn} onclick={sendData}>
-              Найти
-            </ViewButton>
-          </View>
-        </TouchableOpacity>
-      </Modal>
+      <div className="blockMenuActions">
+        <button onClick={navSearch}>
+          <img src={searchIcon} alt="search" />
+          <p>Поиск</p>
+        </button>
+        <button className="blockBtn_inner_QR" onClick={navQRCode}>
+          <img src={qrCode} alt="qrCode" />
+        </button>
+        <button onClick={navInputQrCode}>
+          <img src={inputIcon} alt="inputIcon" />
+          <p>Ввод</p>
+        </button>
+      </div>
+
+      {/* /////////////////// modalka /////////////////// */}
+      <Modals openModal={!!obj?.seller_guid} setOpenModal={closeModal}>
+        <div className="modalInnerQR">
+          <h4>Введите 6ти значный QR Code товара</h4>
+          <input
+            value={obj?.qrcode}
+            onChange={onChange}
+            placeholder="763546"
+            maxLength={6}
+            ref={refInput}
+          />
+          <button onClick={sendData}>Найти</button>
+        </div>
+      </Modals>
     </>
   );
 };

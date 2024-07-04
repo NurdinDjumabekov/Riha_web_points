@@ -1,0 +1,65 @@
+.soldProds {
+    height: 93vh;
+
+    .listSoldPros {
+        width: 100%;
+        padding-top: 8px;
+        padding-bottom: 40px;
+
+        &__every {
+            background-color: rgba(162, 178, 238, 0.102);
+            min-width: 100%;
+            padding: 8px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(47, 71, 190, 0.287);
+            position: relative;
+
+            .parentSold {
+              display: flex;
+              flex-direction: row;
+              justify-content: space-between;
+
+              .mainDataSold {
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 5px;
+
+                .titleDate {
+                  font-size: 14px;
+                  font-weight: 500;
+                  border-radius: 5px;
+                  line-height: 16px;
+                  color: rgba(47, 71, 190, 0.672);
+                }
+
+                .price {
+                  font-size: 15px;
+                  font-weight: 400;
+                }
+                
+                .totalPrice {
+                  font-size: 14px;
+                  font-weight: 500;
+                  color: rgba(12, 169, 70, 0.9);
+                }
+              }
+
+              .krest {
+                top: 10px;
+              }
+
+            }
+
+            .title {
+                font-size: 15px;
+                font-weight: 500;
+                border-radius: 5px;
+                line-height: 17px;
+                color: #222;
+                margin-top: 10px;
+              }
+          }
+      }
+}

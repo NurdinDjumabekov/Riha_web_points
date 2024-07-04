@@ -1,0 +1,35 @@
+.parentBlockSale-soputka {
+    flex: 1;
+    background-color: #ebeef2;
+
+    > button {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 10px;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        background-color: rgba(12, 169, 70, 0.486);
+        margin-bottom: 0;
+        min-width: 100%;
+
+        p {
+            font-size: 18px;
+            font-weight: 500;
+            color: #fff;
+        }
+
+        .arrow {
+            border-top-width: 3px;
+            border-right-width: 3px;
+            border-color: #fff;
+            height: 15px;
+            width: 15px;
+            border-radius: 3px;
+            transform: rotate(45deg);
+            margin-right: 20px;
+            margin-top: 5px;
+        }
+    }
+
+}

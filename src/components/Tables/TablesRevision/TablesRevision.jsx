@@ -1,17 +1,13 @@
 /////// hooks
 import React, { useRef, useState } from "react";
 
-////// tags
-import { FlatList, TouchableOpacity } from "react-native";
-import { Text, View } from "react-native";
-
 /////// components
 import RevisionChangeCount from "../../../components/CheckProd/RevisionChangeCount/RevisionChangeCount";
 
 ////style
-import styles from "./style";
+import "./style.scss";
 
-export const TablesRevision = ({ arr }) => {
+const TablesRevision = ({ arr }) => {
   const [objTemporary, setObjTemporary] = useState({});
 
   const inputRef = useRef(null);
@@ -25,35 +21,28 @@ export const TablesRevision = ({ arr }) => {
 
   return (
     <>
-      <View style={styles.parentFlatList}>
-        <View style={[styles.mainBlock, styles.more]}>
-          <Text style={[styles.name, styles.moreText]}>Товар</Text>
-          <Text style={[styles.price, styles.moreText]}>Цена</Text>
-          <Text style={[styles.count, styles.moreText]}>Вналичии</Text>
-          <Text style={[styles.count, styles.moreText]}>Возврат</Text>
-        </View>
-        <FlatList
-          data={arr}
-          renderItem={({ item, index }) => (
-            <View style={styles.mainBlock}>
-              <Text style={styles.name}>
+      <div className="listRevisionHeader">
+        <div className="mainBlock more">
+          <p className="name moreText">Товар</p>
+          <p className="price moreText">Цена</p>
+          <p className="count moreText">Вналичии</p>
+          <p className="count moreText">Возврат</p>
+        </div>
+        <div className="listRevisionTable">
+          {arr?.map((item, index) => (
+            <div className="mainBlock" key={item.guid}>
+              <p className="name">
                 {index + 1}. {item?.product_name}
-              </Text>
-              <Text style={styles.price}>{item?.price}</Text>
-              <Text style={styles.count}>{item?.end_outcome}</Text>
-              <TouchableOpacity
-                style={styles.countReturn}
-                onPress={() => addTenporaryData(item)}
-              >
-                <Text style={styles.countReturnText}>
-                  {item?.change_end_outcome}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          )}
-          keyExtractor={(item, index) => `${item.guid}${index}`}
-        />
-      </View>
+              </p>
+              <p className="price">{item?.price}</p>
+              <p className="count">{item?.end_outcome}</p>
+              <button onClick={() => addTenporaryData(item)}>
+                <p>{item?.change_end_outcome}</p>
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
       <RevisionChangeCount
         objTemporary={objTemporary}
         setObjTemporary={setObjTemporary}
@@ -62,3 +51,5 @@ export const TablesRevision = ({ arr }) => {
     </>
   );
 };
+
+export default TablesRevision;

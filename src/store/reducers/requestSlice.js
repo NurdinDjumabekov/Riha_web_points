@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { API } from "../../env";
+import { changeLocalData } from "./saveDataSlice";
 import {
   changeAcceptInvoiceTT,
   changeActiveSelectCategory,
@@ -9,10 +10,6 @@ import {
   clearLogin,
   clearTemporaryData,
 } from "./stateSlice";
-// import { Alert } from "react-native";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-import { changeLocalData } from "./saveDataSlice";
-import { getLocalDataUser } from "../../helpers/returnDataUser";
 
 /// logInAccount
 export const logInAccount = createAsyncThunk(
@@ -33,8 +30,8 @@ export const logInAccount = createAsyncThunk(
           const obj = { point_name, count_type, seller_guid, seller_fio };
           dispatch(changeLocalData(obj));
 
-          if (data?.seller_guid) {
-            navigate("/categs");
+          if (seller_guid) {
+            navigate("/");
             dispatch(clearLogin());
           }
         }
@@ -191,7 +188,7 @@ export const acceptInvoiceTT = createAsyncThunk(
         data: props,
       });
       if (response.status >= 200 && response.status < 300) {
-        navigate("/categs");
+        navigate("/");
         return status;
       } else {
         throw Error(`Error: ${response.status}`);
@@ -222,6 +219,7 @@ export const getWorkShopsGorSale = createAsyncThunk(
         if (workshop_guid) {
           dispatch(getCategoryTT({ ...props, workshop_guid }));
         }
+
         return response.data;
       } else {
         throw Error(`Error: ${response.status}`);
@@ -240,21 +238,17 @@ export const getCategoryTT = createAsyncThunk(
     const { location, seller_guid, type, workshop_guid } = props;
 
     const check =
-      location == "SalePointScreen" || location == "AddProdReturnSrceen"; ///// продажа и возрат
+      location.pathname == "leftovers" || location?.pathname == "/sale/main"; ///// продажа и возрат
 
     const urlLink = check
       ? `${API}/tt/get_category?seller_guid=${seller_guid}&workshop_guid=${workshop_guid}` //// для пр0дажи и возрата
       : `${API}/tt/get_category_all`; //// для сопутки
-
-    console.log(urlLink, "urlLink getCategoryTT");
 
     try {
       const response = await axios(urlLink);
       if (response.status >= 200 && response.status < 300) {
         const category_guid = response.data?.[0]?.category_guid || "";
         dispatch(changeActiveSelectCategory(category_guid)); /// исользую в продаже и в остатках
-
-        console.log(workshop_guid, "workshop_guid");
 
         if (type === "leftovers") {
           if (category_guid) {
@@ -289,13 +283,12 @@ export const getProductTT = createAsyncThunk(
     const { guid, seller_guid, location, workshop_guid } = props;
 
     const check =
-      location == "SalePointScreen" || location == "AddProdReturnSrceen"; ///// продажа и возрат
+      location?.pathname == "leftovers" || location?.pathname == "/sale/main"; ///// продажа и возрат
 
     const urlLink = check
       ? `${API}/tt/get_product?categ_guid=${guid}&seller_guid=${seller_guid}&workshop_guid=${workshop_guid}` ///// продажа и возрат
       : `${API}/tt/get_product_all?categ_guid=${guid}&workshop_guid=${workshop_guid}`; //// для сопутки
 
-    console.log(urlLink, "urlLink getProductTT");
     try {
       const response = await axios(urlLink);
       if (response.status >= 200 && response.status < 300) {
@@ -364,8 +357,6 @@ export const getMyLeftovers = createAsyncThunk(
   async function (props, { dispatch, rejectWithValue }) {
     const { seller_guid, category_guid, workshop_guid } = props;
 
-    console.log(category_guid, "category_guid");
-
     try {
       const response = await axios({
         method: "GET",
@@ -433,18 +424,16 @@ export const addProductInvoiceTT = createAsyncThunk(
   /// добавление продукта(по одному) в накладную торговой точки
   "addProductInvoiceTT",
   async function (props, { dispatch, rejectWithValue }) {
-    const { data, navigation, count_type } = props;
+    const { data, navigate, count_type } = props;
     try {
-      const response = await axios({
-        method: "POST",
-        url: `${API}/tt/create_invoice_product`,
-        data,
-      });
+      const url = `${API}/tt/create_invoice_product`;
+      const response = await axios({ method: "POST", url, data });
+
       if (response.status >= 200 && response.status < 300) {
         const { result } = response?.data;
         if (+result === 1) {
           dispatch(clearTemporaryData()); // очищаю { price: "", ves: ""}
-          navigation.goBack();
+          navigate(-1);
         }
         return { result, count_type };
       } else {
@@ -467,25 +456,23 @@ export const getEveryProd = createAsyncThunk(
     const qrcodeGuid = !!qrcode ? `&qrcode=${qrcode}` : "";
 
     const url = `${API}/tt/get_product_detail?seller_guid=${seller_guid}${urlGuid}${qrcodeGuid}`;
-
     try {
       const response = await axios(url);
       if (response.status >= 200 && response.status < 300) {
         if (response?.data?.length === 0) {
-          navigate("SalePointScreen");
+          navigate("/sale/main");
           alert("Не удалось найти такой продукт");
         } else {
           const { guid, product_name } = response?.data?.[0];
           const obj = { guid, product_name };
 
           if (!!qrcode) {
-            await navigate("SalePointScreen");
-            await navigate("EverySaleProdScreen", { obj });
+            await navigate("/sale/main");
+            await navigate("/sale/every_prod", { state: { obj } });
             ///// закрываю модалку для ввода ручного qr кода
             closeModal();
           }
         }
-
         return response?.data?.[0];
       } else {
         throw Error(`Error: ${response.status}`);
@@ -641,16 +628,15 @@ export const acceptMoney = createAsyncThunk(
   /// Отплата ТТ
   "acceptMoney",
   async function (props, { dispatch, rejectWithValue }) {
-    const { dataObj, closeModal, navigate } = props;
+    const { dataObj, closeModal, navigate, getData } = props;
     try {
-      const response = await axios({
-        method: "POST",
-        url: `${API}/tt/point_oplata`,
-        data: dataObj,
-      });
+      const url = `${API}/tt/point_oplata`;
+
+      const response = await axios({ method: "POST", url, data: dataObj });
+
       if (response.status >= 200 && response.status < 300) {
         closeModal();
-        navigate("navigate");
+        getData();
       } else {
         throw Error(`Error: ${response.status}`);
       }
@@ -764,7 +750,7 @@ export const acceptInvoiceReturn = createAsyncThunk(
         data: props,
       });
       if (response.status >= 200 && response.status < 300) {
-        navigate("/categs");
+        navigate("/");
         return status;
       } else {
         throw Error(`Error: ${response.status}`);
@@ -846,17 +832,16 @@ export const createInvoiceSoputkaTT = createAsyncThunk(
   /// создание накладной для сопутки
   "createInvoiceSoputkaTT",
   async function (props, { dispatch, rejectWithValue }) {
-    const { dataObj, navigation } = props;
+    const { dataObj, navigate } = props;
     try {
-      const response = await axios({
-        method: "POST",
-        url: `${API}/tt/create_invoice_soputka`,
-        data: dataObj,
-      });
+      const url = `${API}/tt/create_invoice_soputka`;
+      const response = await axios({ method: "POST", url, data: dataObj });
+
       if (response.status >= 200 && response.status < 300) {
-        navigation?.navigate("AddProdSoputkaSrceen", {
-          forAddTovar: response?.data,
+        navigate("/soputka/add", {
+          state: { forAddTovar: response?.data },
         });
+
         return response?.data;
       } else {
         throw Error(`Error: ${response.status}`);
@@ -941,11 +926,9 @@ export const getHistorySoputka = createAsyncThunk(
   /// список историй товаров сопутки
   "getHistorySoputka",
   async function (guidInvoice, { dispatch, rejectWithValue }) {
+    const url = `${API}/tt/get_invoice_soputka?seller_guid=${guidInvoice}`;
     try {
-      const response = await axios({
-        method: "GET",
-        url: `${API}/tt/get_invoice_soputka?seller_guid=${guidInvoice}`,
-      });
+      const response = await axios(url);
       if (response.status >= 200 && response.status < 300) {
         return response?.data;
       } else {
@@ -970,7 +953,7 @@ export const confirmSoputka = createAsyncThunk(
       });
       if (response.status >= 200 && response.status < 300) {
         if (+response?.data?.result === 1) {
-          navigate("/categs");
+          navigate("/");
         }
       } else {
         throw Error(`Error: ${response.status}`);
@@ -1014,7 +997,6 @@ export const getWorkShopsForRevision = createAsyncThunk(
         `${API}/tt/get_leftover_workshop?seller_guid=${seller_guid}`
       );
       if (response.status >= 200 && response.status < 300) {
-        console.log(response.data, "getWorkShopsForRevision");
         return response.data;
       } else {
         throw Error(`Error: ${response.status}`);
@@ -1031,24 +1013,26 @@ export const createInvoiceCheck = createAsyncThunk(
   "createInvoiceCheck",
   async function (props, { dispatch, rejectWithValue }) {
     const { seller_guid_to, seller_guid_from } = props;
-    const { navigation, guidWorkShop } = props;
+    const { navigate, guidWorkShop } = props;
+
     try {
       const response = await axios({
         method: "POST",
         url: `${API}/tt/create_revision_invoice`,
-        data: {
-          seller_guid_to, ///// старый продавец
-          seller_guid_from, ///// новый продавец
-          comment: "",
-        },
+        data: { seller_guid_to, seller_guid_from, comment: "" },
+        ///// seller_guid_from - новый продавец,
+        ///// seller_guid_to- старый продавец
       });
+
       if (response.status >= 200 && response.status < 300) {
         const { invoice_guid, result } = response?.data;
         if (+result === 1) {
-          navigation?.navigate("InvoiceCheckScreen", {
-            invoice_guid,
-            guidWorkShop,
-            seller_guid_to,
+          navigate("/revision/check", {
+            state: {
+              invoice_guid,
+              guidWorkShop,
+              seller_guid_to,
+            },
           });
         }
       } else {
@@ -1097,9 +1081,10 @@ export const sendCheckListProduct = createAsyncThunk(
       });
       if (response.status >= 200 && response.status < 300) {
         if (+response?.data?.result === 1) {
-          navigate("/categs");
+          navigate("/");
+          alert("Накладная для ревизии была успешно создана");
         } else {
-          // alert("Не удалооь")
+          alert("Не удалось создать накладную для ревизии");
         }
       } else {
         throw Error(`Error: ${response.status}`);
@@ -1187,7 +1172,7 @@ export const acceptInvoiceRevision = createAsyncThunk(
       });
       if (response.status >= 200 && response.status < 300) {
         if (+response?.data?.result === 1) {
-          navigate("/categs");
+          navigate("/");
         }
       } else {
         throw Error(`Error: ${response.status}`);

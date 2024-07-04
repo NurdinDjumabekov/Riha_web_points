@@ -1,0 +1,54 @@
+.blockSearchSoputka {
+    min-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+
+    input {
+        height: 45px;
+        border-radius: 5px;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin: 10px 0px;
+        font-size: 16px;
+        font-weight: 400;
+        color: #000;
+        width: 70%;
+        border: none;
+
+        &::placeholder {
+            color: #222;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        &:focus {
+            border: none;
+            outline: none;
+        }
+    }
+
+    > button {
+        width: 30px !important;
+        height: 30px !important;
+        min-width: 30px !important;
+        background: transparent;
+        padding: 0 !important;
+        background: transparent !important;
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
+
+    }
+
+    .navLine {
+        width: 23px !important;
+        height: 23px !important;
+        min-width: 23px !important;
+        margin-left: 5px;
+    }
+    
+}

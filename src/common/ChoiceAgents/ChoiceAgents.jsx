@@ -1,29 +1,25 @@
-import { TouchableOpacity, Text } from "react-native";
+import React from "react";
+import "./style.scss";
 
-////style
-import styles from "./style";
-
-export const ChoiceAgents = ({ item, setState, prev, keyGuid, keyText }) => {
+const ChoiceAgents = ({ item, setState, prev, keyGuid, keyText }) => {
   /////// для выбора агнетов
 
   const changeSelect = (value) => setState({ ...prev, [keyGuid]: value });
 
+  const activeBl = prev?.[keyGuid] === item?.[keyGuid];
+
+  const activeText = prev?.[keyGuid] === item?.[keyGuid];
+
   return (
-    <TouchableOpacity
-      style={[
-        styles.selectBlockInner,
-        prev?.[keyGuid] === item?.[keyGuid] && styles.activeSelect,
-      ]}
-      onPress={() => changeSelect(item?.[keyGuid])}
+    <button
+      className={`selectBlockInnerAgent ${activeBl ? "activeSelectAgent" : ""}`}
+      onClick={() => changeSelect(item?.[keyGuid])}
     >
-      <Text
-        style={[
-          styles.selectText,
-          prev?.[keyGuid] === item?.[keyGuid] && styles.activeSelectText,
-        ]}
-      >
+      <p className={`selectText ${activeText ? "activeSelectText" : ""}`}>
         {item?.[keyText]}
-      </Text>
-    </TouchableOpacity>
+      </p>
+    </button>
   );
 };
+
+export default ChoiceAgents;

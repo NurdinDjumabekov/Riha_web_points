@@ -26,6 +26,7 @@ const EveryInvoiceAcceptPage = () => {
 
   useEffect(() => {
     dispatch(getAcceptProdInvoice(guid));
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const newList = listAcceptInvoiceProd?.[0]?.list;

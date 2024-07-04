@@ -23,8 +23,6 @@ const UserInfo = () => {
     getLocalDataUser({ changeLocalData, dispatch });
   }, []);
 
-  console.log(data);
-
   return (
     <div className="headerParent">
       <img src={userImg} alt="()" />

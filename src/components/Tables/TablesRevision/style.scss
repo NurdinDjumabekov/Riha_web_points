@@ -1,0 +1,64 @@
+.listRevisionHeader {
+    padding: 0 0 100px;
+
+    .mainBlock {
+        padding: 10px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid rgba(47, 71, 190, 0.287);
+    }
+
+    .more {
+        padding: 20px 10px;
+        background-color: rgba(212, 223, 238, 0.47);
+    }
+
+    .moreText {
+        font-weight: 600 !important;
+        color: #000 !important;
+        font-size: 14px;
+      }
+      
+      .name {
+        font-size: 13px;
+        font-weight: 400;
+        color: #222;
+        width: 45%;
+        padding-right: 15px;
+      }
+      
+      .price {
+        font-size: 13px;
+        font-weight: 400;
+        color: green;
+        width: 13%;
+        padding-right: 10px;
+      }
+      
+      .count {
+        font-size: 13px;
+        font-weight: 400;
+        color: green;
+        width: 17%;
+        overflow: hidden;
+      }
+
+      .listRevisionTable {
+
+        button {
+            width: 19%;
+            border: 1px solid rgba(47, 71, 190, 0.287);
+            padding: 5px 3px;
+            border-radius: 5px;
+
+            p {
+                font-size: 13px;
+                font-weight: 400;
+                color: red;
+                overflow: hidden;
+            }
+         }
+      }
+}

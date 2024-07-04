@@ -1,17 +1,13 @@
-//////// tags
-import { Modal, Text, TouchableWithoutFeedback, Alert } from "react-native";
-import { TouchableOpacity, View, TextInput } from "react-native";
-import { ViewButton } from "../../customsTags/ViewButton";
-
 //////// hooks
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 
 //////// fns
 import { changeSearchProd } from "../../store/reducers/stateSlice";
 import { clearTemporaryData } from "../../store/reducers/stateSlice";
 import { changeTemporaryData } from "../../store/reducers/stateSlice";
-import { addProductReturn } from "../../store/reducers/requestSlice";
+// import { addProductReturn } from "../../store/reducers/requestSlice";
 import { addProductSoputkaTT } from "../../store/reducers/requestSlice";
 import { getWorkShopsGorSale } from "../../store/reducers/requestSlice";
 import { changeLocalData } from "../../store/reducers/saveDataSlice";
@@ -19,15 +15,20 @@ import { changeLocalData } from "../../store/reducers/saveDataSlice";
 ///////// helpers
 import { getLocalDataUser } from "../../helpers/returnDataUser";
 
-////style
-import styles from "./style";
+///////// components
+import Modals from "../Modals/Modals";
+import Krest from "../Krest/Krest";
 
-export const AddProductsInvoice = (props) => {
-  const { location, forAddTovar } = props;
+///////// style
+import "./style.scss";
+
+const AddProductsInvoice = (props) => {
+  const { forAddTovar } = props;
 
   //// для добавления продуктов в список в ревизии и сопутке
   ///  location тут каждая страница, исходя их страницы я делаю действия
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const refInput = useRef(null);
 
@@ -37,9 +38,11 @@ export const AddProductsInvoice = (props) => {
 
   const { infoKassa } = useSelector((state) => state.requestSlice);
 
-  const onChange = (name, text) => {
-    if (/^\d*\.?\d*$/.test(text)) {
-      dispatch(changeTemporaryData({ ...temporaryData, [name]: text }));
+  const onChange = (e) => {
+    const { name, value } = e.target;
+
+    if (/^\d*\.?\d*$/.test(value)) {
+      dispatch(changeTemporaryData({ ...temporaryData, [name]: value }));
     }
   };
 
@@ -53,7 +56,7 @@ export const AddProductsInvoice = (props) => {
       const text = `Введите цену и ${
         temporaryData?.unit_codeid == 1 ? "количество" : "вес"
       }`;
-      Alert.alert(text);
+      alert(text);
     } else {
       const data = {
         guid: temporaryData?.guid,
@@ -63,14 +66,14 @@ export const AddProductsInvoice = (props) => {
         sale_price: temporaryData?.sale_price,
       };
 
-      if (location === "AddProdSoputkaSrceen") {
+      if (location?.pathname === "/soputka/add") {
         /// сопутка
         const obj = { ...data, ...forAddTovar };
         dispatch(addProductSoputkaTT({ obj, getData }));
-      } else if (location === "AddProdReturnSrceen") {
+      } else if (location?.pathname === "AddProdReturnSrceen") {
         /// возврат
-        const obj = { ...data, ...forAddTovar };
-        dispatch(addProductReturn({ obj, getData }));
+        // const obj = { ...data, ...forAddTovar }; //// доделать
+        // dispatch(addProductReturn({ obj, getData }));
       }
     }
   };
@@ -95,60 +98,44 @@ export const AddProductsInvoice = (props) => {
     }
   }, [temporaryData?.guid]);
 
+  const textTitle = `Введите  ${
+    temporaryData?.unit_codeid == 1 ? "кол-во товара" : "вес товара"
+  }`;
+
   return (
-    <Modal
-      animationType="fade"
-      transparent={true}
-      visible={!!temporaryData?.guid}
-      onRequestClose={onClose}
-    >
-      <TouchableWithoutFeedback onPress={onClose}>
-        <View style={styles.parennt}>
-          <View style={styles.child}>
-            <Text style={styles.title}>{temporaryData?.product_name}</Text>
-            <TouchableOpacity style={styles.krest} onPress={() => onClose()}>
-              <View style={[styles.line, styles.deg]} />
-              <View style={[styles.line, styles.degMinus]} />
-            </TouchableOpacity>
-            {location === "SalePointScreen" && (
-              <Text style={styles.leftovers}>
-                Остаток: {temporaryData?.end_outcome} {temporaryData?.unit}
-              </Text>
-            )}
-            <View style={styles.addDataBlock}>
-              <View style={styles.inputBlock}>
-                <Text style={styles.inputTitle}>Введите цену</Text>
-                <TextInput
-                  style={styles.input}
-                  value={`${temporaryData?.price?.toString()} сом`}
-                  onChangeText={(text) => onChange("price", text)}
-                  keyboardType="numeric"
-                  maxLength={8}
-                />
-              </View>
-              <View style={styles.inputBlock}>
-                <Text style={styles.inputTitle}>
-                  Введите{" "}
-                  {temporaryData?.unit_codeid == 1
-                    ? "кол-во товара"
-                    : "вес товара"}
-                </Text>
-                <TextInput
-                  style={styles.input}
-                  ref={refInput}
-                  value={temporaryData?.ves}
-                  onChangeText={(text) => onChange("ves", text)}
-                  keyboardType="numeric"
-                  maxLength={8}
-                />
-              </View>
-            </View>
-            <ViewButton styles={styles.btnAdd} onclick={addInInvoice}>
-              Добавить
-            </ViewButton>
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
-    </Modal>
+    <Modals openModal={!!temporaryData?.guid} setOpenModal={onClose}>
+      <div className="addProdParent">
+        <div className="addProdchild">
+          <h6>{temporaryData?.product_name}</h6>
+          <Krest onClick={onClose} />
+          <div className="addDataBlock">
+            <div className="inputBlock">
+              <h5>Введите цену</h5>
+              <input
+                value={`${temporaryData?.price?.toString()} сом`}
+                onChange={onChange}
+                name="price"
+                maxLength={8}
+              />
+            </div>
+            <div className="inputBlock">
+              <h5>{textTitle}</h5>
+              <input
+                ref={refInput}
+                value={temporaryData?.ves}
+                onChange={onChange}
+                name="ves"
+                maxLength={8}
+              />
+            </div>
+          </div>
+          <button className="btnAddProds" onClick={addInInvoice}>
+            Добавить
+          </button>
+        </div>
+      </div>
+    </Modals>
   );
 };
+
+export default AddProductsInvoice;

@@ -1,10 +1,7 @@
 ////hooks
 import React, { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-//// tags
-import { Image, View } from "react-native";
-import { TextInput, TouchableOpacity } from "react-native";
+import { useNavigate } from "react-router-dom";
 
 ///// components
 import { clearListProdSearch } from "../../../store/reducers/requestSlice";
@@ -18,14 +15,16 @@ import { changeSearchProd } from "../../../store/reducers/stateSlice";
 
 ////imgs
 import searchIcon from "../../../assets/icons/searchIcon.png";
+import navBack from "../../../assets/icons/arrowNav.svg";
 
 ////style
-import styles from "./style";
+import "./style.scss";
 
-export const SearchProdsSale = ({}) => {
+export const SearchProdsSale = () => {
   const refInput = useRef();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { searchProd } = useSelector((state) => state.stateSlice);
 
@@ -51,25 +50,28 @@ export const SearchProdsSale = ({}) => {
     }, 500);
   }, []);
 
-  const onChange = (text) => {
+  const onChange = (e) => {
+    const text = e?.target?.value;
+
     dispatch(changeSearchProd(text));
     searchData(text);
     text?.length === 0 ? dispatch(clearListProdSearch()) : searchData(text);
   };
 
   return (
-    <View style={styles.blockSearch}>
-      <TextInput
+    <div className="blockSearch">
+      <button onClick={() => navigate(-1)} className="navBtn">
+        <img src={navBack} />
+      </button>
+      <input
         ref={refInput}
-        style={styles.inputSearch}
-        placeholderTextColor={"#222"}
         placeholder="Поиск товаров ..."
-        onChangeText={onChange}
+        onChange={onChange}
         value={searchProd}
       />
-      <TouchableOpacity onPress={focus}>
-        <Image style={styles.iconSearch} source={searchIcon} />
-      </TouchableOpacity>
-    </View>
+      <button onClick={focus}>
+        <img src={searchIcon} />
+      </button>
+    </div>
   );
 };

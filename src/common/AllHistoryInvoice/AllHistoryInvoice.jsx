@@ -1,44 +1,40 @@
-import { Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import { useNavigate } from "react-router-dom";
+
+/////// helpers
 import { formatCount } from "../../helpers/amounts";
 
-////style
-import styles from "./style";
+/////// style
+import "./style.scss";
 
 export const AllHistoryInvoice = (props) => {
-  ////// отображаю все истонии накладных
-  const { item, index, keyLink, navigation } = props;
+  ////// отображаю все истории накладных
+  const { item, index, keyLink } = props;
 
-  const nav = (guidInvoice) => {
-    navigation.navigate(keyLink, { guidInvoice });
-  };
+  const navigate = useNavigate();
+
+  const nav = (guidInvoice) => navigate(keyLink, { state: { guidInvoice } });
 
   return (
-    <TouchableOpacity
-      style={styles.everyProd}
-      onPress={() => nav(item?.invoice_guid)}
-    >
-      <View style={styles.everyProdInner}>
-        <View style={styles.blockTitle}>
-          <View style={styles.blockTitleInner}>
-            <Text style={styles.titleNum}>{index + 1} </Text>
-            <View>
-              <Text style={styles.date}>{item?.date}</Text>
-              <Text style={styles.sum}>
-                {formatCount(item?.total_price)} сом
-              </Text>
-            </View>
-          </View>
-        </View>
-        <View style={styles.status}>
+    <div className="everyProdHistory" onClick={() => nav(item?.invoice_guid)}>
+      <div className="everyProdInner">
+        <div className="blockTitle">
+          <div className="blockTitleInner">
+            <p className="indexNums">{index + 1} </p>
+            <div>
+              <p className="date">{item?.date}</p>
+              <p className="sum">{formatCount(item?.total_price)} сом</p>
+            </div>
+          </div>
+        </div>
+        <div className="status">
           {item?.status === 0 ? (
-            <Text style={styles.bad}>Не подтверждено</Text>
+            <p className="bad">Не подтверждено</p>
           ) : (
-            <Text style={styles.good}>Подтверждено</Text>
+            <p className="good">Подтверждено</p>
           )}
-        </View>
-      </View>
-      {item?.comment && <Text style={styles.comment}>{item?.comment}</Text>}
-    </TouchableOpacity>
+        </div>
+      </div>
+      {item?.comment && <p className="comment">{item?.comment}</p>}
+    </div>
   );
 };

@@ -17,7 +17,7 @@
     align-items: center;
   }
   
-  .line {
+  .lineLogOut {
     background-color: #fff;
     padding: 3px 4px;
     position: absolute;
@@ -25,12 +25,11 @@
     align-self: center;
     left: 50%;
     transform: translateX(-50%);
+
+    &__inner {
+      width: 5px;
+      height: 17px;
+      background-color: rgba(47, 71, 190, 0.591);
+      border-radius: 5px;
+    }
   }
-  
-  .lineInner {
-    width: 5px;
-    height: 17px;
-    background-color: rgba(47, 71, 190, 0.591);
-    border-radius: 5px;
-  }
-  

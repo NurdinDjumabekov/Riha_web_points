@@ -1,0 +1,29 @@
+.containerSoputka {
+    flex: 1;
+    background-color: #fff;
+
+    &__inner {
+      flex: 1;
+      position: relative;
+      background-color: rgba(162, 178, 238, 0.102);
+      
+      .blockSelectProd {
+        flex: 1;
+        padding: 0 0 20px 0;
+      }
+      
+      .textTovar {
+        color: #fff;
+        padding: 8px;
+        font-size: 18px;
+        font-weight: 500;
+        margin: 1px 0px;
+        padding-bottom: 9px;
+        padding-top: 9px;
+        background-color: rgba(47, 71, 190, 0.672);
+        min-width: 100%;
+      }
+    }
+  }
+  
+  
