@@ -28,8 +28,8 @@
         }
 
         .totalReturn {
-            border-top: 1px solid #222;
-            padding-top: 8px;
+            box-shadow: 0 2px 40px rgba(0, 0, 0, 0.2);
+            padding: 15px 0px;
 
             > p {
                 font-size: 18px;
@@ -67,5 +67,9 @@
                 }
             }
         }
+    }
+
+    .parentTable {
+        padding-bottom: 0px;
     }
 }

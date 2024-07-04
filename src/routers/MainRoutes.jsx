@@ -2,8 +2,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
-
-////// components
+////// pages
 import LoginPage from "../pages/LoginPage/LoginPage";
 import Layouts from "../Layouts/Layouts";
 import AllCategPage from "../pages/AllCategPage/AllCategPage";
@@ -15,12 +14,13 @@ import StoreSpendingPage from "../pages/SpendingPage/StoreSpendingPage";
 import PagesPay from "../pages/PayPage/PagesPay";
 import PagesReturn from "../pages/PagesReturn/PagesReturn";
 import PagesRevision from "../pages/PagesRevision/PagesRevision";
+
+////// components
 import Preloader from "../common/Preloader/Preloader";
 // import Alerts from "../components/Alerts/Alerts";
 // import MoreInfo from "../components/MoreInfo/MoreInfo";
 
 const MainRoutes = () => {
-  const { preloader } = useSelector((state) => state.requestSlice);
   const { data } = useSelector((state) => state.saveDataSlice);
 
   return (
@@ -43,7 +43,7 @@ const MainRoutes = () => {
         )}
       </Routes>
 
-      {preloader && <Preloader />}
+      <Preloader />
     </>
   );
 };

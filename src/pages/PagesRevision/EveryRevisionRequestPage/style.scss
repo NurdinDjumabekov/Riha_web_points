@@ -9,9 +9,13 @@
             padding: 20px 8px 15px;
         }
 
+        .parentTable {
+            padding-bottom: 5px;
+        }
+
         .actionBlockEvery {
-            padding:15px 0 20px 0;
-            border-top: 1px solid #222;
+            padding: 15px 0 20px 0;
+            box-shadow: 0 2px 40px rgba(0, 0, 0, 0.2);
 
             > p {
                 font-size: 18px;

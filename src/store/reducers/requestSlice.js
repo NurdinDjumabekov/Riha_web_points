@@ -628,15 +628,17 @@ export const acceptMoney = createAsyncThunk(
   /// Отплата ТТ
   "acceptMoney",
   async function (props, { dispatch, rejectWithValue }) {
-    const { dataObj, closeModal, navigate, getData } = props;
+    const { dataObj, closeModal, getData } = props;
     try {
       const url = `${API}/tt/point_oplata`;
 
       const response = await axios({ method: "POST", url, data: dataObj });
 
       if (response.status >= 200 && response.status < 300) {
-        closeModal();
-        getData();
+        setTimeout(() => {
+          closeModal();
+          getData();
+        }, 300);
       } else {
         throw Error(`Error: ${response.status}`);
       }

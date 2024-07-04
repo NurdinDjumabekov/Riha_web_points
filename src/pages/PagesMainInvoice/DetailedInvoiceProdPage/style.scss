@@ -8,6 +8,7 @@
         margin: 10px 0px;
         border-radius: 8px;
         padding-top: 5px;
+        position: relative;
         
         .date {
           display: flex;
@@ -28,8 +29,13 @@
       }
       
       .totalAcceptMainInv {
-        border-top: 1px solid #222;
+        box-shadow: 0 2px 40px rgba(0, 0, 0, 0.2);
         padding-top: 15px;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        min-width: 100%;
+        background: #fff;
 
         .actionBlock {
           display: flex;

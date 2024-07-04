@@ -1,10 +1,9 @@
 .soputkaHistoryParent {
-    height: 100vh;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
     
     &__inner {
         min-width: 100%;
         width: 100%;
-        padding-bottom: 20px;
 
         &__every {
             background-color: rgba(162, 178, 238, 0.102);
@@ -45,11 +44,15 @@
         }
     }
 
+    .mainActionsSoputka {
+        padding: 25px 0 25px 0;
+    }
+
     &__actions {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        padding: 10px 8px 60px;
+        padding: 10px 8px 10px;
 
         > button {
             background-color: #fff;

@@ -1,6 +1,5 @@
 ///// hooks
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 //////fns
@@ -16,7 +15,6 @@ import "./style.scss";
 const ModalPayTA = ({ modalState, setModalState, getData }) => {
   //// модалка для оплаты ТТ
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [obj, setObj] = useState({ comment: "", amount: "", agent_guid: "" });
 
@@ -47,7 +45,7 @@ const ModalPayTA = ({ modalState, setModalState, getData }) => {
       alert("Выберите агента");
     } else {
       const dataObj = { ...obj, seller_guid: data?.seller_guid };
-      dispatch(acceptMoney({ dataObj, closeModal, navigate, getData }));
+      dispatch(acceptMoney({ dataObj, closeModal, getData }));
       // if (temporaryGuidPoint?.debit < temporaryGuidPoint?.amount) {
       //   Alert.alert("Введенная вами сумма больше зарабатка торговой точки!");
       // } else {
@@ -84,7 +82,7 @@ const ModalPayTA = ({ modalState, setModalState, getData }) => {
             placeholder="Ваш комментарий"
             name="comment"
             rows="4"
-          ></textarea>
+          />
           <button onClick={sendMoney}>Оплатить</button>
         </div>
       </div>

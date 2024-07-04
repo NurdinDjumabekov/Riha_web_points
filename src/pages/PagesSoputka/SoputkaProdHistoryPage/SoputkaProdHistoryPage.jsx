@@ -15,10 +15,10 @@ import { formatCount, sumSoputkaProds } from "../../../helpers/amounts";
 import ConfirmationModal from "../../../common/ConfirmationModal/ConfirmationModal";
 import ResultCounts from "../../../common/ResultCounts/ResultCounts";
 import NavMenu from "../../../common/NavMenu/NavMenu";
+import Krest from "../../../common/Krest/Krest";
 
 //// style
 import "./style.scss";
-import Krest from "../../../common/Krest/Krest";
 
 const SoputkaProdHistoryPage = () => {
   //// история каждой накладной сапутки
@@ -37,8 +37,8 @@ const SoputkaProdHistoryPage = () => {
   const getData = () => dispatch(getListSoputkaProd(guidInvoice));
 
   useEffect(() => {
-    getData();
     window.scrollTo({ top: 0, behavior: "smooth" });
+    getData();
   }, []);
 
   const confirmBtn = () => {
@@ -96,16 +96,18 @@ const SoputkaProdHistoryPage = () => {
             </div>
           ))}
         </div>
-        <ResultCounts list={listData} />
-        <p className="soputkaHistoryParent__total">
-          Сумма: {sumSoputkaProds(listProdSoputka?.[0]?.list)} сом
-        </p>
-        {status && (
-          <div className="soputkaHistoryParent__actions">
-            <button onClick={() => setConfirm(true)}>Подтвердить</button>
-            <button onClick={addProd}>Добавить товар</button>
-          </div>
-        )}
+        <div className="mainActionsSoputka">
+          <ResultCounts list={listData} />
+          <p className="soputkaHistoryParent__total">
+            Сумма: {sumSoputkaProds(listProdSoputka?.[0]?.list)} сом
+          </p>
+          {status && (
+            <div className="soputkaHistoryParent__actions">
+              <button onClick={() => setConfirm(true)}>Подтвердить</button>
+              <button onClick={addProd}>Добавить товар</button>
+            </div>
+          )}
+        </div>
       </div>
       <ConfirmationModal
         visible={confirm}
