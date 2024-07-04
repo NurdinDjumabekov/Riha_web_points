@@ -456,7 +456,6 @@ export const getEveryProd = createAsyncThunk(
     const qrcodeGuid = !!qrcode ? `&qrcode=${qrcode}` : "";
 
     const url = `${API}/tt/get_product_detail?seller_guid=${seller_guid}${urlGuid}${qrcodeGuid}`;
-
     try {
       const response = await axios(url);
       if (response.status >= 200 && response.status < 300) {
@@ -469,12 +468,11 @@ export const getEveryProd = createAsyncThunk(
 
           if (!!qrcode) {
             await navigate("/sale/main");
-            await navigate("/sale/every_prod", { obj });
+            await navigate("/sale/every_prod", { state: { obj } });
             ///// закрываю модалку для ввода ручного qr кода
             closeModal();
           }
         }
-
         return response?.data?.[0];
       } else {
         throw Error(`Error: ${response.status}`);

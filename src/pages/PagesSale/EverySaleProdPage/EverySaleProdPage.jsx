@@ -49,7 +49,7 @@ const EverySaleProdPage = () => {
       }, 400);
     }
     dispatch(getEveryProd({ guid: obj?.guid, seller_guid: data?.seller_guid }));
-    /////// получаю каждый прожуке для продажи
+    /////// получаю каждый продукт для продажи
 
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
