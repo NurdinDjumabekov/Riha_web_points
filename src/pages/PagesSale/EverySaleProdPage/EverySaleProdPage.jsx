@@ -34,7 +34,7 @@ const EverySaleProdPage = () => {
   const onChange = (e) => {
     const { value } = e.target;
     if (/^\d*\.?\d*$/.test(value)) {
-      // Проверяем, не является ли точка первым символом
+      // Проверяю, не является ли точка первым символом
       if (value === "." || value?.indexOf(".") === 0) {
         return;
       }

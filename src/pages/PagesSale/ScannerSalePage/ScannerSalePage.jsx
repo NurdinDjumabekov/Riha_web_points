@@ -60,7 +60,7 @@ const ScannerSalePage = () => {
 
   return (
     <>
-      <NavMenu navText={"фывфывы"} />
+      <NavMenu navText={"Сканер"} />
       <div className="scanner">
         <div id="qrCodeContainer"></div>
       </div>
