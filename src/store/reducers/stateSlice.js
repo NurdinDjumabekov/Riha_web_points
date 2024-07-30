@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  dataLogin: { login: "2005", password: "2005" },
+  dataLogin: { login: "", password: "" },
 
   acceptConfirmInvoice: { invoice_guid: "" },
   // для подтверждения и принятия товаров ТА в возврате тоже
@@ -30,7 +30,7 @@ const stateSlice = createSlice({
       state.dataLogin = action.payload;
     },
     clearLogin: (state) => {
-      state.dataLogin = { login: "2005", password: "2005" };
+      state.dataLogin = { login: "", password: "" };
     },
 
     changeAcceptInvoiceTT: (state, action) => {

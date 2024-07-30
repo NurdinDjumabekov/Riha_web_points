@@ -53,9 +53,7 @@ const ScannerSalePage = () => {
       qrScanerStop();
     }
 
-    return () => {
-      qrScanerStop();
-    };
+    return () => qrScanerStop();
   }, [start]);
 
   return (

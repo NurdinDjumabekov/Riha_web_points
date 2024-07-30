@@ -1,7 +1,7 @@
 ///hooks
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 ///components
 import MyTable from "../../../components/Tables/MyTable/MyTable";
@@ -19,9 +19,10 @@ import { formatCount } from "../../../helpers/amounts";
 ////style
 import "./style.scss";
 
-const DetailedInvoiceProdPage = ({ navigation }) => {
+const DetailedInvoiceProdPage = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { guid } = location.state;
 
@@ -41,7 +42,7 @@ const DetailedInvoiceProdPage = ({ navigation }) => {
     ///// для принятия накладной торговой токой
     const send = { ...acceptConfirmInvoice, status: 2 };
     const obj = { seller_guid: data?.seller_guid };
-    dispatch(acceptInvoiceTT({ props: { ...send, ...obj }, navigation }));
+    dispatch(acceptInvoiceTT({ props: { ...send, ...obj }, navigate }));
     setAcceptOk(false);
   };
 
@@ -49,7 +50,7 @@ const DetailedInvoiceProdPage = ({ navigation }) => {
     ///// для отклонения накладной торговой токой
     const send = { ...acceptConfirmInvoice, status: -2 };
     const obj = { seller_guid: data?.seller_guid };
-    dispatch(acceptInvoiceTT({ props: { ...send, ...obj }, navigation }));
+    dispatch(acceptInvoiceTT({ props: { ...send, ...obj }, navigate }));
     setRejectNo(false);
   };
 

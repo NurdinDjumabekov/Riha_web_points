@@ -12,7 +12,7 @@ import { getAcceptInvoiceReturn } from "../../../store/reducers/requestSlice";
 ////style
 import "./style.scss";
 
-const AcceptReturnHistoryPage = ({ navigation }) => {
+const AcceptReturnHistoryPage = () => {
   const dispatch = useDispatch();
   const { data } = useSelector((state) => state.saveDataSlice);
 

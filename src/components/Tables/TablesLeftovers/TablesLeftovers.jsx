@@ -21,7 +21,7 @@ const TablesLeftovers = ({ arr }) => {
             <p className="name">
               {index + 1}. {item?.product_name}
             </p>
-            <p className="price">{item?.price}</p>
+            <p className="price">{item?.sale_price}</p>
             <p className="ostatokStart">{item?.start_outcome}</p>
             <p className="prihod">{item?.income}</p>
             <p className="rashod">{item?.outcome}</p>

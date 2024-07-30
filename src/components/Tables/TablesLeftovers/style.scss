@@ -1,87 +1,86 @@
 .parentListLeftovers {
-    flex: 1;
-    width: 100%;
+  flex: 1;
+  width: 100%;
 
-    .mainBlock {
-      padding: 0px 2px;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(47, 71, 190, 0.287);
-    }
-    
-    .more {
-      background-color: rgba(212, 223, 238, 0.47);
-      border-top: 1px solid rgba(47, 71, 190, 0.287);
-    }
-    
-    .moreText {
-      display: block;
-      font-weight: 600;
-      color: #000;
-      font-size: 11px;
-      border-right: 1px solid rgba(47, 71, 190, 0.287);
-      line-height: 12px;
-      padding: 12px 3px 12px 3px !important;
-      height: 50px;
-      @media screen and (max-width: 412px) {
-        height: 60px;
-      }
-    }
-    
-    .name {
-      font-size: 11px;
-      font-weight: 400;
-      color: #222;
-      width: 30%;
-      border-right: 1px solid rgba(47, 71, 190, 0.287);
-      padding: 8px 3px;
-    }
-    
-    .ostatokStart {
-      font-size: 12px;
-      font-weight: 400;
-      color: #222;
-      width: 18%;
-      padding-left: 4px;
-      border-right: 1px solid rgba(47, 71, 190, 0.287);
-      padding: 8px 3px;
-    }
-    
-    .prihod {
-      font-size: 12px;
-      font-weight: 400;
-      width: 14%;
-      color: green;
-      border-right: 1px solid rgba(47, 71, 190, 0.287);
-      padding: 8px 3px;
-    }
-    
-    .rashod {
-      font-size: 12px;
-      font-weight: 400;
-      width: 13%;
-      color: red;
-      border-right: 1px solid rgba(47, 71, 190, 0.287);
-      padding: 8px 3px;
-    }
-    
-    .ostatokEnd {
-      font-size: 12px;
-      font-weight: 400;
-      color: #222;
-      width: 16%;
-      border-right: none;
-      padding: 8px 3px;
-    }
-    
-    .price {
-      font-size: 12px;
-      font-weight: 400;
-      color: #222;
-      width: 10%;
-      border-right: 1px solid rgba(47, 71, 190, 0.287);
-      padding: 8px 3px;
+  .mainBlock {
+    padding: 0px 2px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(47, 71, 190, 0.287);
+  }
+
+  .more {
+    background-color: rgba(212, 223, 238, 0.47);
+    border-top: 1px solid rgba(47, 71, 190, 0.287);
+  }
+
+  .moreText {
+    display: block;
+    font-weight: 600;
+    color: #000;
+    font-size: 11px;
+    border-right: 1px solid rgba(47, 71, 190, 0.287);
+    line-height: 12px;
+    padding: 12px 3px 12px 3px !important;
+    height: 50px;
+    @media screen and (max-width: 412px) {
+      height: 60px;
     }
   }
-  
+
+  .name {
+    font-size: 11px;
+    font-weight: 400;
+    color: #222;
+    width: 30%;
+    border-right: 1px solid rgba(47, 71, 190, 0.287);
+    padding: 8px 3px;
+  }
+
+  .ostatokStart {
+    font-size: 12px;
+    font-weight: 400;
+    color: #222;
+    width: 18%;
+    padding-left: 4px;
+    border-right: 1px solid rgba(47, 71, 190, 0.287);
+    padding: 8px 3px;
+  }
+
+  .prihod {
+    font-size: 12px;
+    font-weight: 400;
+    width: 14%;
+    color: green;
+    border-right: 1px solid rgba(47, 71, 190, 0.287);
+    padding: 8px 3px;
+  }
+
+  .rashod {
+    font-size: 12px;
+    font-weight: 400;
+    width: 13%;
+    color: red;
+    border-right: 1px solid rgba(47, 71, 190, 0.287);
+    padding: 8px 3px;
+  }
+
+  .ostatokEnd {
+    font-size: 12px;
+    font-weight: 400;
+    color: #222;
+    width: 16%;
+    border-right: none;
+    padding: 8px 3px;
+  }
+
+  .price {
+    font-size: 12px;
+    font-weight: 400;
+    color: #222;
+    width: 10%;
+    border-right: 1px solid rgba(47, 71, 190, 0.287);
+    padding: 8px 3px;
+  }
+}
