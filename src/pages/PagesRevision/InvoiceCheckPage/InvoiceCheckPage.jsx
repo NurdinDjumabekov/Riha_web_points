@@ -10,15 +10,15 @@ import { sendCheckListProduct } from "../../../store/reducers/requestSlice";
 
 ///// components
 import ConfirmationModal from "../../../common/ConfirmationModal/ConfirmationModal";
+import TablesRevision from "../../../components/Tables/TablesRevision/TablesRevision";
+import NavMenu from "../../../common/NavMenu/NavMenu";
+import ResultCounts from "../../../common/ResultCounts/ResultCounts";
 
 ///// helpers
 import { totalSumRevision } from "../../../helpers/amounts";
-import ResultCounts from "../../../common/ResultCounts/ResultCounts";
 
 ////style
 import "./style.scss";
-import TablesRevision from "../../../components/Tables/TablesRevision/TablesRevision";
-import NavMenu from "../../../common/NavMenu/NavMenu";
 
 const InvoiceCheckPage = () => {
   const dispatch = useDispatch();
@@ -53,8 +53,9 @@ const InvoiceCheckPage = () => {
   const sendData = () => {
     //////////////////////////////////////////////
     const products = listActionLeftovers?.map((props) => {
-      const { guid, price, change_end_outcome, unit_codeid } = props;
-      return { guid, price, count: change_end_outcome, unit_codeid };
+      const { guid, sale_price, change_end_outcome, unit_codeid } = props;
+      const count = change_end_outcome;
+      return { guid, price: sale_price, count, unit_codeid };
     });
 
     const data = { invoice_guid, products };
@@ -66,7 +67,7 @@ const InvoiceCheckPage = () => {
 
   return (
     <>
-      <NavMenu navText={"Накладная для ревизия"} />
+      <NavMenu navText={"Накладная для ревизии"} />
       <div className="invoiceRevision">
         <div className="invoiceRevision__inner">
           <TablesRevision arr={listActionLeftovers} />

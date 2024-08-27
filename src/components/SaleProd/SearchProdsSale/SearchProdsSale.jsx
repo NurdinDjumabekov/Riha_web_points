@@ -53,6 +53,10 @@ export const SearchProdsSale = () => {
   const onChange = (e) => {
     const text = e?.target?.value;
 
+    if (text?.[0] === " " || text?.includes("  ")) {
+      return;
+    }
+
     dispatch(changeSearchProd(text));
     searchData(text);
     text?.length === 0 ? dispatch(clearListProdSearch()) : searchData(text);

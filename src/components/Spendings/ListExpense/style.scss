@@ -1,65 +1,70 @@
 .spendingList {
+  .everyProdSpending {
+    padding: 15px 10px;
+    background-color: rgba(212, 223, 238, 0.47);
+    margin-bottom: 10px;
+    border-radius: 6px;
+    border: 1px solid rgba(47, 71, 190, 0.107);
+    position: relative;
 
-    .everyProdSpending {
-        padding: 15px 10px;
-        background-color: rgba(212, 223, 238, 0.47);
-        margin-bottom: 10px;
-        border-radius: 6px;
-        border: 1px solid rgba(47, 71, 190, 0.107);
+    &__inner {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
 
-        &__inner {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
+      .blockTitle {
+        width: 60%;
 
-            .blockTitle {
-                width: 60%;
-                
-                h5 {
-                    font-size: 15px;
-                    font-weight: 500;
-                    color: #222;
-                    max-width: 95%;
-                }
-
-                p {
-                    font-size: 14px;
-                    font-weight: 400;
-                }
-            }
-
-            .blockMoreText {
-                width: 40%;
-
-                span {
-                    font-size: 14px;
-                    font-weight: 400;
-                }
-
-                p {
-                    font-size: 14px;
-                    font-weight: 400;
-                    color: rgba(47, 71, 190, 0.687);
-                }
-
-                b {
-                    display: block;
-                    font-size: 14px;
-                    font-weight: 400;
-                    color: rgba(12, 169, 70, 0.9);
-                }
-
-            }
+        h5 {
+          font-size: 15px;
+          font-weight: 500;
+          color: #222;
+          max-width: 95%;
         }
 
-        .commentAdmin {
-            font-size: 15px;
-            font-weight: 400;
-            color: #222;
-            margin-top: 10px;
+        p {
+          font-size: 14px;
+          font-weight: 400;
         }
+      }
+
+      .blockMoreText {
+        width: 40%;
+
+        span {
+          font-size: 14px;
+          font-weight: 400;
+        }
+
+        p {
+          font-size: 14px;
+          font-weight: 400;
+          color: rgba(47, 71, 190, 0.687);
+        }
+
+        b {
+          display: block;
+          font-size: 14px;
+          font-weight: 400;
+          color: rgba(12, 169, 70, 0.9);
+        }
+      }
     }
+
+    .commentAdmin {
+      font-size: 15px;
+      font-weight: 400;
+      color: #222;
+      margin-top: 10px;
+    }
+
+    .krest {
+      right: 10px;
+      top: 6px;
+      margin: 0;
+    }
+  }
 }

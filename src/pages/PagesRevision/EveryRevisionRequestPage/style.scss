@@ -1,37 +1,39 @@
 .everyRevision {
-    min-height: 100vh;
+  min-height: 100vh;
 
-    &__inner {
-        h6 {
-            font-size: 18px;
-            font-weight: 500;
-            color: #222;
-            padding: 20px 8px 15px;
-        }
-
-        .parentTable {
-            padding-bottom: 5px;
-        }
-
-        .actionBlockEvery {
-            padding: 15px 0 20px 0;
-            box-shadow: 0 2px 40px rgba(0, 0, 0, 0.2);
-
-            > p {
-                font-size: 18px;
-                font-weight: 500;
-                color: rgba(47, 71, 190, 0.991);
-                padding: 5px 0px;
-                margin: 0px 10px;
-            }
-
-            > button {
-                background-color: rgba(97, 100, 239, 0.7);
-                color: #fff;
-                min-width: 95%;
-                display: block;
-                margin: 0 auto;
-            }
-        }
+  &__inner {
+    h6 {
+      font-size: 18px;
+      font-weight: 500;
+      color: #222;
+      padding: 20px 8px 15px;
     }
+
+    .parentTable {
+      padding-bottom: 5px;
+    }
+
+    .actionBlockEvery {
+      padding: 15px 0 20px 0;
+      box-shadow: 0 2px 40px rgba(0, 0, 0, 0.2);
+
+      > p {
+        font-size: 18px;
+        font-weight: 500;
+        color: rgba(47, 71, 190, 0.991);
+        padding: 5px 0px;
+        margin: 0px 10px;
+      }
+
+      > button {
+        background-color: rgba(97, 100, 239, 0.7);
+        color: #fff;
+        min-width: 95%;
+        display: block;
+        margin: 0 auto;
+        height: 45px;
+        border-radius: 5px;
+      }
+    }
+  }
 }

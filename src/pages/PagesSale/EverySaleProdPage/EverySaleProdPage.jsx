@@ -105,22 +105,24 @@ const EverySaleProdPage = () => {
               readOnly
             />
           </div>
-          <div className="inputBlock">
-            <p className="inputTitle">
-              {typeVes?.[+everyProdSale?.count_type]}
-            </p>
-            <input
-              className="input"
-              ref={refInput}
-              value={sum}
-              onChange={onChange}
-              maxLength={8}
-            />
+          <div className="inputBlock actions">
+            <div>
+              <p className="inputTitle">
+                {typeVes?.[+everyProdSale?.count_type]}
+              </p>
+              <input
+                className="input"
+                ref={refInput}
+                value={sum}
+                onChange={onChange}
+                maxLength={8}
+              />
+            </div>
+            <button className="btnAddProds" type="submit">
+              Продать
+            </button>
           </div>
         </div>
-        <button className="btnAddProds" type="submit">
-          Продать товар
-        </button>
       </form>
     </>
   );

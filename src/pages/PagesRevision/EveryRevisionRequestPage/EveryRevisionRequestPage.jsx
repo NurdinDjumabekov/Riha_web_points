@@ -52,7 +52,7 @@ const EveryRevisionRequestPage = () => {
           <div className="actionBlockEvery">
             <ResultCounts list={everyRequestRevision?.list} />
             <p>Сумма: {formatCount(everyRequestRevision?.total_price)} сом</p>
-            {!disable && <button onclick={clickOkay}>Принять накладную</button>}
+            {!disable && <button onClick={clickOkay}>Принять накладную</button>}
           </div>
         </div>
 

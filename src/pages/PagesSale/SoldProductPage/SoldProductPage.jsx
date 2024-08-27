@@ -1,6 +1,6 @@
 ////// hooks
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 /////// fns
@@ -10,10 +10,10 @@ import { deleteSoldProd } from "../../../store/reducers/requestSlice";
 ////// components
 import ConfirmationModal from "../../../common/ConfirmationModal/ConfirmationModal";
 import Krest from "../../../common/Krest/Krest";
-import NavMenu from "../../../common/NavMenu/NavMenu";
+import SortDateSaleProd from "../../../components/SaleProd/SortDateSaleProd/SortDateSaleProd";
 
 ////// helpers
-import { formatCount } from "../../../helpers/amounts";
+import { formatCount, sumtotalPrice } from "../../../helpers/amounts";
 
 ////style
 import "./style.scss";
@@ -27,8 +27,9 @@ const SoldProductPage = () => {
   const [modalItemGuid, setModalItemGuid] = useState(null); // Состояние для идентификатора элемента, для которого открывается модальное окно
 
   const { listSoldProd } = useSelector((state) => state.requestSlice);
+  const { seller_guid } = useSelector((state) => state.saveDataSlice.data);
 
-  const getData = () => dispatch(getListSoldProd(guidInvoice));
+  const getData = () => dispatch(getListSoldProd({ guidInvoice, seller_guid }));
 
   useEffect(() => {
     getData();
@@ -40,17 +41,21 @@ const SoldProductPage = () => {
     setModalItemGuid(null);
   };
 
-  if (listSoldProd?.length === 0) {
+  const noneData = listSoldProd?.length == 0;
+
+  if (!!noneData) {
     return <p className="noneData">Список пустой</p>;
   }
 
+  console.log(listSoldProd?.length, "listSoldProd");
+
   return (
     <>
-      <NavMenu navText={"Список продаж"} />
+      <SortDateSaleProd guidInvoice={guidInvoice} seller_guid={seller_guid} />
       <div className="soldProds">
         <div className="listSoldPros">
           {listSoldProd?.map((item, index) => (
-            <div className="listSoldPros__every">
+            <div className="listSoldPros__every" key={index}>
               <div className="parentSold">
                 <div className="mainDataSold">
                   <p className="indexNums">{index + 1} </p>
@@ -77,6 +82,11 @@ const SoldProductPage = () => {
             </div>
           ))}
         </div>
+        {!!!noneData && (
+          <p className="totalSum">
+            Итоговая сумма: {sumtotalPrice(listSoldProd) || 0} сом
+          </p>
+        )}
       </div>
     </>
   );

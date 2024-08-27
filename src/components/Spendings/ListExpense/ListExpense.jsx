@@ -1,10 +1,24 @@
-import { useSelector } from "react-redux";
+////// hooks
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 
-////style
+////// componnets
+import Krest from "../../../common/Krest/Krest";
+import ConfirmationModal from "../../../common/ConfirmationModal/ConfirmationModal";
+
+////// style
 import "./style.scss";
 
-const ListExpense = () => {
+////// fns
+import { delExpenseTT } from "../../../store/reducers/requestSlice";
+
+const ListExpense = ({ getData }) => {
+  const dispatch = useDispatch();
+
   const { listExpense } = useSelector((state) => state.requestSlice);
+  const { seller_guid } = useSelector((state) => state.saveDataSlice.data);
+
+  const [del, setDel] = useState(""); //// для модалки удаления расходов
 
   const emptyData = listExpense?.length === 0;
 
@@ -18,29 +32,45 @@ const ListExpense = () => {
     2: { text: "Одобрено", color: "green" },
   };
 
+  const delSpending = () => {
+    dispatch(delExpenseTT({ getData, seller_guid, del }));
+    setDel("");
+    ///// удаляю расходы через запрос
+  };
+
   return (
-    <div className="spendingList">
-      {listExpense?.map((item) => (
-        <div className="everyProdSpending">
-          <div className="everyProdSpending__inner">
-            <div className="blockTitle">
-              <h5>{item?.name}</h5>
-              <p>{item?.comment ? item?.comment : "..."}</p>
+    <>
+      <div className="spendingList">
+        {listExpense?.map((item) => (
+          <div className="everyProdSpending" key={item?.guid}>
+            <div className="everyProdSpending__inner">
+              <div className="blockTitle">
+                <h5>{item?.name}</h5>
+                <p>{item?.comment ? item?.comment : "..."}</p>
+              </div>
+              <div className="blockMoreText">
+                <span style={{ color: `${objType?.[+item?.status]?.color}` }}>
+                  {objType?.[+item?.status]?.text}
+                </span>
+                <p>{item?.date_system}</p>
+                <b>{item?.amount} сом</b>
+              </div>
             </div>
-            <div className="blockMoreText">
-              <span style={{ color: `${objType?.[+item?.status]?.color}` }}>
-                {objType?.[+item?.status]?.text}
-              </span>
-              <p>{item?.date_system}</p>
-              <b>{item?.amount} сом</b>
-            </div>
+            {item?.cancel_comment && (
+              <p className="commentAdmin">{item?.cancel_comment}</p>
+            )}
+            {+item?.status == 0 && <Krest onClick={() => setDel(item?.guid)} />}
           </div>
-          {item?.cancel_comment && (
-            <p className="commentAdmin">{item?.cancel_comment}</p>
-          )}
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+      <ConfirmationModal
+        visible={!!del}
+        message="Удалить ?"
+        onYes={delSpending}
+        onNo={() => setDel("")}
+        onClose={() => setDel("")}
+      />
+    </>
   );
 };
 

@@ -95,7 +95,7 @@ const StoreSpendingPage = () => {
           />
         </div>
         <p className="mainTitleSpernding">Расходы</p>
-        <ListExpense />
+        <ListExpense getData={getData} />
       </div>
     </>
   );

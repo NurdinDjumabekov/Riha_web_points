@@ -34,7 +34,7 @@ const TablesRevision = ({ arr }) => {
               <p className="name">
                 {index + 1}. {item?.product_name}
               </p>
-              <p className="price">{item?.price}</p>
+              <p className="price">{item?.sale_price}</p>
               <p className="count">{item?.end_outcome}</p>
               <button onClick={() => addTenporaryData(item)}>
                 <p>{item?.change_end_outcome}</p>
