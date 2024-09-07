@@ -47,11 +47,14 @@ const SoldProductPage = () => {
     return <p className="noneData">Список пустой</p>;
   }
 
-  console.log(listSoldProd?.length, "listSoldProd");
-
   return (
     <>
       <SortDateSaleProd guidInvoice={guidInvoice} seller_guid={seller_guid} />
+      {!!!noneData && (
+        <p className="totalSum">
+          Итоговая сумма: {sumtotalPrice(listSoldProd) || 0} сом
+        </p>
+      )}
       <div className="soldProds">
         <div className="listSoldPros">
           {listSoldProd?.map((item, index) => (
@@ -82,11 +85,6 @@ const SoldProductPage = () => {
             </div>
           ))}
         </div>
-        {!!!noneData && (
-          <p className="totalSum">
-            Итоговая сумма: {sumtotalPrice(listSoldProd) || 0} сом
-          </p>
-        )}
       </div>
     </>
   );

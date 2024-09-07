@@ -20,6 +20,8 @@ const initialState = {
   searchProd: "", /// для текста поиска продуктов
 
   expense: { expense_type: "", comment: "", amount: "" }, /// данные суммы расходов каждой ТТ
+
+  modalDate: { periods: false, dates: false }, /// для отображения модалок дат(сортирвока  проданных товаров)
 };
 
 const stateSlice = createSlice({
@@ -82,11 +84,11 @@ const stateSlice = createSlice({
       state.expense = action.payload;
     },
     clearExpense: (state, action) => {
-      state.expense = {
-        expense_type: "",
-        comment: "",
-        amount: "",
-      };
+      state.expense = { expense_type: "", comment: "", amount: "" };
+    },
+
+    changeModalDate: (state, action) => {
+      state.modalDate = { ...state.modalDate, ...action.payload };
     },
   },
 });
@@ -105,6 +107,7 @@ export const {
   changeSearchProd,
   changeExpense,
   clearExpense,
+  changeModalDate,
 } = stateSlice.actions;
 
 export default stateSlice.reducer;

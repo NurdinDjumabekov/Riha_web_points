@@ -1,0 +1,19 @@
+.listDates {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0 0 0;
+
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  button {
+    background: transparent;
+    display: block;
+    margin: 15px 0px;
+    font-size: 17px;
+  }
+}
