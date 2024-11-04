@@ -76,25 +76,29 @@ const ActionsEveryInvoice = ({ location, type }) => {
 
   return (
     <div className="parentSelects">
-      <p className="choiceCateg">Выберите цех</p>
-      <div className="blockSelect">
-        <Selects
-          list={listWorkShopSale}
-          activeValue={activeSelectWorkShop}
-          onChange={onChangeWorkShop}
-          placeholder={"Выберите цех"}
-        />
-        <div className="arrowSelect"></div>
+      <div>
+        <p className="choiceCateg">Выберите цех</p>
+        <div className="blockSelect">
+          <Selects
+            list={listWorkShopSale}
+            activeValue={activeSelectWorkShop}
+            onChange={onChangeWorkShop}
+            placeholder={"Выберите цех"}
+          />
+          <div className="arrowSelect"></div>
+        </div>
       </div>
-      <p className="choiceCateg">Выберите категорию</p>
-      <div className="blockSelect">
-        <Selects
-          list={listCategory}
-          activeValue={activeSelectCategory}
-          onChange={onChangeCateg}
-          placeholder={"Выберите категорию"}
-        />
-        <div className="arrowSelect"></div>
+      <div>
+        <p className="choiceCateg">Выберите категорию</p>
+        <div className="blockSelect">
+          <Selects
+            list={listCategory}
+            activeValue={activeSelectCategory}
+            onChange={onChangeCateg}
+            placeholder={"Выберите категорию"}
+          />
+          <div className="arrowSelect"></div>
+        </div>
       </div>
     </div>
   );

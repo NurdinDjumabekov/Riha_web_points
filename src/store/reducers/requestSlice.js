@@ -408,7 +408,6 @@ export const createInvoiceTT = createAsyncThunk(
         data: { seller_guid },
       });
       if (response.status >= 200 && response.status < 300) {
-        // console.log(response?.data);
         return { codeid: response?.data?.codeid, guid: response?.data?.guid };
       } else {
         throw Error(`Error: ${response.status}`);

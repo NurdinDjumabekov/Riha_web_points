@@ -42,13 +42,7 @@ const MyReturnsPage = () => {
           <div></div>
         </div>
         <div className="listBlock">
-          {[
-            ...listMyInvoiceReturn,
-            ...listMyInvoiceReturn,
-            ...listMyInvoiceReturn,
-            ...listMyInvoiceReturn,
-            ...listMyInvoiceReturn,
-          ]?.map((item) => (
+          {listMyInvoiceReturn?.map((item) => (
             <EveryMyInvoice obj={item} screns={screns} key={item?.guid} />
           ))}
         </div>

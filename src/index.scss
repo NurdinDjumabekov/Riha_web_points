@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 * {
   margin: 0;
@@ -6,7 +6,7 @@
   box-sizing: border-box;
   font-size: 20px;
   font-weight: 500;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   text-align: left;
 }
 
@@ -108,5 +108,159 @@ img {
   }
   to {
     opacity: 1;
+  }
+}
+
+.standartTable {
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.144) !important;
+  border-radius: 0px 0px 5px 5px !important;
+
+  table {
+    thead {
+      tr {
+        th:first-child {
+          padding: 12px 0 12px 0px !important;
+        }
+        th {
+          padding: 8px 8px 5px !important;
+          font-weight: 600;
+          background: #edf2f9;
+          color: #0e1726;
+          font-size: 12px;
+          font-weight: 600;
+          line-height: 15px;
+        }
+        .titleCheckbox {
+          padding-left: 15px !important;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        th:first-child {
+          padding: 5px 0 5px 0px !important;
+        }
+
+        td,
+        th {
+          padding: 5px 8px !important;
+          height: 10px;
+          font-size: 12px !important;
+          border-right: 1px solid #edf2f9;
+          border-bottom: 1px solid #edf2f9;
+
+          span {
+            padding: 0 !important;
+          }
+
+          .countsBlock {
+            input {
+              width: 80px;
+              background: #fff;
+              border-radius: 3px;
+              border: 1px solid #cbcbcb;
+              font-size: 13px;
+              padding: 0px 5px;
+              height: 30px;
+
+              &:focus {
+                border: 1px solid #e0e6ed;
+                outline: none;
+              }
+            }
+          }
+        }
+
+        .footerTable {
+          font-weight: bold !important;
+          height: 30px !important;
+          padding: 10px 0 10px 30px !important;
+        }
+
+        .actionsDel {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: transparent;
+        }
+      }
+    }
+  }
+}
+
+.scroll_table {
+  &::-webkit-scrollbar {
+    min-width: 7px;
+    max-width: 7px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    min-width: 8px;
+    max-width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent;
+    cursor: pointer;
+    max-height: 135px;
+    min-height: 135px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: #fffefe;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #c1c1c19b;
+  }
+}
+
+.inputSend {
+  padding: 7px 0px;
+
+  p {
+    font-size: 16px;
+    margin: 0 0 3px 0;
+  }
+
+  input,
+  textarea {
+    border: 1px solid #e1e6ed;
+    padding: 8px 8px;
+    font-size: 15px;
+    color: #6b7280;
+    border-radius: 5px;
+    width: 100%;
+
+    &::placeholder {
+      color: #6b72809e;
+    }
+
+    &:focus {
+      border: 1px solid rgba(89, 89, 89, 0.529);
+      outline: none;
+    }
+  }
+
+  textarea {
+    height: 150px;
+  }
+
+  .css-hlgwow {
+    height: 37px !important;
+  }
+
+  .css-13cymwt-control {
+    border: 1px solid #e1e6ed !important;
+  }
+
+  .css-hlgwow {
+    padding: 0px 5px !important;
+  }
+
+  .css-1xc3v61-indicatorContainer,
+  .css-15lsz6c-indicatorContainer {
+    padding: 0 3px !important;
   }
 }

@@ -4,7 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 ////// pages
 import LoginPage from "../pages/LoginPage/LoginPage";
-import Layouts from "../Layouts/Layouts";
+import Layouts from "../LayoutsList/Layouts/Layouts";
 import AllCategPage from "../pages/AllCategPage/AllCategPage";
 import PagesMainInvoice from "../pages/PagesMainInvoice/PagesMainInvoice";
 import PagesSoputka from "../pages/PagesSoputka/PagesSoputka";
@@ -14,6 +14,7 @@ import StoreSpendingPage from "../pages/SpendingPage/StoreSpendingPage";
 import PagesPay from "../pages/PayPage/PagesPay";
 import PagesReturn from "../pages/PagesReturn/PagesReturn";
 import PagesRevision from "../pages/PagesRevision/PagesRevision";
+import SaleQrCodePage from "../pages/SaleQrCodePage/SaleQrCodePage";
 
 ////// components
 import Preloader from "../common/Preloader/Preloader";
@@ -35,6 +36,7 @@ const MainRoutes = () => {
             <Route path="/soputka/*" element={<PagesSoputka />} />
             <Route path="/leftovers" element={<LeftoversPage />} />
             <Route path="/sale/*" element={<PagesSale />} />
+            <Route path="/sale_qr_code/*" element={<SaleQrCodePage />} />
             <Route path="/spending" element={<StoreSpendingPage />} />
             <Route path="/pay/*" element={<PagesPay />} />
             <Route path="/return/*" element={<PagesReturn />} />

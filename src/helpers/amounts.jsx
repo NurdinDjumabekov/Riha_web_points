@@ -112,3 +112,17 @@ export const unitRevisions = (data) => {
     { totalSht: 0, totalKg: 0 }
   );
 };
+
+export const roundingNum = (count) => {
+  ///// округления числа
+  /// если больше 0, то округлять до 2го числа, а если его нет, то выводится просто целое число без 0
+  return +count % 1 === 0 ? +count?.toFixed(0) : +count?.toFixed(2);
+};
+
+export const totalSumPrice = (list) => {
+  const totalSum = list?.reduce(
+    (total, item) => total + (+item?.price || 0),
+    0
+  );
+  return formatCount(totalSum);
+};

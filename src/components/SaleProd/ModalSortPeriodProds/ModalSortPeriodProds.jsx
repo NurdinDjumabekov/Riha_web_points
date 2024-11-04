@@ -30,11 +30,11 @@ const ModalSortPeriodProds = ({ props }) => {
   const closeDateBottom = () => dispatch(changeModalDate({ dates: false }));
 
   const clickDate = () => {
-    closeDateBottom();
-    const dateSort = `${transformDatePeriod(startDate)}-${transformDatePeriod(
-      endDate
-    )}`;
+    const start = transformDatePeriod(startDate);
+    const end = transformDatePeriod(endDate);
+    const dateSort = `${start}-${end}`;
     dispatch(getListSoldProd({ guidInvoice, dateSort, seller_guid }));
+    closeDateBottom();
   };
 
   const handleStartDateChange = (dates) => {
@@ -70,6 +70,7 @@ const ModalSortPeriodProds = ({ props }) => {
       </BottomSheet> */}
       {modalDate?.dates && (
         <div className="blockDate">
+          <div className="shadowDate" onClick={closeDateBottom}></div>
           <div className="blockDate__inner">
             <DatePicker
               selected={startDate}
@@ -78,7 +79,7 @@ const ModalSortPeriodProds = ({ props }) => {
               endDate={endDate}
               selectsRange
               inline
-              // onClickOutside={() => setLookStartDate(false)}
+              // onClickOutside={closeDateBottom}
               maxDate={new Date()}
               locale="ru"
             />

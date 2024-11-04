@@ -3,8 +3,9 @@ import "./style.scss";
 
 const Preloader = () => {
   const { preloader } = useSelector((state) => state.requestSlice);
+  const { preloaderSale } = useSelector((state) => state.saleSlice);
 
-  if (preloader) {
+  if (preloader || preloaderSale) {
     return (
       <div className="preloader">
         <div className="lds-roller">

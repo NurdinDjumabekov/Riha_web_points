@@ -1,0 +1,143 @@
+.saleProdsQR {
+  height: calc(100vh - 16px);
+  margin: 8px 10px 0 0;
+  width: calc(100% - 10px);
+  padding: 15px 0;
+  background: #fff;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.144) !important;
+  border-radius: 5px;
+
+  &__inner {
+    height: 100%;
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 0 0 0 15px;
+    }
+
+    .headerIner {
+      margin: 0 20px 0 0;
+    }
+
+    .actionAddProd {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 20px;
+
+      input {
+        width: 30%;
+        border: 1px solid #e1dede !important;
+        box-shadow: none !important;
+        cursor: pointer;
+        border-radius: 5px;
+        height: 38px;
+        color: rgba(0, 0, 0, 0.782);
+        padding: 3px 15px;
+        font-size: 18px;
+        width: 400px;
+
+        &::placeholder {
+          color: #6b72809e;
+        }
+
+        &:focus {
+          border: 1px solid rgba(89, 89, 89, 0.529);
+          outline: none;
+        }
+      }
+    }
+
+    .titles {
+      display: flex;
+      align-items: flex-end;
+      padding: 3px 20px 10px;
+
+      h1 {
+        font-size: 17px;
+        font-weight: 500;
+      }
+    }
+
+    .standartTable {
+      margin: 13px 0 0 0;
+      height: 100%;
+      box-shadow: none !important;
+      border-radius: 0 0 5px 5px !important;
+      table {
+        tbody {
+          tr {
+            th,
+            td {
+              padding: 8px 8px !important;
+            }
+          }
+        }
+
+        .footerTable {
+          td {
+            padding: 10px 8px !important;
+            font-weight: 600;
+          }
+        }
+      }
+    }
+
+    .endSale {
+      background: #805dca;
+    }
+  }
+
+  &__table {
+    height: calc(100% - 60px);
+
+    .delIcon {
+      display: flex;
+      justify-content: center;
+
+      button {
+        background: transparent;
+        width: 20px;
+        height: 20px;
+
+        svg {
+          width: 20px;
+          height: 20px;
+        }
+      }
+    }
+  }
+}
+
+.actionsAddProd {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+
+  .inputSend {
+    width: 100%;
+  }
+
+  button {
+    width: 100%;
+  }
+}
+.saveAction {
+  height: 38px;
+  background: #299b31;
+  padding: 0px 20px 0px;
+  border-radius: 5px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  p {
+    font-size: 14px;
+    font-weight: 500;
+  }
+}

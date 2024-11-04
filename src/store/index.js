@@ -15,10 +15,12 @@ import storage from "redux-persist/lib/storage";
 import requestSlice from "./reducers/requestSlice";
 import saveDataSlice from "./reducers/saveDataSlice";
 import stateSlice from "./reducers/stateSlice";
+import saleSlice from "./reducers/saleSlice";
 const reducer = combineReducers({
   requestSlice,
   saveDataSlice,
   stateSlice,
+  saleSlice,
 });
 
 const persistConfig = {

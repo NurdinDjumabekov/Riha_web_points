@@ -20,3 +20,7 @@ const PagesSale = () => {
 };
 
 export default PagesSale;
+
+// @media screen and (max-width: 370px) {
+//   width: 340px;
+// }

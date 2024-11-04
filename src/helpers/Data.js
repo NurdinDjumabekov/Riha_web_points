@@ -28,13 +28,19 @@ export const dataCategory = [
     pathApi: "sale/main",
   },
   {
+    codeid: 8,
+    name: "Продажа с чеком",
+    link: "sale_qr_code/main",
+    img: "https://img.freepik.com/free-vector/finance-department-employees-are-calculating-expenses-company-s-business_1150-41782.jpg?t=st=1711965120~exp=1711968720~hmac=96a672de3602a7397d6e0b7452abfa17eaa700d42fd08a2a3e244eb154b7bd30&w=1380",
+    pathApi: "sale_qr_code/main",
+  },
+  {
     codeid: 4,
     name: "Расходы",
     link: "spending",
     img: "https://img.freepik.com/free-vector/balance-sheet-cartoon-web-icon-accounting-process-finance-analyst-calculating-tools-financial-consulting-idea-bookkeeping-service_335657-2313.jpg?t=st=1711965019~exp=1711968619~hmac=635d5b94c27cf917e8532dfd722c44aba43db051d262065031cdac53408da1ab&w=900",
     pathApi: "spending",
   },
-
   {
     codeid: 5,
     name: "Оплата",

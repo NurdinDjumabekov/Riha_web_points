@@ -13,9 +13,9 @@ const ConfirmationModal = ({ visible, message, onYes, onNo, onClose }) => {
               <button onClick={onYes} className="btnsGood">
                 Да
               </button>
-              <button onClick={onNo} className="btnsNoo">
+              <div onClick={onNo} className="btnsNoo">
                 Нет
-              </button>
+              </div>
             </div>
           </div>
         </div>

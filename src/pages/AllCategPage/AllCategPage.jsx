@@ -25,12 +25,6 @@ const AllCategPage = () => {
   const { data } = useSelector((state) => state.saveDataSlice);
   const { balance } = useSelector((state) => state.requestSlice);
 
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     getData();
-  //   }, [])
-  // );
-
   const getData = () => dispatch(getBalance(data?.seller_guid));
 
   useEffect(() => {

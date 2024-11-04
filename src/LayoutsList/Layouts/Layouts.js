@@ -6,13 +6,14 @@ import "./style.scss";
 
 const Layouts = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const dispatch = useDispatch();
 
-  // console.log(location?.pathname, "location");
+  const { pathname } = useLocation();
+
+  const checkSaleQr = pathname.includes("sale_qr_code");
 
   return (
-    <div className="layoutBlock">
+    <div className={`layoutBlock ${checkSaleQr ? "saleQr" : ""}`}>
       <Outlet />
     </div>
   );
