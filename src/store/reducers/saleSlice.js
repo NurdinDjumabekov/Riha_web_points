@@ -7,6 +7,8 @@ const initialState = {
   preloaderSale: false,
   listProds: [], /// список товаров накладной
   listHistoryInvoice: [], /// список историй накладных
+  listWorkShops: [], /// список цехов
+  listCategs: [], /// список категорий
 };
 
 /// createInvoice - создание накладных накладных
@@ -138,6 +140,82 @@ export const updateStatusInvoice = createAsyncThunk(
   }
 );
 
+/// getWorkShops -  get все цеха
+export const getWorkShops = createAsyncThunk(
+  "getWorkShops",
+  async function (props, { dispatch, rejectWithValue }) {
+    const { seller_guid } = props;
+    const urlLink = `${API}/tt/get_leftover_workshop?seller_guid=${seller_guid}`;
+    try {
+      const response = await axios(urlLink);
+      if (response.status >= 200 && response.status < 300) {
+        return response?.data;
+      } else {
+        throw Error(`Error: ${response.status}`);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+/// getCategs -  get все категория
+export const getCategs = createAsyncThunk(
+  "getCategs",
+  async function (props, { dispatch, rejectWithValue }) {
+    const { seller_guid, workshop_guid } = props;
+    const urlLink = `${API}/tt/get_category?seller_guid=${seller_guid}&workshop_guid=${workshop_guid}`;
+    try {
+      const response = await axios(urlLink);
+      if (response.status >= 200 && response.status < 300) {
+        return response?.data;
+      } else {
+        throw Error(`Error: ${response.status}`);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+/// searchProdLeftovers -  для поиска товаров в остатке
+export const searchProdLeftovers = createAsyncThunk(
+  "searchProdLeftovers",
+  async function (props, { dispatch, rejectWithValue }) {
+    const { text, seller_guid } = props;
+    const urlLink = `${API}/tt/get_product?search=${text}&seller_guid=${seller_guid}`;
+    try {
+      const response = await axios(urlLink);
+      if (response.status >= 200 && response.status < 300) {
+        return response?.data;
+      } else {
+        throw Error(`Error: ${response.status}`);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+/// getSortProds - для get продуктов
+export const getSortProds = createAsyncThunk(
+  "getSortProds",
+  async function (props, { dispatch, rejectWithValue }) {
+    const { seller_guid, valueCateg, value } = props;
+    const urlLink = `${API}/tt/get_product?categ_guid=${valueCateg}&seller_guid=${seller_guid}&workshop_guid=${value}`;
+    try {
+      const response = await axios(urlLink);
+      if (response.status >= 200 && response.status < 300) {
+        return response?.data;
+      } else {
+        throw Error(`Error: ${response.status}`);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const saleSlice = createSlice({
   name: "saleSlice",
   initialState,
@@ -170,6 +248,60 @@ const saleSlice = createSlice({
     });
     builder.addCase(getHistoryInvoice.pending, (state, action) => {
       state.preloaderSale = true;
+    });
+    //// getWorkShops
+    builder.addCase(getWorkShops.fulfilled, (state, action) => {
+      state.preloaderSale = false;
+      state.listWorkShops = action.payload?.map((i) => {
+        return { label: i?.workshop, value: i?.workshop_guid };
+      });
+    });
+    builder.addCase(getWorkShops.rejected, (state, action) => {
+      state.error = action.payload;
+      state.preloaderSale = false;
+    });
+    builder.addCase(getWorkShops.pending, (state, action) => {
+      state.preloaderSale = true;
+    });
+    //// getCategs
+    builder.addCase(getCategs.fulfilled, (state, action) => {
+      state.preloaderSale = false;
+      state.listCategs = action.payload?.map((i) => {
+        return { label: i?.category_name, value: i?.category_guid };
+      });
+    });
+    builder.addCase(getCategs.rejected, (state, action) => {
+      state.error = action.payload;
+      state.preloaderSale = false;
+    });
+    builder.addCase(getCategs.pending, (state, action) => {
+      state.preloaderSale = true;
+    });
+
+    ///// getSortProds
+    builder.addCase(getSortProds.fulfilled, (state, action) => {
+      state.preloaderSale = false;
+      state.listProds = action.payload;
+    });
+    builder.addCase(getSortProds.rejected, (state, action) => {
+      state.error = action.payload;
+      state.preloaderSale = false;
+    });
+    builder.addCase(getSortProds.pending, (state, action) => {
+      state.preloaderSale = true;
+    });
+
+    ////// searchProdLeftovers
+    builder.addCase(searchProdLeftovers.fulfilled, (state, action) => {
+      // state.preloaderSale = false;
+      state.listProds = action.payload;
+    });
+    builder.addCase(searchProdLeftovers.rejected, (state, action) => {
+      state.error = action.payload;
+      // state.preloaderSale = false;
+    });
+    builder.addCase(searchProdLeftovers.pending, (state, action) => {
+      // state.preloaderSale = true;
     });
   },
 });

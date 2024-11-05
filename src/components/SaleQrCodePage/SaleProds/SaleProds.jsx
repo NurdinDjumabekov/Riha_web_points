@@ -8,7 +8,6 @@ import { roundingNum } from "../../../helpers/amounts";
 
 ///// fns
 import {
-  addProdInInvoice,
   delProdInInvoice,
   getProducts,
   getProductsInQr,
@@ -19,19 +18,17 @@ import {
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableContainer, TableHead } from "@mui/material";
 import { TableRow, Paper } from "@mui/material";
-import MyModals from "../../../common/MyModals/MyModals";
 import GeneratePdfCheque from "../GeneratePdfCheque/GeneratePdfCheque";
 import ConfirmationModal from "../../../common/ConfirmationModal/ConfirmationModal";
-import SearchProdModal from "../SearchProdModal/SearchProdModal";
 
 ///// icons
-import NoteAddIcon from "@mui/icons-material/NoteAdd";
 import DeleteIcon from "../../../assets/MyIcons/DeleteIcon";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
-import SearchIcon from "@mui/icons-material/ContentPasteSearch";
+import NoteAddIcon from "@mui/icons-material/NoteAdd";
 
 ////// styles
 import "./style.scss";
+import SaleProdModal from "../SaleProdModal/SaleProdModal";
 
 const SaleProds = ({ invoice_guid, status, codeid }) => {
   const dispatch = useDispatch();
@@ -46,23 +43,22 @@ const SaleProds = ({ invoice_guid, status, codeid }) => {
   const [modal, setModal] = useState({});
   const [price, setPrice] = useState(1);
   const [confirm, setConfirm] = useState(false);
-  const [modalSearch, setModalSearch] = useState(false);
-
-  // const sendProd = async (e) => {
-  //   e.preventDefault();
-  //   const send = { qrcode: sum, seller_guid: data?.seller_guid };
-  //   const res = await dispatch(getProductsInQr(send)).unwrap();
-  //   if (!!res?.guid) {
-  //     setModal(res);
-  //     setTimeout(() => {
-  //       refInputSum.current.focus();
-  //     }, 200);
-  //   } else {
-  //     alert("Не удалось найти такой продукт");
-  //   }
-  // };
 
   const getData = () => dispatch(getProducts({ invoice_guid }));
+
+  const sendProd = async (e) => {
+    e.preventDefault();
+    const send = { qrcode: sum, seller_guid: data?.seller_guid };
+    const res = await dispatch(getProductsInQr(send)).unwrap();
+    if (!!res?.guid) {
+      setModal(res);
+      setTimeout(() => {
+        refInputSum.current.focus();
+      }, 200);
+    } else {
+      alert("Не удалось найти такой продукт");
+    }
+  };
 
   useEffect(() => {
     getData();
@@ -90,40 +86,11 @@ const SaleProds = ({ invoice_guid, status, codeid }) => {
     }
   };
 
-  const onChangeCount = (e) => {
-    const value = e.target.value;
-    if (/^\d*\.?\d*$/.test(value)) {
-      setPrice(value);
-    }
-  };
-
   const clickDelProd = async (obj) => {
     const send = { product_guid: obj?.guid };
     const res = await dispatch(delProdInInvoice(send)).unwrap();
     if (res?.result == 0) {
       getData();
-    }
-  };
-
-  const addProd = async (e) => {
-    e.preventDefault();
-
-    if (price == 0 || price == "") {
-      alert("Введите сумму товара");
-      return;
-    }
-
-    const sendData = {
-      invoice_guid,
-      product_guid: modal?.guid,
-      count: +price,
-      sale_price: 0,
-      price: modal?.sale_price,
-    };
-    const resp = await dispatch(addProdInInvoice(sendData)).unwrap();
-    if (!!resp?.result) {
-      getData();
-      closeModal();
     }
   };
 
@@ -152,11 +119,6 @@ const SaleProds = ({ invoice_guid, status, codeid }) => {
     }
   };
 
-  const objTypeVes = {
-    1: "Введите количество товарва в 'шт'",
-    2: "Введите вес товарва в 'кг'",
-  };
-
   return (
     <>
       <div className="saleProdsQR">
@@ -167,24 +129,19 @@ const SaleProds = ({ invoice_guid, status, codeid }) => {
                 <h1>Накладная № {codeid}</h1>
               </div>
             ) : (
-              <>
-                <div className="actionAddProd">
-                  <input
-                    ref={refInput}
-                    type="search"
-                    onChange={onChange}
-                    value={sum}
-                    maxLength={6}
-                  />
-                  <button
-                    className="saveAction"
-                    onClick={() => setModalSearch(true)}
-                  >
-                    <SearchIcon sx={{ width: 18, height: 18 }} />
-                    <p>Поиск товара</p>
-                  </button>
-                </div>
-              </>
+              <form className="actionAddProd" onSubmit={sendProd}>
+                <input
+                  ref={refInput}
+                  type="search"
+                  onChange={(e) => onChange(e, 1)}
+                  value={sum}
+                  maxLength={6}
+                />
+                <button className="saveAction" type="submit">
+                  <NoteAddIcon sx={{ width: 16, height: 16 }} />
+                  <p>Добавить товар</p>
+                </button>
+              </form>
             )}
             <div className="header headerIner">
               <GeneratePdfCheque list={listProds} invoice_guid={invoice_guid} />
@@ -292,35 +249,16 @@ const SaleProds = ({ invoice_guid, status, codeid }) => {
             </TableContainer>
           </div>
         </div>
-
-        <MyModals
-          openModal={!!modal?.guid}
+        <SaleProdModal
+          modal={modal}
           closeModal={closeModal}
-          title={modal?.product_name}
-        >
-          <form onSubmit={addProd} className="actionsAddProd">
-            <div className="inputSend">
-              <p>{objTypeVes?.[modal?.unit_codeid]}</p>
-              <input
-                ref={refInputSum}
-                type="text"
-                onChange={onChangeCount}
-                value={price}
-              />
-            </div>
-            <button className="saveAction" type="submit">
-              <NoteAddIcon sx={{ width: 16, height: 16 }} />
-              <p>Добавить товар</p>
-            </button>
-          </form>
-        </MyModals>
+          refInputSum={refInputSum}
+          price={price}
+          setPrice={setPrice}
+          invoice_guid={invoice_guid}
+          getData={getData}
+        />
       </div>
-      <SearchProdModal
-        refInput={refInput}
-        modalSearch={modalSearch}
-        setModalSearch={setModalSearch}
-        clearStates={clearStates}
-      />
       <ConfirmationModal
         visible={!!confirm}
         message="Завершить продажу ?"

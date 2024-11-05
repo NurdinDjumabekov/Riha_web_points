@@ -13,11 +13,7 @@ const SaleProdPage = () => {
   const location = useLocation();
   const { invoice_guid, codeid } = location.state;
 
-  return (
-    <>
-      <SaleProds invoice_guid={invoice_guid} status={0} codeid={codeid} />
-    </>
-  );
+  return <SaleProds invoice_guid={invoice_guid} status={0} codeid={codeid} />;
 };
 
 export default SaleProdPage;
