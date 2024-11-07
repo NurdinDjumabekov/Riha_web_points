@@ -1,8 +1,8 @@
 .saleProdsQR {
-  height: calc(100vh - 16px);
+  height: calc(100% - 10px);
   margin: 8px 10px 0 0;
   width: calc(100% - 10px);
-  padding: 15px 0;
+  padding: 9px 0 0 0;
   background: #fff;
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.144) !important;
   border-radius: 5px;
@@ -14,18 +14,25 @@
       display: flex;
       justify-content: space-between;
       gap: 15px;
-      padding: 0 0 0 15px;
+      padding: 0 15px;
+      align-items: flex-end;
     }
 
     .headerIner {
-      margin: 0 20px 0 0;
+      // margin: 0 20px 0 0;
+      margin: 0;
+      padding: 0;
     }
 
     .actionAddProd {
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      gap: 20px;
+      gap: 10px;
+
+      h6 {
+        margin-bottom: 2px;
+      }
 
       input {
         width: 30%;
@@ -37,7 +44,7 @@
         color: rgba(0, 0, 0, 0.782);
         padding: 3px 15px;
         font-size: 18px;
-        width: 400px;
+        width: 100%;
 
         &::placeholder {
           color: #6b72809e;
@@ -62,7 +69,7 @@
     }
 
     .standartTable {
-      margin: 13px 0 0 0;
+      margin: 10px 0 0 0;
       height: 100%;
       box-shadow: none !important;
       border-radius: 0 0 5px 5px !important;
@@ -91,7 +98,7 @@
   }
 
   &__table {
-    height: calc(100% - 60px);
+    height: calc(100% - 70px);
 
     .delIcon {
       display: flex;
@@ -111,20 +118,6 @@
   }
 }
 
-.actionsAddProd {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: flex-end;
-
-  .inputSend {
-    width: 100%;
-  }
-
-  button {
-    width: 100%;
-  }
-}
 .saveAction {
   height: 38px;
   background: #299b31;
@@ -139,5 +132,14 @@
   p {
     font-size: 14px;
     font-weight: 500;
+  }
+}
+
+.endSaleBtn {
+  @media screen and (max-width: 1560px) {
+    padding: 0px 10px 0px;
+    p {
+      font-size: 12px;
+    }
   }
 }

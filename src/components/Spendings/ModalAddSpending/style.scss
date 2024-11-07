@@ -1,0 +1,16 @@
+.modalAddSpending {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 10px 0 0 0;
+
+  .myInputs {
+    h6 {
+      padding: 0 0 3px 0;
+    }
+  }
+
+  .saveAction {
+    margin: 10px 0 0 0;
+  }
+}

@@ -1,78 +1,85 @@
 .soputkaHistoryParent {
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
-    
-    &__inner {
-        min-width: 100%;
-        width: 100%;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  position: relative;
 
-        &__every {
-            background-color: rgba(162, 178, 238, 0.102);
-            min-width: 100%;
-            padding: 15px 8px;
-            border-bottom: 1px solid rgba(47, 71, 190, 0.287);
-
-            .mainData {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-                gap: 8px;
-                padding-right: 10px;
-                position: relative;
-
-                &__inner {
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    gap: 8px;
-
-                    .sumNums {
-                        font-size: 16px;
-                        font-weight: 500;
-                        border-radius: 5px;
-                        line-height: 17px;
-                        color: rgba(47, 71, 190, 0.672);
-                    }
-                }
-            }
-
-            .nameProd {
-                font-size: 16px;
-                font-weight: 400;
-                margin-top: 5px;
-            }
-        }
-    }
-
-    .mainActionsSoputka {
-        padding: 25px 0 25px 0;
-    }
-
-    &__actions {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        padding: 10px 8px 10px;
-
-        > button {
-            background-color: #fff;
-            color: #fff;
-            width: 48%;
-            border-radius: 8px;
-            font-weight: 600;
-            background-color: rgba(12, 169, 70, 0.9);
-            border: 1px solid rgb(217 223 232);
-            font-size: 16px;
-            height: 40px;
-        }
-    }
-
-    &__total {
-        font-size: 18px;
-        font-weight: 500;
-        color: rgba(47, 71, 190, 0.991);
-        padding: 0px 10px;
-    }
-
-    .moreSoputka { max-height: 88% }
+  .del {
+    background: transparent;
+    width: 100%;
   }
+
+  // &__inner {
+  //     min-width: 100%;
+  //     width: 100%;
+
+  //     &__every {
+  //         background-color: rgba(162, 178, 238, 0.102);
+  //         min-width: 100%;
+  //         padding: 15px 8px;
+  //         border-bottom: 1px solid rgba(47, 71, 190, 0.287);
+
+  //         .mainData {
+  //             display: flex;
+  //             flex-direction: row;
+  //             align-items: center;
+  //             justify-content: space-between;
+  //             gap: 8px;
+  //             padding-right: 10px;
+  //             position: relative;
+
+  //             &__inner {
+  //                 display: flex;
+  //                 flex-direction: row;
+  //                 align-items: center;
+  //                 gap: 8px;
+
+  //                 .sumNums {
+  //                     font-size: 16px;
+  //                     font-weight: 500;
+  //                     border-radius: 5px;
+  //                     line-height: 17px;
+  //                     color: rgba(47, 71, 190, 0.672);
+  //                 }
+  //             }
+  //         }
+
+  //         .nameProd {
+  //             font-size: 16px;
+  //             font-weight: 400;
+  //             margin-top: 5px;
+  //         }
+  //     }
+  // }
+
+  // .mainActionsSoputka {
+  //     padding: 25px 0 25px 0;
+  // }
+
+  // &__actions {
+  //     display: flex;
+  //     flex-direction: row;
+  //     justify-content: space-between;
+  //     padding: 10px 8px 10px;
+
+  //     > button {
+  //         background-color: #fff;
+  //         color: #fff;
+  //         width: 48%;
+  //         border-radius: 8px;
+  //         font-weight: 600;
+  //         background-color: rgba(12, 169, 70, 0.9);
+  //         border: 1px solid rgb(217 223 232);
+  //         font-size: 16px;
+  //         height: 40px;
+  //     }
+  // }
+
+  // &__total {
+  //     font-size: 18px;
+  //     font-weight: 500;
+  //     color: rgba(47, 71, 190, 0.991);
+  //     padding: 0px 10px;
+  // }
+
+  // .moreSoputka { max-height: 88% }
+}

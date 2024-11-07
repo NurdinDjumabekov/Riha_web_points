@@ -3,9 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 /////components
-import { AllHistoryInvoice } from "../../../common/AllHistoryInvoice/AllHistoryInvoice";
 import ModalCreateSoputka from "../../../components/Soputka/ModalCreateSoputka/ModalCreateSoputka";
-import NavMenu from "../../../common/NavMenu/NavMenu";
 
 /////redux
 import { getListContrAgents } from "../../../store/reducers/requestSlice";
@@ -16,6 +14,7 @@ import { getHistorySoputka } from "../../../store/reducers/requestSlice";
 
 ////style
 import "./style.scss";
+import ViewInvoiceHisotry from "../../../common/ViewInvoiceHisotry/ViewInvoiceHisotry";
 
 const SoputkaMainPage = () => {
   //// Сопуткаа
@@ -46,26 +45,17 @@ const SoputkaMainPage = () => {
 
   return (
     <>
-      <NavMenu navText={"Сопутка"} />
       <div className="soputkaParent">
-        <div className="soputkaBlock">
-          <button className="soputka" onClick={() => setOpenModal(true)}>
+        <div className="actionBlockHeader">
+          <button className="saveAction" onClick={() => setOpenModal(true)}>
             + Создать накладную для сопутки
           </button>
         </div>
-        <div className="selectBlock">
-          <p className="title">История сопутки</p>
-          <div className="listInvoices">
-            {listHistorySoputka?.map((item, index) => (
-              <AllHistoryInvoice
-                key={item?.guid}
-                item={item}
-                index={index}
-                keyLink={"/soputka/history"}
-              />
-            ))}
-          </div>
-        </div>
+        <ViewInvoiceHisotry
+          keyLink={"/soputka/history"}
+          title={"История сопутки"}
+          list={listHistorySoputka}
+        />
       </div>
       <ModalCreateSoputka setOpenModal={setOpenModal} openModal={openModal} />
     </>

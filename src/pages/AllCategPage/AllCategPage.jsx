@@ -10,13 +10,13 @@ import { LogOut } from "../../components/Header/LogOut/LogOut";
 import UserInfo from "../../components/Header/UserInfo/UserInfo";
 
 ////// helpers
-import { dataCategory } from "../../helpers/Data";
 
 ///// fns
 import { getBalance } from "../../store/reducers/requestSlice";
 
 ////// styles
 import "./style.scss";
+import Graphics from "../../components/AllCategPage/Graphics/Graphics";
 
 const AllCategPage = () => {
   const dispatch = useDispatch();
@@ -32,33 +32,7 @@ const AllCategPage = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  const goPage = () => navigate("/pay/history");
-
-  return (
-    <>
-      <NavMenu>
-        <UserInfo /> <LogOut />
-      </NavMenu>
-      <div className="parentBlock">
-        <div className="balance" onClick={goPage}>
-          <div>
-            <div className="balance__inner">
-              <p>Баланс</p>
-              <div></div>
-            </div>
-            <p className="balance__num">{balance || 0} сом</p>
-          </div>
-          <p className="balance__history">История</p>
-        </div>
-      </div>
-
-      <div className="allCateg">
-        {dataCategory?.map((item) => (
-          <EveryCategory obj={item} key={item?.codeid} />
-        ))}
-      </div>
-    </>
-  );
+  return <Graphics />;
 };
 
 export default AllCategPage;

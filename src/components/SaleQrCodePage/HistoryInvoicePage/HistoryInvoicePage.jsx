@@ -36,7 +36,13 @@ const HistoryInvoicePage = () => {
   };
 
   const clickInvoice = (obj) => {
-    navigate(`/sale_qr_code/view_prods`, { state: obj });
+    if (obj?.status == 2) {
+      navigate(`/sale_qr_code/view_prods`, { state: obj });
+    } else {
+      navigate(`/sale_qr_code/main`, {
+        state: { invoice_guid: obj?.invoice_guid, type: 1 },
+      });
+    }
   };
 
   return (

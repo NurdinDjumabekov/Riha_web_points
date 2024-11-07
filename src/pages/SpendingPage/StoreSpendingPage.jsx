@@ -1,35 +1,31 @@
 ////hooks
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 ////fns
-import { changeExpense } from "../../store/reducers/stateSlice";
-import { addExpenseTT, getExpense } from "../../store/reducers/requestSlice";
+import { getExpense } from "../../store/reducers/requestSlice";
 import { getSelectExpense } from "../../store/reducers/requestSlice";
-import { changeLocalData } from "../../store/reducers/saveDataSlice";
 
 //////components
-import NavMenu from "../../common/NavMenu/NavMenu";
-import Selects from "../../common/Selects/Selects";
 import ListExpense from "../../components/Spendings/ListExpense/ListExpense";
-
-//////helpers
-import { getLocalDataUser } from "../../helpers/returnDataUser";
+import ModalAddSpending from "../../components/Spendings/ModalAddSpending/ModalAddSpending";
 
 ////style
 import "./style.scss";
+
+///// icons
+import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 
 const StoreSpendingPage = () => {
   const dispatch = useDispatch();
 
   const { data } = useSelector((state) => state.saveDataSlice);
-  const { expense } = useSelector((state) => state.stateSlice);
-  const { listCategExpense } = useSelector((state) => state.requestSlice);
 
-  const getData = async () => {
-    await getLocalDataUser({ changeLocalData, dispatch });
-    await dispatch(getSelectExpense()); ///  список селекта расходов ТТ(их траты)
-    await dispatch(getExpense(data?.seller_guid)); /// список расходов ТТ(их траты)
+  const [modal, setModal] = useState(false);
+
+  const getData = () => {
+    dispatch(getSelectExpense()); ///  список селекта расходов ТТ(их траты)
+    dispatch(getExpense(data?.seller_guid)); /// список расходов ТТ(их траты)
   };
 
   useEffect(() => {
@@ -37,67 +33,19 @@ const StoreSpendingPage = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  const addExpense = () => {
-    if (expense?.amount === "" || expense?.amount == "0") {
-      alert("Заполните сумму");
-    } else {
-      if (expense?.expense_type == null || expense?.expense_type == "") {
-        alert("Выберите категорию!");
-      } else {
-        const dataSend = { ...expense, seller_guid: data?.seller_guid };
-        dispatch(addExpenseTT({ dataSend, getData }));
-      }
-    }
-  };
-
-  const changeSel = ({ value }) => {
-    const send = { ...expense, expense_type: value };
-    dispatch(changeExpense(send));
-  };
-
-  const changeAmount = (e) => {
-    const num = e.target.value;
-
-    if (/^\d*\.?\d*$/.test(num) || num === "") {
-      const send = { ...expense, amount: num };
-      dispatch(changeExpense(send));
-    }
-  };
-
   return (
-    <>
-      <NavMenu navText={"Расходы"} />
-      <div className="parentBlockSpending">
-        <div className="inputBlock">
-          <div className="selectBlock">
-            <Selects
-              list={listCategExpense}
-              activeValue={expense?.expense_type}
-              onChange={changeSel}
-              placeholder={"Выберите категорию"}
-            />
-          </div>
-          <input
-            value={expense?.amount}
-            onChange={changeAmount}
-            placeholder="Сумма"
-            maxLength={7}
-          />
-          <button onClick={addExpense}>+</button>
-        </div>
-        <div className="inputComment">
-          <input
-            value={expense.comment}
-            onChange={(e) =>
-              dispatch(changeExpense({ ...expense, comment: e.target.value }))
-            }
-            placeholder="Комментарий"
-          />
-        </div>
-        <p className="mainTitleSpernding">Расходы</p>
-        <ListExpense getData={getData} />
+    <div className="parentBlockSpending">
+      <div className="header">
+        <h3 className="titlePage">Список расходов</h3>
+        <button className="saveAction" onClick={() => setModal(true)}>
+          <LibraryAddIcon sx={{ width: 16, height: 16 }} />
+          <p>Добавить трату</p>
+        </button>
       </div>
-    </>
+
+      <ListExpense getData={getData} />
+      <ModalAddSpending modal={modal} setModal={setModal} getData={getData} />
+    </div>
   );
 };
 

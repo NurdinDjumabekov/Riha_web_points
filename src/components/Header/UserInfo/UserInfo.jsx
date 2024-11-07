@@ -14,22 +14,20 @@ import { changeLocalData } from "../../../store/reducers/saveDataSlice";
 ////style
 import "./style.scss";
 
+///// getLocalDataUser delete
+
 const UserInfo = () => {
   const dispatch = useDispatch();
 
   const { data } = useSelector((state) => state.saveDataSlice);
 
-  useEffect(() => {
-    getLocalDataUser({ changeLocalData, dispatch });
-  }, []);
-
   return (
     <div className="headerParent">
-      <img src={userImg} alt="()" />
       <div>
         <p className="userRole">{data?.point_name}</p>
         <p className="userName">{data?.seller_fio}</p>
       </div>
+      <img src={userImg} alt="()" />
     </div>
   );
 };

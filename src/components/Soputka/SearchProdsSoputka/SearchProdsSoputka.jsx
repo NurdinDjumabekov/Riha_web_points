@@ -31,7 +31,6 @@ const SearchProdsSoputka = ({ getData, location }) => {
   const searchData = useCallback(
     debounce((text) => {
       if (text?.length > 1) {
-        getLocalDataUser({ changeLocalData, dispatch });
         const sendData = { searchProd: text, seller_guid: data?.seller_guid };
         dispatch(searchProdTT({ ...sendData, location, type: 1 }));
         // Выполнение поиска с заданными параметрами (type: 1 поиск по сопутке!)

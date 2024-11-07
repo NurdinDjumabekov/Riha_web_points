@@ -9,7 +9,6 @@ import AllCategPage from "../pages/AllCategPage/AllCategPage";
 import PagesMainInvoice from "../pages/PagesMainInvoice/PagesMainInvoice";
 import PagesSoputka from "../pages/PagesSoputka/PagesSoputka";
 import LeftoversPage from "../pages/LeftoversPage/LeftoversScreen";
-import PagesSale from "../pages/PagesSale/PagesSale";
 import StoreSpendingPage from "../pages/SpendingPage/StoreSpendingPage";
 import PagesPay from "../pages/PayPage/PagesPay";
 import PagesReturn from "../pages/PagesReturn/PagesReturn";
@@ -18,8 +17,6 @@ import SaleQrCodePage from "../pages/SaleQrCodePage/SaleQrCodePage";
 
 ////// components
 import Preloader from "../common/Preloader/Preloader";
-// import Alerts from "../components/Alerts/Alerts";
-// import MoreInfo from "../components/MoreInfo/MoreInfo";
 
 const MainRoutes = () => {
   const { data } = useSelector((state) => state.saveDataSlice);
@@ -35,16 +32,16 @@ const MainRoutes = () => {
             <Route path="/main_invoice/*" element={<PagesMainInvoice />} />
             <Route path="/soputka/*" element={<PagesSoputka />} />
             <Route path="/leftovers" element={<LeftoversPage />} />
-            <Route path="/sale/*" element={<PagesSale />} />
+            {/* <Route path="/sale/*" element={<PagesSale />} /> */}
             <Route path="/sale_qr_code/*" element={<SaleQrCodePage />} />
             <Route path="/spending" element={<StoreSpendingPage />} />
             <Route path="/pay/*" element={<PagesPay />} />
             <Route path="/return/*" element={<PagesReturn />} />
+
             <Route path="/revision/*" element={<PagesRevision />} />
           </Route>
         )}
       </Routes>
-
       <Preloader />
     </>
   );

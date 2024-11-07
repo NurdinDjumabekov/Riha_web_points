@@ -8,6 +8,7 @@ import { roundingNum } from "../../../helpers/amounts";
 
 ///// fns
 import {
+  createInvoice,
   delProdInInvoice,
   getProducts,
   getProductsInQr,
@@ -20,17 +21,19 @@ import { TableContainer, TableHead } from "@mui/material";
 import { TableRow, Paper } from "@mui/material";
 import GeneratePdfCheque from "../GeneratePdfCheque/GeneratePdfCheque";
 import ConfirmationModal from "../../../common/ConfirmationModal/ConfirmationModal";
+import SaleProdModal from "../SaleProdModal/SaleProdModal";
 
 ///// icons
 import DeleteIcon from "../../../assets/MyIcons/DeleteIcon";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
-import NoteAddIcon from "@mui/icons-material/NoteAdd";
 
 ////// styles
 import "./style.scss";
-import SaleProdModal from "../SaleProdModal/SaleProdModal";
 
-const SaleProds = ({ invoice_guid, status, codeid }) => {
+const SaleProds = (props) => {
+  const { invoice_guid, status, codeid, type } = props;
+  //// type - 1 редакти
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const refInput = useRef(null);
@@ -44,7 +47,7 @@ const SaleProds = ({ invoice_guid, status, codeid }) => {
   const [price, setPrice] = useState(1);
   const [confirm, setConfirm] = useState(false);
 
-  const getData = () => dispatch(getProducts({ invoice_guid }));
+  const getData = () => dispatch(getProducts({ invoice_guid, type }));
 
   const sendProd = async (e) => {
     e.preventDefault();
@@ -76,11 +79,13 @@ const SaleProds = ({ invoice_guid, status, codeid }) => {
       const send = { qrcode: e.target.value, seller_guid: data?.seller_guid };
       const res = await dispatch(getProductsInQr(send)).unwrap();
       if (!!res?.guid) {
+        setSum("");
         setModal(res);
         setTimeout(() => {
           refInputSum.current.focus();
         }, 200);
       } else {
+        setSum("");
         alert("Не удалось найти такой продукт");
       }
     }
@@ -111,12 +116,58 @@ const SaleProds = ({ invoice_guid, status, codeid }) => {
       setConfirm("");
       return;
     }
+
     const send = { invoice_guid, status: 2 };
-    //// 2 - подтверждение накладной продажи
-    const res = await dispatch(updateStatusInvoice(send)).unwrap();
+    //// 2 - подтверждение накладной продажи,сопутки и ревизии
+    const res = await dispatch(updateStatusInvoice({ send, type })).unwrap();
     if (!!res?.result) {
-      navigate("/");
+      if (type == 1) {
+        //// Продажи
+        navigate("/");
+        const res = await dispatch(createInvoice(data)).unwrap();
+        if (res?.guid) {
+          navigate(`/sale_qr_code/main`, {
+            state: { invoice_guid: res?.guid, type: 1 },
+          });
+        }
+      }
+      if (type == 2) {
+        //// Сопутка
+        navigate("/");
+        navigate("/soputka/main");
+      }
+      if (type == 3) {
+        //// Ревизия
+        navigate("/");
+        navigate("/revision/main");
+      }
     }
+  };
+  const objAction = {
+    1: (
+      <>
+        {!!!status && (
+          <button
+            className="saveAction endSaleBtn"
+            onClick={() => setConfirm(true)}
+          >
+            <p>Завершить продажу</p>
+          </button>
+        )}
+      </>
+    ),
+    2: (
+      <button className="saveAction " onClick={() => setConfirm(true)}>
+        <LibraryAddIcon sx={{ width: 16, height: 16 }} />
+        <p>Завершить</p>
+      </button>
+    ),
+    3: (
+      <button className="saveAction " onClick={() => setConfirm(true)}>
+        <LibraryAddIcon sx={{ width: 16, height: 16 }} />
+        <p>Завершить ревизию</p>
+      </button>
+    ),
   };
 
   return (
@@ -130,30 +181,30 @@ const SaleProds = ({ invoice_guid, status, codeid }) => {
               </div>
             ) : (
               <form className="actionAddProd" onSubmit={sendProd}>
-                <input
-                  ref={refInput}
-                  type="search"
-                  onChange={(e) => onChange(e, 1)}
-                  value={sum}
-                  maxLength={6}
-                />
-                <button className="saveAction" type="submit">
+                <div className="myInputs inputSend">
+                  <h6>Поиск по штрих коду</h6>
+                  <input
+                    ref={refInput}
+                    type="search"
+                    onChange={(e) => onChange(e, 1)}
+                    value={sum}
+                    maxLength={6}
+                  />
+                </div>
+                {/* <button className="saveAction" type="submit">
                   <NoteAddIcon sx={{ width: 16, height: 16 }} />
                   <p>Добавить товар</p>
-                </button>
+                </button> */}
               </form>
             )}
             <div className="header headerIner">
-              <GeneratePdfCheque list={listProds} invoice_guid={invoice_guid} />
-              {!!!status && (
-                <button
-                  className="saveAction "
-                  onClick={() => setConfirm(true)}
-                >
-                  <LibraryAddIcon sx={{ width: 16, height: 16 }} />
-                  <p>Завершить продажу</p>
-                </button>
+              {type == 1 && (
+                <GeneratePdfCheque
+                  list={listProds}
+                  invoice_guid={invoice_guid}
+                />
               )}
+              {objAction?.[type]}
             </div>
           </div>
           <div className="saleProdsQR__table">
@@ -208,15 +259,6 @@ const SaleProds = ({ invoice_guid, status, codeid }) => {
                         {roundingNum(row?.count)} кг
                       </TableCell>
                       <TableCell align="left" style={{ width: "15%" }}>
-                        {/* <div className="countsBlock">
-                        <input
-                          type="text"
-                          onChange={(e) => onChangeCount(e, row)}
-                          value={roundingNum(row?.price)}
-                          maxLength={10}
-                          className="counts"
-                        />
-                      </div> */}
                         {roundingNum(row?.price)} сом
                       </TableCell>
                       <TableCell align="left" style={{ width: "9%" }}>
@@ -256,7 +298,7 @@ const SaleProds = ({ invoice_guid, status, codeid }) => {
           price={price}
           setPrice={setPrice}
           invoice_guid={invoice_guid}
-          getData={getData}
+          type={type}
         />
       </div>
       <ConfirmationModal

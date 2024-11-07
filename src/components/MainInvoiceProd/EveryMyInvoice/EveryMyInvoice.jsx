@@ -1,6 +1,6 @@
 //// hooks
 import { useDispatch } from "react-redux";
-import { formatCount } from "../../../helpers/amounts";
+import { formatCount, roundingNum } from "../../../helpers/amounts";
 import { useLocation, useNavigate } from "react-router-dom";
 
 /////fns
@@ -9,6 +9,11 @@ import { changePreloader } from "../../../store/reducers/requestSlice";
 
 ////style
 import "./style.scss";
+
+//// components
+import { Table, TableBody, TableCell } from "@mui/material";
+import { TableContainer, TableHead } from "@mui/material";
+import { TableRow, Paper } from "@mui/material";
 
 const EveryMyInvoice = (props) => {
   const { obj, screns } = props;
@@ -61,7 +66,7 @@ const EveryMyInvoice = (props) => {
         dispatch(changePreloader(true)); /// чтобы вначале не показывался пустой массив
       } else if (status == 2 || status == -2) {
         /// if накладная уже принята
-        const dataSend = { codeid, guid };
+        const dataSend = { codeid, guid, type: 1 };
         navigate(screns?.[1], { state: dataSend });
       }
     } else {
@@ -73,38 +78,55 @@ const EveryMyInvoice = (props) => {
         dispatch(changePreloader(true)); /// чтобы вначале не показывался пустой массив
       } else if (status == 2 || status == -2) {
         /// if накладная уже принята
-        const dataSend = { codeid, guid };
+        const dataSend = { codeid, guid, type: 1 };
         navigate(screns?.[1], { state: dataSend });
       }
     }
   };
 
   return (
-    <button className="invoiceParent" onClick={lookInvoice}>
-      <div className="invoiceParent__inner">
-        <div className="mainData">
-          <p className="indexNums">{obj?.codeid}</p>
-          <div>
-            <p className="titleDate role">{obj?.agent}</p>
-            <p className="titleDate">{obj.date}</p>
-          </div>
-        </div>
-        {!!obj?.comment ? (
-          <p className="comments">{obj.comment}</p>
-        ) : (
-          <p className="comments"> ...</p>
-        )}
-      </div>
-      <div className="mainDataArrow">
-        <div>
-          <p style={{ color: checkStyle?.color }}>{checkStyle?.text}</p>
-          <span className="totalPrice">
-            {formatCount(obj?.total_price)} сом
-          </span>
-        </div>
-        <div className="arrow"></div>
-      </div>
-    </button>
+    <>
+      <TableRow
+        key={obj?.codeid}
+        className="tableInvoice"
+        onClick={lookInvoice}
+      >
+        <TableCell
+          align="center"
+          component="th"
+          scope="row"
+          style={{ width: "5%" }}
+        >
+          {obj?.codeid}
+        </TableCell>
+        <TableCell
+          component="th"
+          scope="row"
+          style={{ width: "5%", textAlign: "center" }}
+        >
+          <input type="checkbox" value={true} />
+        </TableCell>
+        <TableCell align="left" style={{ width: "25%" }}>
+          {obj?.agent}
+        </TableCell>
+        <TableCell align="left" style={{ width: "15%" }}>
+          {obj?.date}
+        </TableCell>
+        <TableCell
+          align="left"
+          style={{ width: "15%", color: checkStyle?.color }}
+        >
+          {checkStyle?.text}
+        </TableCell>
+        <TableCell align="left" style={{ width: "15%" }}>
+          {roundingNum(obj?.total_price)} сом
+        </TableCell>
+
+        <TableCell align="left" style={{ width: "20%" }}>
+          {obj?.comment || "..."}
+        </TableCell>
+      </TableRow>
+    </>
   );
 };
 

@@ -1,0 +1,37 @@
+.actionsAddProd {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+
+  .inputSend {
+    width: 100%;
+  }
+
+  .info {
+    align-items: flex-end;
+    border-bottom: 1px solid #e0e6ed;
+    display: flex;
+    gap: 20px;
+    justify-content: space-between;
+    padding: 10px 12px 5px 3px;
+    width: 100%;
+
+    p {
+      color: #888ea8;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    span {
+      font-size: 14px;
+      font-weight: 500;
+      text-align: right;
+    }
+  }
+
+  .saveAction {
+    width: 100%;
+    margin: 10px 0 0 0;
+  }
+}

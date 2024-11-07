@@ -1,24 +1,18 @@
 .parentAcceptEvery {
-  padding: 5px 0 20px;
-  box-shadow: 0 2px 40px rgba(0, 0, 0, 0.2);
-    
-    .results {
-      padding-top: 15px;
-    }
-    
-    .totalItemCount {
-      font-size: 18px;
-      font-weight: 500;
-      color: rgba(47, 71, 190, 0.991);
-      padding: 0px 10px;
-    }
-    
-    .noneData {
-      flex: 1;
-      padding-top: 300px;
-      text-align: center;
-      font-size: 20px;
-      font-weight: 500;
-    }
+  background: #fff;
+  // padding: 60px 0 0 0;
+  height: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: relative;
+
+  .header {
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px 0 0;
   }
-  
+}

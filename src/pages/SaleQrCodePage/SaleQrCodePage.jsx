@@ -12,7 +12,7 @@ const SaleQrCodePage = () => {
       <Route element={<SaleLayout />}>
         {/* <Route path="/" element={<SaleQrCodePage />} /> */}
         <Route path="/main" element={<SaleProdPage />} />
-        <Route path="/search" element={<SearchProdPage />} />
+        {/* <Route path="/search" element={<SearchProdPage />} /> */}
         <Route path="/return_prod" element={<HistoryInvoicePage />} />
         <Route path="/view_prods" element={<ViewSaleProdsPage />} />
       </Route>
@@ -21,7 +21,3 @@ const SaleQrCodePage = () => {
 };
 
 export default SaleQrCodePage;
-
-// @media screen and (max-width: 370px) {
-//   width: 340px;
-// }

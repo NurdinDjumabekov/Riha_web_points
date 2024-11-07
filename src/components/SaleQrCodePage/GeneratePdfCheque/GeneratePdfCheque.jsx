@@ -73,12 +73,12 @@ const GeneratePdfCheque = ({ list, invoice_guid }) => {
                   </Text>
                 </View>
                 <View style={[styles.tableCol, styles.headersOther]}>
-                  <Text style={styles.tableCell}>{roundingNum(i?.count)}</Text>
+                  <Text style={styles.tableCell}>
+                    {roundingNum(i?.count)} {i?.unit}
+                  </Text>
                 </View>
                 <View style={[styles.tableCol, styles.headersOther]}>
-                  <Text style={styles.tableCell}>
-                    {roundingNum(i?.sale_price)}
-                  </Text>
+                  <Text style={styles.tableCell}>{roundingNum(i?.price)}</Text>
                 </View>
                 <View
                   style={[
@@ -87,7 +87,7 @@ const GeneratePdfCheque = ({ list, invoice_guid }) => {
                     styles.rightNone,
                   ]}
                 >
-                  <Text style={styles.tableCell}>{i?.price}</Text>
+                  <Text style={styles.tableCell}>{i?.sale_price} сом</Text>
                 </View>
               </View>
             ))}
@@ -133,8 +133,8 @@ const GeneratePdfCheque = ({ list, invoice_guid }) => {
 
   return (
     <div className="generateBlock">
-      <button className="saveAction" onClick={handlePrint}>
-        <LibraryAddIcon sx={{ width: 16, height: 16 }} />
+      <button className="saveAction endSaleBtn" onClick={handlePrint}>
+        {/* <LibraryAddIcon sx={{ width: 16, height: 16 }} /> */}
         <p>Распечатать чек</p>
       </button>
       <iframe

@@ -4,6 +4,7 @@ import { formatCount } from "../../../helpers/amounts";
 
 ////// style
 import "./style.scss";
+//// delete
 
 const EveryPay = ({ item }) => {
   return (

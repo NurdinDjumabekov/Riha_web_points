@@ -30,25 +30,13 @@ const EveryReturnPage = () => {
 
   const newList = listAcceptReturnProd?.[0]?.list;
 
-  if (newList?.length === 0) {
-    return <p className="noneData">Данные отсутствуют</p>;
-  }
-
   return (
-    <>
-      <NavMenu navText={`Накладная №${codeid}`} />
-      <div className="returnEvelyProdList">
-        {newList?.map((item, index) => (
-          <RenderResult item={item} index={index} key={item?.guid} />
-        ))}
-        <div className="returnEvelyProdList__results">
-          <ResultCounts list={newList} />
-          <p>
-            Сумма: {formatCount(listAcceptReturnProd?.[0]?.total_price)} сом
-          </p>
-        </div>
-      </div>
-    </>
+    <div className="parentAcceptEvery">
+      <RenderResult
+        list={newList}
+        title={`Накладная № ${newList?.[0]?.codeid}`}
+      />
+    </div>
   );
 };
 

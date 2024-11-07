@@ -135,11 +135,17 @@ export const getAcceptInvoice = createAsyncThunk(
 export const getAcceptProdInvoice = createAsyncThunk(
   "getAcceptProdInvoice",
   /// для получения всех накладных, которые одобрил админ (invoice_status=2)
-  async function (guidInvoice, { dispatch, rejectWithValue }) {
+  async function ({ guid, type }, { dispatch, rejectWithValue }) {
     try {
+      const objtype = {
+        1: "get_invoice",
+        2: "",
+        3: "get_invoice_revision_product",
+      };
+
       const response = await axios({
         method: "GET",
-        url: `${API}/tt/get_invoice?invoice_guid=${guidInvoice}`,
+        url: `${API}/tt/${objtype?.[type]}?invoice_guid=${guid}`,
       });
       if (response.status >= 200 && response.status < 300) {
         return response?.data;
@@ -579,16 +585,11 @@ export const getSelectExpense = createAsyncThunk(
 export const addExpenseTT = createAsyncThunk(
   /// добавление продукта(по одному) в накладную торговой точки
   "addExpenseTT",
-  async function ({ dataSend, getData }, { dispatch, rejectWithValue }) {
+  async function (data, { dispatch, rejectWithValue }) {
+    const url = `${API}/tt/add_expense`;
     try {
-      const response = await axios({
-        method: "POST",
-        url: `${API}/tt/add_expense`,
-        data: dataSend,
-      });
+      const response = await axios.post(url, data);
       if (response.status >= 200 && response.status < 300) {
-        getData();
-        dispatch(clearExpense());
         return response?.data;
       } else {
         throw Error(`Error: ${response.status}`);
@@ -604,8 +605,8 @@ export const delExpenseTT = createAsyncThunk(
   /// добавление продукта(по одному) в накладную торговой точки
   "delExpenseTT",
   async function (props, { dispatch, rejectWithValue }) {
-    const { getData, seller_guid, del } = props;
-    const data = { seller_guid, guid: del };
+    const { getData, del } = props;
+    const data = { guid: del };
     try {
       const response = await axios({
         method: "POST",
@@ -657,14 +658,10 @@ export const acceptMoney = createAsyncThunk(
     const { dataObj, closeModal, getData } = props;
     try {
       const url = `${API}/tt/point_oplata`;
-
       const response = await axios({ method: "POST", url, data: dataObj });
-
       if (response.status >= 200 && response.status < 300) {
-        setTimeout(() => {
-          closeModal();
-          getData();
-        }, 300);
+        closeModal();
+        getData();
       } else {
         throw Error(`Error: ${response.status}`);
       }
@@ -866,9 +863,9 @@ export const createInvoiceSoputkaTT = createAsyncThunk(
       const response = await axios({ method: "POST", url, data: dataObj });
 
       if (response.status >= 200 && response.status < 300) {
-        navigate("/soputka/add", {
-          state: { forAddTovar: response?.data },
-        });
+        // navigate("/soputka/add", {
+        //   state: { forAddTovar: response?.data },
+        // });
 
         return response?.data;
       } else {
@@ -1035,34 +1032,17 @@ export const getWorkShopsForRevision = createAsyncThunk(
   }
 );
 
-/// createInvoiceCheck
-/// Создания накладной для ревизии товара
+/// createInvoiceCheck - Создания накладной для ревизии товара
 export const createInvoiceCheck = createAsyncThunk(
   "createInvoiceCheck",
-  async function (props, { dispatch, rejectWithValue }) {
-    const { seller_guid_to, seller_guid_from } = props;
-    const { navigate, guidWorkShop } = props;
-
+  async function (data, { dispatch, rejectWithValue }) {
+    ///// seller_guid_from -  старый продавец,
+    ///// seller_guid_to - новый продавец
+    const url = `${API}/tt/create_revision_invoice`;
     try {
-      const response = await axios({
-        method: "POST",
-        url: `${API}/tt/create_revision_invoice`,
-        data: { seller_guid_to, seller_guid_from, comment: "" },
-        ///// seller_guid_from - новый продавец,
-        ///// seller_guid_to- старый продавец
-      });
-
+      const response = await axios.post(url, data);
       if (response.status >= 200 && response.status < 300) {
-        const { invoice_guid, result } = response?.data;
-        if (+result === 1) {
-          navigate("/revision/check", {
-            state: {
-              invoice_guid,
-              guidWorkShop,
-              seller_guid_to,
-            },
-          });
-        }
+        return response?.data;
       } else {
         throw Error(`Error: ${response.status}`);
       }

@@ -9,16 +9,25 @@ import { deleteSoputkaProd } from "../../../store/reducers/requestSlice";
 import { getListSoputkaProd } from "../../../store/reducers/requestSlice";
 
 //// helpers
-import { formatCount, sumSoputkaProds } from "../../../helpers/amounts";
+import {
+  formatCount,
+  roundingNum,
+  sumSoputkaProds,
+} from "../../../helpers/amounts";
 
 /////components
+import { Table, TableBody, TableCell } from "@mui/material";
+import { TableContainer, TableHead } from "@mui/material";
+import { TableRow, Paper } from "@mui/material";
 import ConfirmationModal from "../../../common/ConfirmationModal/ConfirmationModal";
+import { RenderResult } from "../../../common/RenderResult/RenderResult";
 import ResultCounts from "../../../common/ResultCounts/ResultCounts";
 import NavMenu from "../../../common/NavMenu/NavMenu";
 import Krest from "../../../common/Krest/Krest";
 
 //// style
 import "./style.scss";
+import DeleteIcon from "../../../assets/MyIcons/DeleteIcon";
 
 const SoputkaProdHistoryPage = () => {
   //// история каждой накладной сапутки
@@ -47,8 +56,9 @@ const SoputkaProdHistoryPage = () => {
   };
 
   const addProd = () => {
-    const forAddTovar = { invoice_guid: guidInvoice };
-    navigate("/soputka/add", { state: { forAddTovar } });
+    navigate(`/sale_qr_code/main`, {
+      state: { invoice_guid: guidInvoice, type: 2 },
+    });
     /// д0бавление товара в накладную сопутки
   };
 
@@ -64,50 +74,93 @@ const SoputkaProdHistoryPage = () => {
 
   return (
     <>
-      <NavMenu navText={listProdSoputka?.[0]?.date} />
-      <div className="soputkaHistoryParent">
-        <div
-          className={`soputkaHistoryParent__inner ${!status && "moreSoputka"}`}
+      <div className="everyProd soputkaHistoryParent">
+        {status && (
+          <div className="actionBlockHeader">
+            <button className="saveAction" onClick={() => setConfirm(true)}>
+              Подтвердить принятие
+            </button>
+            <button className="saveAction" onClick={addProd}>
+              Добавить товар
+            </button>
+          </div>
+        )}
+        <h3 className="titlePage">{`Накладная № ${listData?.[0]?.codeid}`}</h3>
+        <TableContainer
+          component={Paper}
+          sx={{ maxHeight: "100%" }}
+          className="scroll_table standartTable"
         >
-          {listData?.map((item, index) => (
-            <div key={item?.guid}>
-              <div className="soputkaHistoryParent__inner__every">
-                <div className="mainData">
-                  <div className="mainData__inner">
-                    <p className="indexNums">{index + 1}</p>
-                    <p className="sumNums">
-                      {item?.sale_price} сом х {item?.count} {item?.unit} ={" "}
-                      {formatCount(item?.total_soputka)} сом
-                    </p>
-                  </div>
-                  {status && (
-                    <Krest onClick={() => setModalItemGuid(item?.guid)} />
-                  )}
-                </div>
-                <p className="nameProd">{item?.product_name}</p>
-              </div>
-              <ConfirmationModal
-                visible={modalItemGuid == item?.guid}
-                message="Отменить добавление ?"
-                onYes={() => del(item?.guid)}
-                onNo={() => setModalItemGuid(null)}
-                onClose={() => setModalItemGuid(null)}
-              />
-            </div>
-          ))}
-        </div>
-        <div className="mainActionsSoputka">
-          <ResultCounts list={listData} />
-          <p className="soputkaHistoryParent__total">
-            Сумма: {sumSoputkaProds(listProdSoputka?.[0]?.list)} сом
-          </p>
-          {status && (
-            <div className="soputkaHistoryParent__actions">
-              <button onClick={() => setConfirm(true)}>Подтвердить</button>
-              <button onClick={addProd}>Добавить товар</button>
-            </div>
-          )}
-        </div>
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center" style={{ width: "10%" }}>
+                  №
+                </TableCell>
+                <TableCell style={{ width: "25%" }}>Наименование</TableCell>
+                <TableCell align="left" style={{ width: "15%" }}>
+                  Кол-во (вес)
+                </TableCell>
+                <TableCell align="left" style={{ width: "15%" }}>
+                  Цена за кг (шт)
+                </TableCell>
+                <TableCell align="left" style={{ width: "15%" }}>
+                  Итоговая сумма
+                </TableCell>
+                <TableCell align="center" style={{ width: "8%" }}>
+                  ...
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {listData?.map((item) => (
+                <>
+                  <TableRow className="tableInvoice">
+                    <TableCell
+                      align="center"
+                      component="th"
+                      scope="row"
+                      style={{ width: "10%" }}
+                    >
+                      {item?.codeid}
+                    </TableCell>
+                    <TableCell align="left" style={{ width: "25%" }}>
+                      {item?.product_name}
+                    </TableCell>
+                    <TableCell align="left" style={{ width: "15%" }}>
+                      {roundingNum(item?.count)} {item?.unit}
+                    </TableCell>
+                    <TableCell align="left" style={{ width: "15%" }}>
+                      {roundingNum(item?.sale_price)} сом
+                    </TableCell>
+                    <TableCell align="left" style={{ width: "20%" }}>
+                      {roundingNum(
+                        +item?.sale_price *
+                          (+item?.count_usushka || +item?.count)
+                      )}{" "}
+                      сом
+                    </TableCell>
+                    <TableCell align="left" style={{ width: "8%" }}>
+                      <button
+                        onClick={() => setModalItemGuid(item?.guid)}
+                        className="del"
+                      >
+                        <DeleteIcon width={19} height={19} color={"red"} />
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                  <ConfirmationModal
+                    visible={modalItemGuid == item?.guid}
+                    message="Отменить добавление ?"
+                    onYes={() => del(item?.guid)}
+                    onNo={() => setModalItemGuid(null)}
+                    onClose={() => setModalItemGuid(null)}
+                  />
+                </>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
       <ConfirmationModal
         visible={confirm}

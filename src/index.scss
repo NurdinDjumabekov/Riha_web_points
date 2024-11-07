@@ -4,10 +4,9 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-size: 20px;
-  font-weight: 500;
-  font-family: "Roboto", sans-serif;
-  text-align: left;
+  font-size: 14px;
+  font-weight: 400;
+  font-family: "Nunito Sans", sans-serif;
 }
 
 .container {
@@ -47,16 +46,6 @@ img {
   transform: rotate(45deg);
   margin-right: 20px;
   margin-top: 5px;
-}
-
-.listInvoices {
-  min-width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  width: 100%;
-  margin-bottom: 30px;
 }
 
 .sumPrice {
@@ -263,4 +252,10 @@ img {
   .css-15lsz6c-indicatorContainer {
     padding: 0 3px !important;
   }
+}
+
+.titlePage {
+  padding: 18px;
+  font-size: 18px;
+  font-weight: 500;
 }

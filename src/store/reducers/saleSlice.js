@@ -6,6 +6,7 @@ import { transformDate } from "../../helpers/transformDate";
 const initialState = {
   preloaderSale: false,
   listProds: [], /// список товаров накладной
+  listProdsSearch: [], /// список товаров накладной
   listHistoryInvoice: [], /// список историй накладных
   listWorkShops: [], /// список цехов
   listCategs: [], /// список категорий
@@ -33,12 +34,25 @@ export const createInvoice = createAsyncThunk(
 export const getProducts = createAsyncThunk(
   "getProducts",
   async function (props, { dispatch, rejectWithValue }) {
-    const { invoice_guid } = props;
-    const urlLink = `${API}/tt/desc/get_point_invoice_product?invoice_guid=${invoice_guid}`;
+    const { invoice_guid, type } = props;
+
+    const objUrl = {
+      1: "tt/desc/get_point_invoice_product?",
+      2: "tt/get_invoice_soputka_product?",
+      3: "tt/get_invoice_revision_product?",
+    };
+
+    const urlLink = `${API}/${objUrl?.[type]}invoice_guid=${invoice_guid}`;
+
     try {
       const response = await axios(urlLink);
       if (response.status >= 200 && response.status < 300) {
-        return response?.data;
+        const objType = {
+          1: response?.data,
+          2: response?.data?.[0]?.list || [],
+          3: response?.data?.[0]?.list || [],
+        };
+        return objType?.[type];
       } else {
         throw Error(`Error: ${response.status}`);
       }
@@ -70,8 +84,13 @@ export const getProductsInQr = createAsyncThunk(
 /// addProdInInvoice - добавдение товара в накладную
 export const addProdInInvoice = createAsyncThunk(
   "addProdInInvoice",
-  async function (data, { dispatch, rejectWithValue }) {
-    const url = `${API}/tt/desc/create_invoice_product`;
+  async function ({ data, type }, { dispatch, rejectWithValue }) {
+    const objUrl = {
+      1: "tt/desc/create_invoice_product",
+      2: "tt/create_invoice_soputka_product",
+      3: "tt/create_revision_product", /// дя ревизии
+    };
+    const url = `${API}/${objUrl?.[type]}`;
     try {
       const response = await axios.post(url, data);
       if (response.status >= 200 && response.status < 300) {
@@ -125,11 +144,20 @@ export const getHistoryInvoice = createAsyncThunk(
 /// updateStatusInvoice - Обновить статус накладной
 export const updateStatusInvoice = createAsyncThunk(
   "updateStatusInvoice",
-  async function (data, { dispatch, rejectWithValue }) {
-    const url = `${API}/tt/desc/set_invoice_status`;
+  async function ({ send, type }, { dispatch, rejectWithValue }) {
+    const data = send;
+    const objUrl = {
+      1: "tt/desc/set_invoice_status",
+      2: "tt/confirm_invoice_soputka",
+      3: "tt/set_revision_invoice_status", /// дя ревизии
+    };
+    const url = `${API}/${objUrl?.[type]}`;
+    const objSend = { 1: "put", 2: "post", 3: "post" };
+
     try {
-      const response = await axios.put(url, data);
+      const response = await axios?.[objSend?.[type]](url, data);
       if (response.status >= 200 && response.status < 300) {
+        alert("Процесс завершился успешно");
         return response?.data;
       } else {
         throw Error(`Error: ${response.status}`);
@@ -145,7 +173,8 @@ export const getWorkShops = createAsyncThunk(
   "getWorkShops",
   async function (props, { dispatch, rejectWithValue }) {
     const { seller_guid } = props;
-    const urlLink = `${API}/tt/get_leftover_workshop?seller_guid=${seller_guid}`;
+    // const urlLink = `${API}/tt/get_leftover_workshop?seller_guid=${seller_guid}`;
+    const urlLink = `${API}/tt/get_workshop`;
     try {
       const response = await axios(urlLink);
       if (response.status >= 200 && response.status < 300) {
@@ -164,7 +193,8 @@ export const getCategs = createAsyncThunk(
   "getCategs",
   async function (props, { dispatch, rejectWithValue }) {
     const { seller_guid, workshop_guid } = props;
-    const urlLink = `${API}/tt/get_category?seller_guid=${seller_guid}&workshop_guid=${workshop_guid}`;
+    // const urlLink = `${API}/tt/get_category?seller_guid=${seller_guid}&workshop_guid=${workshop_guid}`;
+    const urlLink = `${API}/tt/get_category_all?workshop_guid=${workshop_guid}`;
     try {
       const response = await axios(urlLink);
       if (response.status >= 200 && response.status < 300) {
@@ -178,12 +208,12 @@ export const getCategs = createAsyncThunk(
   }
 );
 
-/// searchProdLeftovers -  для поиска товаров в остатке
+/// searchProdLeftovers -  для поиска всех товаров
 export const searchProdLeftovers = createAsyncThunk(
   "searchProdLeftovers",
   async function (props, { dispatch, rejectWithValue }) {
     const { text, seller_guid } = props;
-    const urlLink = `${API}/tt/get_product?search=${text}&seller_guid=${seller_guid}`;
+    const urlLink = `${API}/tt/get_product_all?seller_guid=${seller_guid}&search=${text}`;
     try {
       const response = await axios(urlLink);
       if (response.status >= 200 && response.status < 300) {
@@ -202,7 +232,7 @@ export const getSortProds = createAsyncThunk(
   "getSortProds",
   async function (props, { dispatch, rejectWithValue }) {
     const { seller_guid, valueCateg, value } = props;
-    const urlLink = `${API}/tt/get_product?categ_guid=${valueCateg}&seller_guid=${seller_guid}&workshop_guid=${value}`;
+    const urlLink = `${API}/tt/get_product_all?categ_guid=${valueCateg}&seller_guid=${seller_guid}&workshop_guid=${value}`;
     try {
       const response = await axios(urlLink);
       if (response.status >= 200 && response.status < 300) {
@@ -253,7 +283,7 @@ const saleSlice = createSlice({
     builder.addCase(getWorkShops.fulfilled, (state, action) => {
       state.preloaderSale = false;
       state.listWorkShops = action.payload?.map((i) => {
-        return { label: i?.workshop, value: i?.workshop_guid };
+        return { label: i?.name, value: i?.guid };
       });
     });
     builder.addCase(getWorkShops.rejected, (state, action) => {
@@ -281,11 +311,12 @@ const saleSlice = createSlice({
     ///// getSortProds
     builder.addCase(getSortProds.fulfilled, (state, action) => {
       state.preloaderSale = false;
-      state.listProds = action.payload;
+      state.listProdsSearch = action.payload;
     });
     builder.addCase(getSortProds.rejected, (state, action) => {
       state.error = action.payload;
       state.preloaderSale = false;
+      state.listProdsSearch = [];
     });
     builder.addCase(getSortProds.pending, (state, action) => {
       state.preloaderSale = true;
@@ -294,7 +325,7 @@ const saleSlice = createSlice({
     ////// searchProdLeftovers
     builder.addCase(searchProdLeftovers.fulfilled, (state, action) => {
       // state.preloaderSale = false;
-      state.listProds = action.payload;
+      state.listProdsSearch = action.payload;
     });
     builder.addCase(searchProdLeftovers.rejected, (state, action) => {
       state.error = action.payload;

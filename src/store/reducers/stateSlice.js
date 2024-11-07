@@ -20,6 +20,7 @@ const initialState = {
   searchProd: "", /// для текста поиска продуктов
 
   expense: { expense_type: "", comment: "", amount: "" }, /// данные суммы расходов каждой ТТ
+  ////delete
 
   modalDate: { periods: false, dates: false }, /// для отображения модалок дат(сортирвока  проданных товаров)
 };

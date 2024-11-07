@@ -18,6 +18,7 @@ import { formatCount } from "../../../helpers/amounts";
 import "./style.scss";
 import MyTable from "../../../components/Tables/MyTable/MyTable";
 import { useLocation, useNavigate } from "react-router-dom";
+import { RenderResult } from "../../../common/RenderResult/RenderResult";
 
 const DetailedReturnPage = () => {
   const dispatch = useDispatch();
@@ -62,23 +63,23 @@ const DetailedReturnPage = () => {
 
   return (
     <>
-      <NavMenu navText={`Накладная №${everyInvoiceReturn?.codeid}`} />
-      <div className="mainDetailedreturn">
-        <div className="mainDetailedreturn__inner">
-          <div className="dateReturn">
-            <p>Дата создания: {everyInvoiceReturn?.date}</p>
+      <div className="detailedMain">
+        {checkStatus && (
+          <div className="actionBlockHeader">
+            <button className="saveAction" onClick={clickOkay}>
+              Принять
+            </button>
+            <button className="saveAction rejectBtn" onClick={clickNo}>
+              Отклонить
+            </button>
           </div>
-          <MyTable arr={everyInvoiceReturn?.list} />
-          <div className="totalReturn">
-            <ResultCounts list={everyInvoiceReturn?.list} />
-            <p>Сумма: {formatCount(everyInvoiceReturn?.total_price)} сом</p>
-            {checkStatus && (
-              <div className="actionBlockReturn">
-                <button onClick={clickOkay}>Принять накладную</button>
-                <button onClick={clickNo}>Отклонить накладную</button>
-              </div>
-            )}
-          </div>
+        )}
+
+        <div className="detailedMain__inner">
+          <RenderResult
+            list={everyInvoiceReturn?.list}
+            title={`Дата создания: ${everyInvoiceReturn?.date}`}
+          />
         </div>
 
         <ConfirmationModal

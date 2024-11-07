@@ -11,7 +11,7 @@ const PagesSoputka = () => {
       <Route path="/" element={<PagesSoputka />} />
       <Route path="/main" element={<SoputkaMainPage />} />
       <Route path="/add" element={<AddProdSoputkaPage />} />
-      <Route path="/prods" element={<SoputkaProductPage />} />
+      {/* <Route path="/prods" element={<SoputkaProductPage />} /> */}
       <Route path="/history" element={<SoputkaProdHistoryPage />} />
     </Routes>
   );

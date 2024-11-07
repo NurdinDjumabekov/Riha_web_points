@@ -1,0 +1,36 @@
+.graphics {
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 20px;
+  max-height: 100%;
+  overflow-y: scroll;
+  width: 100%;
+
+  .graphicsMonth {
+    padding: 5px;
+    border-radius: 5px;
+    background: #fff;
+    box-shadow: 0 1px 5px 0 rgba(65, 69, 88, 0.1),
+      0 3px 6px 0 rgba(0, 0, 0, 0.07);
+    position: relative;
+    width: 360px;
+    height: 360px;
+
+    h5 {
+      font-size: 16px;
+      position: absolute;
+      left: 10px;
+      top: 15px;
+      color: #222;
+      z-index: 10;
+    }
+
+    > div {
+      background: #fff;
+      //   box-shadow: 0 1px 5px 0 rgba(65, 69, 88, 0.1),
+      //     0 3px 6px 0 rgba(0, 0, 0, 0.07);
+    }
+  }
+}

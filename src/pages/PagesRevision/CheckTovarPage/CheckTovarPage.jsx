@@ -1,5 +1,5 @@
 ////// hooks
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -7,28 +7,25 @@ import { useNavigate } from "react-router-dom";
 import { clearListSellersPoints } from "../../../store/reducers/requestSlice";
 import { getHistoryRevision } from "../../../store/reducers/requestSlice";
 import { getSellersEveryPoint } from "../../../store/reducers/requestSlice";
-import { changeLocalData } from "../../../store/reducers/saveDataSlice";
 
 ///// components
-import NavMenu from "../../../common/NavMenu/NavMenu";
-import ListProdsRevision from "../../../components/CheckProd/ListProdsRevision/ListProdsRevision";
-
-///helpers
-import { getLocalDataUser } from "../../../helpers/returnDataUser";
-
-////style
-import "./style.scss";
-import { useState } from "react";
 import ModalWorkShop from "../../../components/CheckProd/ModalWorkShop/ModalWorkShop";
+import { Table, TableBody, TableCell } from "@mui/material";
+import { TableContainer, TableHead } from "@mui/material";
+import { TableRow, Paper } from "@mui/material";
+
+///// style
+import "./style.scss";
+
+///// helpers
+import { roundingNum } from "../../../helpers/amounts";
+import { statusColor, statusRevision } from "../../../helpers/Data";
 
 const CheckTovarPage = () => {
-  //// ревизия (отображение списка ист0рий ревизии.
-  //// btns для создания ревии и просмотра запросов других продавцов)
-
-  const [bottomSheet, setBottomSheet] = useState(false); /// выбор продавца для ревизии
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [openModal, setOpenModal] = useState(false); /// выбор продавца для ревизии
 
   const { data } = useSelector((state) => state.saveDataSlice);
   const { listHistoryRevision } = useSelector((state) => state.requestSlice);
@@ -43,44 +40,119 @@ const CheckTovarPage = () => {
     ///// очищаю список продавцов каждой точки
 
     const { seller_guid } = data;
-    await getLocalDataUser({ changeLocalData, dispatch });
 
     ////// get список продавцов определенной точки
-    await dispatch(getSellersEveryPoint(seller_guid));
+    dispatch(getSellersEveryPoint(seller_guid));
 
     ////// get историю ревизии
-    await dispatch(getHistoryRevision(seller_guid));
+    dispatch(getHistoryRevision(seller_guid));
   };
 
   const navLick = () => navigate("/revision/request");
 
-  const empty = listHistoryRevision?.length === 0;
-
-  const openBottomSheet = () => setBottomSheet(true);
+  const lookInvoice = ({ guid, status }) => {
+    if (status == 2) {
+      navigate("/main_invoice/every_accept_inv", { state: { guid, type: 3 } });
+    } else {
+      navigate(`/sale_qr_code/main`, {
+        state: { invoice_guid: guid, type: 3 },
+      });
+    }
+  };
 
   return (
     <>
-      <NavMenu navText={"Ревизия"} />
-      <div className="mainRevisionParent">
-        <div className="actionBlock">
-          <button onClick={openBottomSheet}>
-            Выбрать продавца для ревизии
-          </button>
-          <button onClick={navLick}>Запросы других продавцов</button>
+      <ModalWorkShop openModal={openModal} setOpenModal={setOpenModal} />
+      <div className="listInvoices revisionBlock">
+        <div className="header">
+          <h3 className="titlePage">История вашей ревизии</h3>
+          <div>
+            <button className="saveAction" onClick={() => setOpenModal(true)}>
+              {/* <LibraryAddIcon sx={{ width: 16, height: 16 }} /> */}
+              <p>Выбрать продавца для ревизии</p>
+            </button>
+            <button className="saveAction" onClick={navLick}>
+              {/* <LibraryAddIcon sx={{ width: 16, height: 16 }} /> */}
+              <p>Запросы других продавцов</p>
+            </button>
+          </div>
         </div>
-        <h6>История вашей ревизии</h6>
-        {empty && <p className="noneData">Список пустой</p>}
-        <div className="mainRevisionParent__list">
-          {listHistoryRevision?.map((item) => (
-            <ListProdsRevision item={item} key={item.guid} disable={true} />
-          ))}
-        </div>
+        <TableContainer
+          component={Paper}
+          sx={{ maxHeight: "100%" }}
+          className="scroll_table standartTable"
+        >
+          <Table stickyHeader aria-label="sticky table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="center" style={{ width: "5%" }}>
+                  №
+                </TableCell>
+                <TableCell align="center" style={{ width: "5%" }}>
+                  ...
+                </TableCell>
+                <TableCell style={{ width: "25%" }}>Продавцу</TableCell>
+                <TableCell align="left" style={{ width: "15%" }}>
+                  Дата
+                </TableCell>
+                <TableCell align="left" style={{ width: "15%" }}>
+                  Статус
+                </TableCell>
+                <TableCell align="left" style={{ width: "15%" }}>
+                  Итоговая сумма
+                </TableCell>
+                <TableCell align="left" style={{ width: "20%" }}>
+                  Комментарий
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {listHistoryRevision?.map((item) => (
+                <TableRow
+                  key={item?.codeid}
+                  className="tableInvoice"
+                  onClick={() => lookInvoice(item)}
+                >
+                  <TableCell
+                    align="center"
+                    component="th"
+                    scope="row"
+                    style={{ width: "5%" }}
+                  >
+                    {item?.codeid}
+                  </TableCell>
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    style={{ width: "5%", textAlign: "center" }}
+                  >
+                    <input type="checkbox" value={true} />
+                  </TableCell>
+                  <TableCell align="left" style={{ width: "25%" }}>
+                    {item?.seller_to}
+                  </TableCell>
+                  <TableCell align="left" style={{ width: "15%" }}>
+                    {item?.date}
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    style={{ width: "15%", color: statusColor?.[item?.status] }}
+                  >
+                    {statusRevision?.[item.status]}
+                  </TableCell>
+                  <TableCell align="left" style={{ width: "15%" }}>
+                    {roundingNum(item?.total_price)} сом
+                  </TableCell>
+
+                  <TableCell align="left" style={{ width: "20%" }}>
+                    {item?.comment || "..."}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </div>
-      <ModalWorkShop
-        bottomSheet={bottomSheet}
-        setBottomSheet={setBottomSheet}
-      />
-      {/* /////для выбора цехов*/}
     </>
   );
 };

@@ -79,7 +79,6 @@ const AddProductsInvoice = (props) => {
   };
 
   const getData = async () => {
-    await getLocalDataUser({ changeLocalData, dispatch });
     const sendData = { seller_guid: data?.seller_guid, type: "sale" };
     // ////// внутри есть getCategoryTT и getProductTT
     dispatch(getWorkShopsGorSale({ ...sendData, location }));

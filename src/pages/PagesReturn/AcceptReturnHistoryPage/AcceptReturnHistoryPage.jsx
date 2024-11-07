@@ -3,8 +3,10 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 /////// components
-import NavMenu from "../../../common/NavMenu/NavMenu";
 import EveryMyInvoice from "../../../components/MainInvoiceProd/EveryMyInvoice/EveryMyInvoice";
+import { Table, TableBody, TableCell } from "@mui/material";
+import { TableContainer, TableHead } from "@mui/material";
+import { TableRow, Paper } from "@mui/material";
 
 /////// fns
 import { getAcceptInvoiceReturn } from "../../../store/reducers/requestSlice";
@@ -30,14 +32,45 @@ const AcceptReturnHistoryPage = () => {
   const screns = ["/return/detailed", "/return/every"];
 
   return (
-    <>
-      <NavMenu navText={"Список накладных возврат"} />
-      <div className="blockListHistory">
-        {listAcceptInvoiceReturn?.map((item) => (
-          <EveryMyInvoice obj={item} screns={screns} key={item?.guid} />
-        ))}
-      </div>
-    </>
+    <div className="listInvoices blockListHistory">
+      <h3 className="titlePage">Список накладных возврат</h3>
+      <TableContainer
+        component={Paper}
+        sx={{ maxHeight: "100%" }}
+        className="scroll_table standartTable"
+      >
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center" style={{ width: "5%" }}>
+                №
+              </TableCell>
+              <TableCell align="center" style={{ width: "5%" }}>
+                ...
+              </TableCell>
+              <TableCell style={{ width: "25%" }}>Агент</TableCell>
+              <TableCell align="left" style={{ width: "15%" }}>
+                Дата
+              </TableCell>
+              <TableCell align="left" style={{ width: "15%" }}>
+                Статус
+              </TableCell>
+              <TableCell align="left" style={{ width: "15%" }}>
+                Итоговая сумма
+              </TableCell>
+              <TableCell align="left" style={{ width: "20%" }}>
+                Комментарий
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {listAcceptInvoiceReturn?.map((item) => (
+              <EveryMyInvoice key={item?.guid} obj={item} screns={screns} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 };
 

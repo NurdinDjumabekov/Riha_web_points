@@ -1,0 +1,27 @@
+.logOutDecs {
+  min-width: 40px;
+  background: #fff !important;
+  border-radius: 50%;
+  display: flex;
+  gap: 5px;
+  margin: 0 0 10px 0;
+  display: flex;
+  width: 100%;
+  padding: 10px 20px;
+  position: absolute;
+  bottom: 10px;
+  left: 0px;
+
+  svg {
+    color: #506690;
+    width: 20px;
+    height: 20px;
+  }
+
+  p {
+    font-size: 14px;
+    font-weight: 500;
+    color: #0e1726;
+    transition: opacity 0.7s ease;
+  }
+}

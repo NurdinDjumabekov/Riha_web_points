@@ -4,13 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 ////// components
 import EveryMyInvoice from "../../../components/MainInvoiceProd/EveryMyInvoice/EveryMyInvoice";
+import { Table, TableBody, TableCell } from "@mui/material";
+import { TableContainer, TableHead } from "@mui/material";
+import { TableRow, Paper } from "@mui/material";
 
 ////// fns
 import { getAcceptInvoice } from "../../../store/reducers/requestSlice";
 
 ////style
 import "./style.scss";
-import NavMenu from "../../../common/NavMenu/NavMenu";
 
 const AcceptInvoiceHistoryPage = () => {
   const dispatch = useDispatch();
@@ -31,14 +33,45 @@ const AcceptInvoiceHistoryPage = () => {
   ];
 
   return (
-    <>
-      <NavMenu navText={"Список принятых накладных"} />
-      <div className="listInvoices">
-        {listAcceptInvoice?.map((item) => (
-          <EveryMyInvoice key={item.guid} obj={item} screns={screns} />
-        ))}
-      </div>
-    </>
+    <div className="listInvoices">
+      <h3 className="titlePage">Список принятых накладных</h3>
+      <TableContainer
+        component={Paper}
+        sx={{ maxHeight: "100%" }}
+        className="scroll_table standartTable"
+      >
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              <TableCell align="center" style={{ width: "5%" }}>
+                №
+              </TableCell>
+              <TableCell align="center" style={{ width: "5%" }}>
+                ...
+              </TableCell>
+              <TableCell style={{ width: "25%" }}>Агент</TableCell>
+              <TableCell align="left" style={{ width: "15%" }}>
+                Дата
+              </TableCell>
+              <TableCell align="left" style={{ width: "15%" }}>
+                Статус
+              </TableCell>
+              <TableCell align="left" style={{ width: "15%" }}>
+                Итоговая сумма
+              </TableCell>
+              <TableCell align="left" style={{ width: "20%" }}>
+                Комментарий
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {listAcceptInvoice?.map((item) => (
+              <EveryMyInvoice key={item?.guid} obj={item} screns={screns} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </div>
   );
 };
 

@@ -24,7 +24,12 @@ const ViewSaleProdsPage = () => {
 
   return (
     <div className="viewSaleProds">
-      <SaleProds invoice_guid={invoice_guid} status={status} codeid={codeid} />
+      <SaleProds
+        invoice_guid={invoice_guid}
+        status={status}
+        codeid={codeid}
+        type={1}
+      />
     </div>
   );
 };

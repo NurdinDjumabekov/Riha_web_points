@@ -1,122 +1,103 @@
-//// tags
-import { BottomSheet } from "react-spring-bottom-sheet";
-
-//// hooks
+////// hooks
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-//// fns
+///// fns
 import { createInvoiceCheck } from "../../../store/reducers/requestSlice";
-import { getWorkShopsForRevision } from "../../../store/reducers/requestSlice";
 
-////style
+///// components
+import Select from "react-select";
+import MyModals from "../../../common/MyModals/MyModals";
+import SendInput from "../../../common/SendInput/SendInput";
+
+///// style
 import "./style.scss";
 
-const ModalWorkShop = ({ bottomSheet, setBottomSheet }) => {
+//// helpers
+import { transformLists } from "../../../helpers/transformLists";
+
+///// icons
+import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
+
+const ModalWorkShop = ({ openModal, setOpenModal }) => {
   //// модалка для выбора цеха и продавца для которого ревизия
 
-  const [openCateg, setOpenCateg] = useState(false); /// выбор категории для ревизии
+  const [sellerTo, setSellerTo] = useState({});
+  const [comment, setComment] = useState("");
 
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
-  const { listSellersPoints, listWorkShop } = useSelector(
-    (state) => state.requestSlice
-  );
+  const { listSellersPoints } = useSelector((state) => state.requestSlice);
+
+  const listAgentsNew = transformLists(listSellersPoints, "guid", "fio");
 
   const { data } = useSelector((state) => state.saveDataSlice);
 
-  const [obj, setObj] = useState({ guid: "", guidWorkShop: "" });
-  ///// guid - guid продавца  //// guidWorkShop - guid цеха
+  const choiceSeller = (obj) => setSellerTo(obj);
 
-  const closeSeller = () => setBottomSheet(true);
-  const closeWorkShop = () => setOpenCateg(false);
+  const createInvocieRevision = async (e) => {
+    e.preventDefault();
+    if (!!!sellerTo?.value) {
+      return alert("Выберите продаввца для ревизии");
+    }
+    if (!!!comment) {
+      return alert("Добавьте комментарий");
+    }
 
-  const choiceSeller = (guid) => {
-    setObj({ ...obj, guid });
-    ////// get список актуальных цех0в продавца
-    dispatch(getWorkShopsForRevision(guid));
-
-    closeSeller(); //// закрываю первый bottomSheet
-    setOpenCateg(true); //// открываю второй bottomSheet
+    const send = {
+      seller_guid_to: sellerTo?.value,
+      seller_guid_from: data?.seller_guid,
+      comment,
+    };
+    const res = await dispatch(createInvoiceCheck(send)).unwrap();
+    if (!!res?.invoice_guid) {
+      navigate(`/sale_qr_code/main`, {
+        state: { invoice_guid: res?.invoice_guid, type: 3 },
+      });
+    }
   };
 
-  ////////////////// choice workshop
-
-  const choiceWorkShop = (guidWorkShop) => {
-    setObj({ ...obj, guidWorkShop });
-
-    const ob1 = { seller_guid_to: obj?.guid, guidWorkShop };
-    const ob2 = { seller_guid_from: data?.seller_guid, navigate };
-
-    dispatch(createInvoiceCheck({ ...ob1, ...ob2 }));
-
-    //// закрываю все bottomSheet
-    closeWorkShop();
-    closeSeller();
+  const closeModal = () => {
+    setOpenModal(false);
+    setSellerTo({});
   };
 
   return (
-    <>
-      {/* //////Выбери продавца */}
-      <BottomSheet
-        open={bottomSheet}
-        onDismiss={() => setBottomSheet(false)}
-        defaultSnap={({ maxHeight }) => maxHeight * 0.7}
-        snapPoints={({ maxHeight }) => maxHeight * 0.7}
+    <MyModals
+      openModal={openModal}
+      closeModal={closeModal}
+      title={"Создание накладной для ревизии"}
+    >
+      <form
+        className="actionsAddProd revisionModal"
+        onSubmit={createInvocieRevision}
       >
-        <>
-          {listSellersPoints?.length === 0 ? (
-            <p className="noneData">Список пустой</p>
-          ) : (
-            <>
-              <h3 className="titleSelectBottomSheet">
-                Выберите продавца для ревизии
-              </h3>
-              <div className="selectBlockBottomSheet">
-                {listSellersPoints?.map((item, index) => (
-                  <button onClick={() => choiceSeller(item?.guid)} key={index}>
-                    <p className="selectText">{item?.fio}</p>
-                    <div className="arrow" />
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
-        </>
-      </BottomSheet>
-
-      {/* //////Выбери цехa */}
-      <BottomSheet
-        open={openCateg}
-        onDismiss={() => setOpenCateg(false)}
-        defaultSnap={({ maxHeight }) => maxHeight * 0.7}
-        snapPoints={({ maxHeight }) => maxHeight * 0.7}
-      >
-        <>
-          {listWorkShop?.length === 0 ? (
-            <p className="noneData">Список пустой</p>
-          ) : (
-            <>
-              <h3 className="titleSelectBottomSheet">Выберите цех</h3>
-              <div className="selectBlockBottomSheet">
-                {listWorkShop?.map((item, index) => (
-                  <button
-                    onClick={() => choiceWorkShop(item?.workshop_guid)}
-                    key={index}
-                  >
-                    <p className="selectText">{item?.workshop}</p>
-                    <div className="arrow" />
-                  </button>
-                ))}
-              </div>
-            </>
-          )}
-        </>
-      </BottomSheet>
-    </>
+        <div className="inputSend">
+          <div className="myInputs">
+            <h6>Выберите продавца для ревизии</h6>
+            <Select
+              options={listAgentsNew}
+              className="select"
+              onChange={choiceSeller}
+              value={sellerTo}
+            />
+          </div>
+        </div>
+        <SendInput
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          title={"Комментарий"}
+          name={"comment"}
+          typeInput={"textarea"}
+        />
+        <button className="saveAction" type="submit">
+          <LibraryAddIcon sx={{ width: 16, height: 16 }} />
+          <p>Создать накладную для сопутки</p>
+        </button>
+      </form>
+    </MyModals>
   );
 };
 

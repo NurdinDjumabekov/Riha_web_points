@@ -1,33 +1,32 @@
-.mainRevisionParent {
-    .actionBlock {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        min-width: 100%;
-        gap: 20px;
+.revisionBlock {
+  position: relative;
+  padding: 60px 0 0 0;
 
-        button {
-            font-size: 13px;
-            color: #fff;
-            width: 43%;
-            padding: 10px 8px;
-            border-radius: 8px;
-            font-weight: 600;
-            background-color: rgba(97, 100, 239, 0.7);
-            margin: 12px 0px;
-        }
+  .header {
+    position: absolute;
+    left: 0px;
+    top: 7px;
+    z-index: 10;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 46px;
+    padding: 0 15px;
+
+    .titlePage {
+      padding: 0;
+      padding-left: 20px;
     }
 
-    > h6 {
-        padding: 10px;
-        font-size: 17px;
-        font-weight: 500;
-        margin-bottom: 3px;
-        background-color: #fff;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
+    > div {
+      display: flex;
+      align-items: center;
+      gap: 15px;
 
-    &__list {
-        margin: 3px 0 60px 0;
+      button:nth-child(1) {
+        background: #1976d2;
+      }
     }
+  }
 }
