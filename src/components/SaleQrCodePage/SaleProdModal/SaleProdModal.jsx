@@ -27,8 +27,6 @@ const SaleProdModal = (props) => {
   const { modal, closeModal, price, setPrice } = props;
   const { invoice_guid, refInputSum, type } = props;
 
-  console.log(modal, "modal");
-
   const addProd = async (e) => {
     e.preventDefault();
 

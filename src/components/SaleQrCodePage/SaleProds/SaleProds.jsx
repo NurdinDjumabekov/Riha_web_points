@@ -1,7 +1,7 @@
 ///// hooks
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 ////// helpers
 import { roundingNum } from "../../../helpers/amounts";
@@ -22,6 +22,7 @@ import { TableRow, Paper } from "@mui/material";
 import GeneratePdfCheque from "../GeneratePdfCheque/GeneratePdfCheque";
 import ConfirmationModal from "../../../common/ConfirmationModal/ConfirmationModal";
 import SaleProdModal from "../SaleProdModal/SaleProdModal";
+import { debounce } from "lodash";
 
 ///// icons
 import DeleteIcon from "../../../assets/MyIcons/DeleteIcon";
@@ -29,6 +30,7 @@ import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 
 ////// styles
 import "./style.scss";
+import { useMemo } from "react";
 
 const SaleProds = (props) => {
   const { invoice_guid, status, codeid, type } = props;
@@ -72,24 +74,37 @@ const SaleProds = (props) => {
     }, 300);
   }, [invoice_guid]);
 
-  const onChange = async (e) => {
-    /// 1 - сразу отправляю запрос, 2 - после нажатия
-    setSum(e.target.value);
-    if (e.target.value?.length == 6) {
-      const send = { qrcode: e.target.value, seller_guid: data?.seller_guid };
-      const res = await dispatch(getProductsInQr(send)).unwrap();
-      if (!!res?.guid) {
-        setSum("");
-        setModal(res);
-        setTimeout(() => {
-          refInputSum.current.focus();
-        }, 200);
-      } else {
-        setSum("");
-        alert("Не удалось найти такой продукт");
+  const onChange = (e) => setSum(e.target.value);
+
+  const handleDebouncedSearch = useCallback(
+    debounce(async (value) => {
+      if (value?.length > 2) {
+        const send = { qrcode: value, seller_guid: data?.seller_guid }; // Отправляем актуальное значение
+        try {
+          const res = await dispatch(getProductsInQr(send)).unwrap();
+          if (res?.guid) {
+            setSum("");
+            setModal(res);
+            setTimeout(() => {
+              refInputSum.current.focus();
+            }, 200);
+          } else {
+            setSum("");
+            alert("Не удалось найти такой продукт");
+          }
+        } catch (error) {
+          alert("Ошибка при поиске продукта");
+        }
       }
+    }, 800),
+    []
+  );
+
+  useEffect(() => {
+    if (sum.length > 2) {
+      handleDebouncedSearch(sum);
     }
-  };
+  }, [sum, handleDebouncedSearch]);
 
   const clickDelProd = async (obj) => {
     const send = { product_guid: obj?.guid };
@@ -188,7 +203,6 @@ const SaleProds = (props) => {
                     type="search"
                     onChange={(e) => onChange(e, 1)}
                     value={sum}
-                    maxLength={6}
                   />
                 </div>
                 {/* <button className="saveAction" type="submit">
