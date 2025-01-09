@@ -1,19 +1,17 @@
 ////// hooks
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 ////// components
 import { RenderResult } from "../../../common/RenderResult/RenderResult";
 import { getAcceptProdInvoiceRetrn } from "../../../store/reducers/requestSlice";
-import ResultCounts from "../../../common/ResultCounts/ResultCounts";
-import NavMenu from "../../../common/NavMenu/NavMenu";
 
 ////// helpers
 import { formatCount } from "../../../helpers/amounts";
 
 ////style
 import "./style.scss";
-import { useLocation } from "react-router-dom";
 
 const EveryReturnPage = () => {
   //// каждый возврат накладной типо истории

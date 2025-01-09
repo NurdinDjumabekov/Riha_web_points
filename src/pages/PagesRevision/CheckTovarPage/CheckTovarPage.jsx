@@ -13,6 +13,7 @@ import ModalWorkShop from "../../../components/CheckProd/ModalWorkShop/ModalWork
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableContainer, TableHead } from "@mui/material";
 import { TableRow, Paper } from "@mui/material";
+import NavPrev from "../../../common/NavPrev/NavPrev";
 
 ///// style
 import "./style.scss";
@@ -51,12 +52,11 @@ const CheckTovarPage = () => {
   const navLick = () => navigate("/revision/request");
 
   const lookInvoice = ({ guid, status }) => {
+    const state = { invoice_guid: guid, type: 3 };
     if (status == 2) {
       navigate("/main_invoice/every_accept_inv", { state: { guid, type: 3 } });
     } else {
-      navigate(`/sale_qr_code/main`, {
-        state: { invoice_guid: guid, type: 3 },
-      });
+      navigate(`/revision/qr_scan`, { state });
     }
   };
 
@@ -65,14 +65,15 @@ const CheckTovarPage = () => {
       <ModalWorkShop openModal={openModal} setOpenModal={setOpenModal} />
       <div className="listInvoices revisionBlock">
         <div className="header">
-          <h3 className="titlePage">История вашей ревизии</h3>
+          <div className="titleInAllPage moreTitle">
+            <NavPrev />
+            <h3>История вашей ревизии</h3>
+          </div>
           <div>
             <button className="saveAction" onClick={() => setOpenModal(true)}>
-              {/* <LibraryAddIcon sx={{ width: 16, height: 16 }} /> */}
               <p>Выбрать продавца для ревизии</p>
             </button>
             <button className="saveAction" onClick={navLick}>
-              {/* <LibraryAddIcon sx={{ width: 16, height: 16 }} /> */}
               <p>Запросы других продавцов</p>
             </button>
           </div>

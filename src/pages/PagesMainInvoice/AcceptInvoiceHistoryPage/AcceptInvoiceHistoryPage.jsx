@@ -7,13 +7,13 @@ import EveryMyInvoice from "../../../components/MainInvoiceProd/EveryMyInvoice/E
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableContainer, TableHead } from "@mui/material";
 import { TableRow, Paper } from "@mui/material";
+import NavPrev from "../../../common/NavPrev/NavPrev";
 
 ////// fns
 import { getAcceptInvoice } from "../../../store/reducers/requestSlice";
 
 ////style
 import "./style.scss";
-import NavPrev from "../../../assets/MyIcons/NavPrev";
 
 const AcceptInvoiceHistoryPage = () => {
   const dispatch = useDispatch();

@@ -10,6 +10,7 @@ import {
   clearLogin,
   clearTemporaryData,
 } from "./stateSlice";
+import { myAlert } from "../../helpers/MyAlert";
 
 /// logInAccount
 export const logInAccount = createAsyncThunk(
@@ -463,7 +464,7 @@ export const getEveryProd = createAsyncThunk(
       if (response.status >= 200 && response.status < 300) {
         if (response?.data?.length === 0) {
           navigate("/sale/main");
-          alert("Не удалось найти такой продукт");
+          myAlert("Не удалось найти такой продукт", "error");
         } else {
           const { guid, product_name } = response?.data?.[0];
           const obj = { guid, product_name };
@@ -1082,9 +1083,9 @@ export const sendCheckListProduct = createAsyncThunk(
       if (response.status >= 200 && response.status < 300) {
         if (+response?.data?.result === 1) {
           navigate("/");
-          alert("Накладная для ревизии была успешно создана");
+          myAlert("Накладная для ревизии была успешно создана");
         } else {
-          alert("Не удалось создать накладную для ревизии");
+          myAlert("Не удалось создать накладную для ревизии", "error");
         }
       } else {
         throw Error(`Error: ${response.status}`);
@@ -1249,7 +1250,7 @@ const requestSlice = createSlice({
     builder.addCase(logInAccount.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Неверный логин или пароль");
+      myAlert("Неверный логин или пароль", "error");
     });
     builder.addCase(logInAccount.pending, (state, action) => {
       state.preloader = true;
@@ -1304,7 +1305,7 @@ const requestSlice = createSlice({
     builder.addCase(getAcceptInvoice.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось загрузить данные");
+      myAlert("Упс, что-то пошло не так! Не удалось загрузить данные", "error");
     });
     builder.addCase(getAcceptInvoice.pending, (state, action) => {
       state.preloader = true;
@@ -1318,7 +1319,7 @@ const requestSlice = createSlice({
     builder.addCase(getAcceptProdInvoice.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось загрузить данные");
+      myAlert("Упс, что-то пошло не так! Не удалось загрузить данные", "error");
     });
     builder.addCase(getAcceptProdInvoice.pending, (state, action) => {
       state.preloader = true;
@@ -1341,14 +1342,14 @@ const requestSlice = createSlice({
     builder.addCase(acceptInvoiceTT.fulfilled, (state, action) => {
       state.preloader = false;
       if (action.payload == 2) {
-        alert("Накладная успешно принята!");
+        myAlert("Накладная успешно принята!");
       } else {
-        alert("Накладная успешно отклонена!");
+        myAlert("Накладная успешно отклонена!");
       }
     });
     builder.addCase(acceptInvoiceTT.rejected, (state, action) => {
       state.error = action.payload;
-      alert("Упс, что-то пошло не так!");
+      myAlert("Упс, что-то пошло не так!", "error");
       state.preloader = false;
     });
     builder.addCase(acceptInvoiceTT.pending, (state, action) => {
@@ -1367,7 +1368,7 @@ const requestSlice = createSlice({
     });
     builder.addCase(getWorkShopsGorSale.rejected, (state, action) => {
       state.error = action.payload;
-      alert("Упс, что-то пошло не так!");
+      myAlert("Упс, что-то пошло не так!", "error");
       state.preloader = false;
     });
     builder.addCase(getWorkShopsGorSale.pending, (state, action) => {
@@ -1382,7 +1383,10 @@ const requestSlice = createSlice({
     });
     builder.addCase(createInvoiceTT.rejected, (state, action) => {
       state.error = action.payload;
-      alert("Упс, что-то пошло не так! Не удалось создать накладную");
+      myAlert(
+        "Упс, что-то пошло не так! Не удалось создать накладную",
+        "error"
+      );
       state.preloader = false;
     });
     builder.addCase(createInvoiceTT.pending, (state, action) => {
@@ -1425,7 +1429,7 @@ const requestSlice = createSlice({
       // state.preloader = false;
       state.listProductTT = action.payload;
       // if (action.payload?.length === 0) {
-      //   alert("По вашему запросу ничего не найдено (");
+      //   myAlert("По вашему запросу ничего не найдено (");
       // }
     });
     builder.addCase(searchProdTT.rejected, (state, action) => {
@@ -1441,7 +1445,7 @@ const requestSlice = createSlice({
       // state.preloader = false;
       state.listProdSearch = action.payload;
       // if (action.payload?.length === 0) {
-      //   alert("По вашему запросу ничего не найдено (");
+      //   myAlert("По вашему запросу ничего не найдено (");
       // }
     });
     builder.addCase(searchProdSale.rejected, (state, action) => {
@@ -1461,7 +1465,7 @@ const requestSlice = createSlice({
     builder.addCase(getMyLeftovers.rejected, (state, action) => {
       state.error = action.payload;
       // state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось загрузить данные");
+      myAlert("Упс, что-то пошло не так! Не удалось загрузить данные", "error");
     });
     builder.addCase(getMyLeftovers.pending, (state, action) => {
       // state.preloader = true;
@@ -1479,7 +1483,7 @@ const requestSlice = createSlice({
     builder.addCase(getActionsLeftovers.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось загрузить данные");
+      myAlert("Упс, что-то пошло не так! Не удалось загрузить данные", "error");
     });
     builder.addCase(getActionsLeftovers.pending, (state, action) => {
       state.preloader = true;
@@ -1492,28 +1496,21 @@ const requestSlice = createSlice({
       /// 2 - Введенное количество товара больше доступного количества.
       state.preloader = false;
       +action.payload.result == 1
-        ? alert("Товар продан!")
-        : alert(
-            "Ошибка!",
-            `${
+        ? myAlert("Товар продан!")
+        : myAlert(
+            `Ошибка! ${
               +action.payload?.count_type == 1
                 ? "Введенное количество товара больше доступного вам количества."
                 : "Введенная сумма товара больше доступного вам количества."
-            } `
+            }`,
+            "error"
           );
     });
+
     builder.addCase(addProductInvoiceTT.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось продать товар!");
-      // alert(
-      //   "Ошибка!",
-      // `${
-      //   +action.payload?.unit_codeid == 1
-      //     ? "Введенное количество товара больше доступного вам количества."
-      //     : "Введенная сумма товара больше доступного вам количества."
-      // } `
-      // );
+      myAlert("Упс, что-то пошло не так! Не удалось продать товар!", "error");
     });
     builder.addCase(addProductInvoiceTT.pending, (state, action) => {
       state.preloader = true;
@@ -1542,7 +1539,10 @@ const requestSlice = createSlice({
       state.error = action.payload;
       state.preloader = false;
       state.listSoldProd = [];
-      alert("Упс, что-то пошло не так! Попробуйте перезайти в приложение...");
+      myAlert(
+        "Упс, что-то пошло не так! Попробуйте перезайти в приложение...",
+        "error"
+      );
     });
     builder.addCase(getListSoldProd.pending, (state, action) => {
       state.preloader = true;
@@ -1555,7 +1555,7 @@ const requestSlice = createSlice({
     builder.addCase(deleteSoldProd.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось удалить...");
+      myAlert("Упс, что-то пошло не так! Не удалось удалить...", "error");
     });
     builder.addCase(deleteSoldProd.pending, (state, action) => {
       state.preloader = true;
@@ -1597,7 +1597,7 @@ const requestSlice = createSlice({
     builder.addCase(addExpenseTT.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так!");
+      myAlert("Упс, что-то пошло не так!", "error");
     });
     builder.addCase(addExpenseTT.pending, (state, action) => {
       state.preloader = true;
@@ -1610,7 +1610,7 @@ const requestSlice = createSlice({
     builder.addCase(delExpenseTT.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так!");
+      myAlert("Упс, что-то пошло не так!", "error");
     });
     builder.addCase(delExpenseTT.pending, (state, action) => {
       state.preloader = true;
@@ -1624,7 +1624,10 @@ const requestSlice = createSlice({
     builder.addCase(getListContrAgents.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось создать накладную");
+      myAlert(
+        "Упс, что-то пошло не так! Не удалось создать накладную",
+        "error"
+      );
     });
     builder.addCase(getListContrAgents.pending, (state, action) => {
       state.preloader = true;
@@ -1638,7 +1641,10 @@ const requestSlice = createSlice({
     builder.addCase(getListAgents.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось создать накладную");
+      myAlert(
+        "Упс, что-то пошло не так! Не удалось создать накладную",
+        "error"
+      );
     });
     builder.addCase(getListAgents.pending, (state, action) => {
       state.preloader = true;
@@ -1652,7 +1658,10 @@ const requestSlice = createSlice({
     builder.addCase(getListAgentsSorting.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось создать накладную");
+      myAlert(
+        "Упс, что-то пошло не так! Не удалось создать накладную",
+        "error"
+      );
     });
     builder.addCase(getListAgentsSorting.pending, (state, action) => {
       state.preloader = true;
@@ -1663,12 +1672,12 @@ const requestSlice = createSlice({
     //////// acceptMoney
     builder.addCase(acceptMoney.fulfilled, (state, action) => {
       state.preloader = false;
-      alert("Оплата успешно проведена");
+      myAlert("Оплата успешно проведена");
     });
     builder.addCase(acceptMoney.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось оплатить");
+      myAlert("Упс, что-то пошло не так! Не удалось оплатить", "error");
     });
     builder.addCase(acceptMoney.pending, (state, action) => {
       state.preloader = true;
@@ -1683,7 +1692,10 @@ const requestSlice = createSlice({
     builder.addCase(createInvoiceSoputkaTT.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось создать накладную");
+      myAlert(
+        "Упс, что-то пошло не так! Не удалось создать накладную",
+        "error"
+      );
     });
     builder.addCase(createInvoiceSoputkaTT.pending, (state, action) => {
       state.preloader = true;
@@ -1696,7 +1708,7 @@ const requestSlice = createSlice({
     builder.addCase(addProductSoputkaTT.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось добавить товар");
+      myAlert("Упс, что-то пошло не так! Не удалось добавить товар", "error");
     });
     builder.addCase(addProductSoputkaTT.pending, (state, action) => {
       state.preloader = true;
@@ -1711,7 +1723,10 @@ const requestSlice = createSlice({
       state.error = action.payload;
       state.preloader = false;
       state.listProdSoputka = [];
-      alert("Упс, что-то пошло не так! Попробуйте перезайти в приложение...");
+      myAlert(
+        "Упс, что-то пошло не так! Попробуйте перезайти в приложение...",
+        "error"
+      );
     });
     builder.addCase(getListSoputkaProd.pending, (state, action) => {
       state.preloader = true;
@@ -1724,7 +1739,7 @@ const requestSlice = createSlice({
     builder.addCase(deleteSoputkaProd.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось удалить ...");
+      myAlert("Упс, что-то пошло не так! Не удалось удалить ...", "error");
     });
     builder.addCase(deleteSoputkaProd.pending, (state, action) => {
       state.preloader = true;
@@ -1739,7 +1754,10 @@ const requestSlice = createSlice({
       state.error = action.payload;
       state.preloader = false;
       state.listHistorySoputka = [];
-      alert("Упс, что-то пошло не так! Попробуйте перезайти в приложение...");
+      myAlert(
+        "Упс, что-то пошло не так! Попробуйте перезайти в приложение...",
+        "error"
+      );
     });
     builder.addCase(getHistorySoputka.pending, (state, action) => {
       state.preloader = true;
@@ -1748,12 +1766,15 @@ const requestSlice = createSlice({
     ////// confirmSoputka
     builder.addCase(confirmSoputka.fulfilled, (state, action) => {
       state.preloader = false;
-      alert("Накладная сопутки успешно создана!");
+      myAlert("Накладная сопутки успешно создана!");
     });
     builder.addCase(confirmSoputka.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Попробуйте перезайти в приложение...");
+      myAlert(
+        "Упс, что-то пошло не так! Попробуйте перезайти в приложение...",
+        "error"
+      );
     });
     builder.addCase(confirmSoputka.pending, (state, action) => {
       state.preloader = true;
@@ -1782,7 +1803,7 @@ const requestSlice = createSlice({
     builder.addCase(getAcceptInvoiceReturn.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось загрузить данные");
+      myAlert("Упс, что-то пошло не так! Не удалось загрузить данные", "error");
     });
     builder.addCase(getAcceptInvoiceReturn.pending, (state, action) => {
       state.preloader = true;
@@ -1796,7 +1817,7 @@ const requestSlice = createSlice({
     builder.addCase(getAcceptProdInvoiceRetrn.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось загрузить данные");
+      myAlert("Упс, что-то пошло не так! Не удалось загрузить данные", "error");
     });
     builder.addCase(getAcceptProdInvoiceRetrn.pending, (state, action) => {
       state.preloader = true;
@@ -1819,14 +1840,14 @@ const requestSlice = createSlice({
     builder.addCase(acceptInvoiceReturn.fulfilled, (state, action) => {
       state.preloader = false;
       if (action.payload == 2) {
-        alert("Накладная успешно принята!");
+        myAlert("Накладная успешно принята!");
       } else {
-        alert("Накладная отклонена!");
+        myAlert("Накладная отклонена!");
       }
     });
     builder.addCase(acceptInvoiceReturn.rejected, (state, action) => {
       state.error = action.payload;
-      alert("Упс, что-то пошло не так!");
+      myAlert("Упс, что-то пошло не так!", "error");
       state.preloader = false;
     });
     builder.addCase(acceptInvoiceReturn.pending, (state, action) => {
@@ -1841,7 +1862,10 @@ const requestSlice = createSlice({
     builder.addCase(createInvoiceCheck.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось создать накладную");
+      myAlert(
+        "Упс, что-то пошло не так! Не удалось создать накладную",
+        "error"
+      );
     });
     builder.addCase(createInvoiceCheck.pending, (state, action) => {
       state.preloader = true;
@@ -1855,7 +1879,7 @@ const requestSlice = createSlice({
     builder.addCase(getHistoryRevision.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось загрузить данные");
+      myAlert("Упс, что-то пошло не так! Не удалось загрузить данные", "error");
     });
     builder.addCase(getHistoryRevision.pending, (state, action) => {
       state.preloader = true;
@@ -1872,7 +1896,7 @@ const requestSlice = createSlice({
     builder.addCase(getWorkShopsForRevision.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось загрузить данные");
+      myAlert("Упс, что-то пошло не так! Не удалось загрузить данные", "error");
     });
     builder.addCase(getWorkShopsForRevision.pending, (state, action) => {
       state.preloader = true;
@@ -1886,7 +1910,7 @@ const requestSlice = createSlice({
     builder.addCase(getSellersEveryPoint.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось загрузить данные");
+      myAlert("Упс, что-то пошло не так! Не удалось загрузить данные", "error");
     });
     builder.addCase(getSellersEveryPoint.pending, (state, action) => {
       state.preloader = true;
@@ -1905,7 +1929,7 @@ const requestSlice = createSlice({
     builder.addCase(getLeftoversForCheck.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось загрузить данные");
+      myAlert("Упс, что-то пошло не так! Не удалось загрузить данные", "error");
     });
     builder.addCase(getLeftoversForCheck.pending, (state, action) => {
       state.preloader = true;
@@ -1914,12 +1938,12 @@ const requestSlice = createSlice({
     //////// sendCheckListProduct
     builder.addCase(sendCheckListProduct.fulfilled, (state, action) => {
       state.preloader = false;
-      // alert("Товары были успешно отправлены");
+      // myAlert("Товары были успешно отправлены");
     });
     builder.addCase(sendCheckListProduct.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось загрузить данные");
+      myAlert("Упс, что-то пошло не так! Не удалось загрузить данные", "error");
     });
     builder.addCase(sendCheckListProduct.pending, (state, action) => {
       state.preloader = true;
@@ -1933,7 +1957,7 @@ const requestSlice = createSlice({
     builder.addCase(getRevisionRequest.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось загрузить данные");
+      myAlert("Упс, что-то пошло не так! Не удалось загрузить данные", "error");
     });
     builder.addCase(getRevisionRequest.pending, (state, action) => {
       state.preloader = true;
@@ -1947,7 +1971,7 @@ const requestSlice = createSlice({
     builder.addCase(getEveryRevisionRequest.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось загрузить данные");
+      myAlert("Упс, что-то пошло не так! Не удалось загрузить данные", "error");
     });
     builder.addCase(getEveryRevisionRequest.pending, (state, action) => {
       state.preloader = true;
@@ -1956,12 +1980,15 @@ const requestSlice = createSlice({
     /////////// acceptInvoiceRevision
     builder.addCase(acceptInvoiceRevision.fulfilled, (state, action) => {
       state.preloader = false;
-      alert("Накладная ревизии успешно подтверждена!");
+      myAlert("Накладная ревизии успешно подтверждена!");
     });
     builder.addCase(acceptInvoiceRevision.rejected, (state, action) => {
       state.error = action.payload;
       state.preloader = false;
-      alert("Упс, что-то пошло не так! Не удалось подтвердить накладную!");
+      myAlert(
+        "Упс, что-то пошло не так! Не удалось подтвердить накладную!",
+        "error"
+      );
     });
     builder.addCase(acceptInvoiceRevision.pending, (state, action) => {
       state.preloader = true;

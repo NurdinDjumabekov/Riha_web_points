@@ -15,6 +15,7 @@ import SendInput from "../../../common/SendInput/SendInput";
 
 ///// icons
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
+import { myAlert } from "../../../helpers/MyAlert";
 
 const ModalAddSpending = ({ setModal, modal, getData }) => {
   const dispatch = useDispatch();
@@ -48,15 +49,15 @@ const ModalAddSpending = ({ setModal, modal, getData }) => {
     e.preventDefault();
 
     if (!!!expense?.amount) {
-      return alert("Заполните сумму");
+      return myAlert("Заполните сумму", "error");
     }
 
     if (expense?.comment == "") {
-      return alert("Заполните комментарий");
+      return myAlert("Заполните комментарий", "error");
     }
 
     if (!!!expense?.expense_type?.value) {
-      return alert("Выберите категорию!");
+      return myAlert("Выберите категорию!", "error");
     } else {
       const dataSend = {
         ...expense,

@@ -8,11 +8,10 @@ import AcceptReturnHistoryPage from "./AcceptReturnHistoryPage/AcceptReturnHisto
 const PagesReturn = () => {
   return (
     <Routes>
-      <Route path="/" element={<PagesReturn />} />
       <Route path="/main" element={<MyReturnsPage />} />
+      <Route path="/accept" element={<AcceptReturnHistoryPage />} />
       <Route path="/detailed" element={<DetailedReturnPage />} />
       <Route path="/every" element={<EveryReturnPage />} />
-      <Route path="/accept" element={<AcceptReturnHistoryPage />} />
     </Routes>
   );
 };

@@ -64,7 +64,7 @@ const MenuAdmin = ({ invoice_guid }) => {
       id: 3,
       title: "История продаж",
       icon: <RestartAltIcon sx={{ color: "#fff" }} />,
-      link: "/return_prod",
+      link: "/history_sale",
     },
   ];
 

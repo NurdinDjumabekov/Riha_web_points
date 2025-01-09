@@ -8,7 +8,7 @@ import "./style.scss";
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableContainer, TableHead } from "@mui/material";
 import { TableRow, Paper } from "@mui/material";
-import NavPrev from "../../assets/MyIcons/NavPrev";
+import NavPrev from "../NavPrev/NavPrev";
 
 export const RenderResult = ({ list, title }) => {
   return (

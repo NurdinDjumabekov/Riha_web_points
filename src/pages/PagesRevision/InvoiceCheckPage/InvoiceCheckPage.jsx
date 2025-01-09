@@ -42,9 +42,9 @@ const InvoiceCheckPage = () => {
     ///// очищаю список товаров, которые я отпрвляю для ревизии
   }, []);
 
-  const getData = async () => {
+  const getData = () => {
     const obj = { seller_guid: seller_guid_to, guidWorkShop };
-    await dispatch(getLeftoversForCheck(obj));
+    dispatch(getLeftoversForCheck(obj));
     /// get остатки разделенные по цехам для ревизии
   };
 

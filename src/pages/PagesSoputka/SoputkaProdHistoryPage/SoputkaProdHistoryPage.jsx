@@ -20,7 +20,7 @@ import { Table, TableBody, TableCell } from "@mui/material";
 import { TableContainer, TableHead } from "@mui/material";
 import { TableRow, Paper } from "@mui/material";
 import ConfirmationModal from "../../../common/ConfirmationModal/ConfirmationModal";
-import NavPrev from "../../../assets/MyIcons/NavPrev";
+import NavPrev from "../../../common/NavPrev/NavPrev";
 
 //// style
 import "./style.scss";

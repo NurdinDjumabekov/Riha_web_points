@@ -13,6 +13,7 @@ import { addProductInvoiceTT } from "../../../store/reducers/requestSlice.js";
 ////components
 import NavMenu from "../../../common/NavMenu/NavMenu.jsx";
 import Krest from "../../../common/Krest/Krest.jsx";
+import { myAlert } from "../../../helpers/MyAlert.js";
 
 const EverySaleProdPage = () => {
   const dispatch = useDispatch();
@@ -64,7 +65,7 @@ const EverySaleProdPage = () => {
     e.preventDefault();
 
     if (sum == "" || sum == 0) {
-      alert(typeProd);
+      myAlert(typeProd, "error");
     } else {
       const { price, sale_price, count_type } = everyProdSale;
       const sendData = { guid: obj?.guid, count: sum, sale_price };

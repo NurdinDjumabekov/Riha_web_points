@@ -19,6 +19,7 @@ import NoteAddIcon from "@mui/icons-material/NoteAdd";
 
 ////// styles
 import "./style.scss";
+import { myAlert } from "../../../helpers/MyAlert";
 
 const SaleProdModal = (props) => {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const SaleProdModal = (props) => {
     e.preventDefault();
 
     if (price == 0 || price == "") {
-      alert("Введите вес товара");
+      myAlert("Введите вес товара", "error");
       return;
     }
 

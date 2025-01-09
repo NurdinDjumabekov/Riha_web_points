@@ -18,6 +18,7 @@ import { transformLists } from "../../../helpers/transformLists";
 
 ////style
 import "./style.scss";
+import { myAlert } from "../../../helpers/MyAlert";
 
 const ModalPay = ({ modalState, setModalState, getData }) => {
   //// модалка для оплаты ТТ
@@ -51,9 +52,9 @@ const ModalPay = ({ modalState, setModalState, getData }) => {
 
     ///// отплачиваю деньги как ТТ ревизору
     if (!!!obj?.amount) {
-      alert("Введите сумму");
+      myAlert("Введите сумму", "error");
     } else if (!!!obj?.agent_guid) {
-      alert("Выберите агента");
+      myAlert("Выберите агента", "error");
     } else {
       const dataObj = {
         ...obj,
@@ -73,7 +74,7 @@ const ModalPay = ({ modalState, setModalState, getData }) => {
     <MyModals
       openModal={modalState}
       closeModal={closeModal}
-      title={"Введите расходы"}
+      title={"Введите оплату"}
     >
       <form className="modalAddSpending" onSubmit={sendMoney}>
         <div className="myInputs">

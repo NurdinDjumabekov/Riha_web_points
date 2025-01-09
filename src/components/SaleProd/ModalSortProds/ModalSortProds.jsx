@@ -16,6 +16,7 @@ import { changeModalDate } from "../../../store/reducers/stateSlice.js";
 import { listTimes } from "../../../helpers/Data.js";
 
 const ModalSortProds = ({ props }) => {
+  /// check
   const { seller_guid, guidInvoice } = props;
 
   const dispatch = useDispatch();

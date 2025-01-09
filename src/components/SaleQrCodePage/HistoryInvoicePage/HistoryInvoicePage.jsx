@@ -17,7 +17,7 @@ import { TableRow, Paper } from "@mui/material";
 
 ////// styles
 import "./style.scss";
-import NavPrev from "../../../assets/MyIcons/NavPrev";
+import NavPrev from "../../../common/NavPrev/NavPrev";
 
 const HistoryInvoicePage = () => {
   const dispatch = useDispatch();

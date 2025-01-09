@@ -16,6 +16,7 @@ import "./style.scss";
 
 //// helpers
 import { transformLists } from "../../../helpers/transformLists";
+import { myAlert } from "../../../helpers/MyAlert";
 
 ///// icons
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
@@ -40,10 +41,10 @@ const ModalWorkShop = ({ openModal, setOpenModal }) => {
   const createInvocieRevision = async (e) => {
     e.preventDefault();
     if (!!!sellerTo?.value) {
-      return alert("Выберите продаввца для ревизии");
+      return myAlert("Выберите продаввца для ревизии", "error");
     }
     if (!!!comment) {
-      return alert("Добавьте комментарий");
+      return myAlert("Добавьте комментарий", "error");
     }
 
     const send = {
@@ -53,9 +54,8 @@ const ModalWorkShop = ({ openModal, setOpenModal }) => {
     };
     const res = await dispatch(createInvoiceCheck(send)).unwrap();
     if (!!res?.invoice_guid) {
-      navigate(`/sale_qr_code/main`, {
-        state: { invoice_guid: res?.invoice_guid, type: 3 },
-      });
+      const state = { invoice_guid: res?.invoice_guid, type: 3 };
+      navigate(`/revision/qr_scan`, { state });
     }
   };
 
@@ -94,7 +94,7 @@ const ModalWorkShop = ({ openModal, setOpenModal }) => {
         />
         <button className="saveAction" type="submit">
           <LibraryAddIcon sx={{ width: 16, height: 16 }} />
-          <p>Создать накладную для сопутки</p>
+          <p>Создать накладную для ревизии</p>
         </button>
       </form>
     </MyModals>

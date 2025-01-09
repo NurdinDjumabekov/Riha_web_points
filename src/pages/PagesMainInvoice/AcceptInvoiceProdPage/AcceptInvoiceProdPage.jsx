@@ -8,6 +8,7 @@ import EveryMyInvoice from "../../../components/MainInvoiceProd/EveryMyInvoice/E
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableContainer, TableHead } from "@mui/material";
 import { TableRow, Paper } from "@mui/material";
+import NavPrev from "../../../common/NavPrev/NavPrev";
 
 ////// fns
 import { getMyInvoice } from "../../../store/reducers/requestSlice";
@@ -17,7 +18,6 @@ import "./style.scss";
 
 ///// icons
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
-import NavPrev from "../../../assets/MyIcons/NavPrev";
 
 const AcceptInvoiceProdPage = () => {
   ////// загрузки

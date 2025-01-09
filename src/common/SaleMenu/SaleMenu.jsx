@@ -16,6 +16,7 @@ import Modals from "../Modals/Modals";
 
 ///// style
 import "./style.scss";
+import { myAlert } from "../../helpers/MyAlert";
 
 const SaleMenu = () => {
   const dispatch = useDispatch();
@@ -52,7 +53,7 @@ const SaleMenu = () => {
 
   const sendData = () => {
     if (obj?.qrcode?.length != 6) {
-      alert("Введите 6ти значный код товара");
+      myAlert("Введите 6ти значный код товара", "error");
     } else {
       const sendData = { qrcode: obj?.qrcode, seller_guid: data?.seller_guid };
       dispatch(getEveryProd({ ...sendData, navigate, closeModal }));

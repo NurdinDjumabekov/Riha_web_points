@@ -15,8 +15,8 @@ const SaleQrCodePage = () => {
     <Routes>
       <Route element={<SaleLayout />}>
         <Route path="/main" element={<SaleProdPage />} />
-        <Route path="/return_prod" element={<HistoryInvoicePage />} />
         <Route path="/view_prods" element={<ViewSaleProdsPage />} />
+        <Route path="/" element={<HistoryInvoicePage />} />
       </Route>
     </Routes>
   );

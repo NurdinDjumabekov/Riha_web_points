@@ -11,6 +11,8 @@ import { getListAgents } from "../../../store/reducers/requestSlice";
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableContainer, TableHead } from "@mui/material";
 import { TableRow, Paper } from "@mui/material";
+import ModalPay from "../../../components/Pay/ModalPay/ModalPay";
+import NavPrev from "../../../common/NavPrev/NavPrev";
 
 ///// style
 import "./style.scss";
@@ -21,8 +23,6 @@ import { typesPay } from "../../../helpers/Data";
 
 ///// icons
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
-import ModalPay from "../../../components/Pay/ModalPay/ModalPay";
-import NavPrev from "../../../assets/MyIcons/NavPrev";
 
 const PayMoneyPage = () => {
   ///// оплата ТА (принятие денег ТА)
@@ -42,6 +42,7 @@ const PayMoneyPage = () => {
   useEffect(() => {
     getData();
     window.scrollTo({ top: 0, behavior: "smooth" });
+
     return () => dispatch(clearListAgents());
   }, []);
 

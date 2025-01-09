@@ -30,7 +30,7 @@ import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 
 ////// styles
 import "./style.scss";
-import NavPrev from "../../../assets/MyIcons/NavPrev";
+import NavPrev from "../../../common/NavPrev/NavPrev";
 
 const SaleProds = (props) => {
   const { invoice_guid, status, codeid, type } = props;
@@ -119,7 +119,6 @@ const SaleProds = (props) => {
       navigate("/soputka/main");
     } else if (type == 3 && !!res?.result) {
       //// Ревизия
-      navigate("/");
       navigate("/revision/main");
     }
   };

@@ -22,7 +22,7 @@ import {
 ////// helpers
 import { debounce } from "lodash";
 import { roundingNum } from "../../helpers/amounts";
-import NavPrev from "../../assets/MyIcons/NavPrev";
+import NavPrev from "../../common/NavPrev/NavPrev";
 
 const LeftoversScreen = () => {
   const dispatch = useDispatch();

@@ -1,23 +1,13 @@
 .revisionBlock {
   position: relative;
-  padding: 60px 0 0 0;
+  border-radius: 5px;
 
   .header {
-    position: absolute;
-    left: 0px;
-    top: 7px;
-    z-index: 10;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 46px;
-    padding: 0 15px;
-
-    .titlePage {
-      padding: 0;
-      padding-left: 20px;
-    }
+    padding: 0 15px 0 0;
 
     > div {
       display: flex;
@@ -27,6 +17,10 @@
       button:nth-child(1) {
         background: #1976d2;
       }
+    }
+
+    .moreTitle {
+      gap: 0 !important;
     }
   }
 }

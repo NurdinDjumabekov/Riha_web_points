@@ -13,6 +13,7 @@ import { getAcceptInvoiceReturn } from "../../../store/reducers/requestSlice";
 
 ////style
 import "./style.scss";
+import NavPrev from "../../../common/NavPrev/NavPrev";
 
 const AcceptReturnHistoryPage = () => {
   const dispatch = useDispatch();
@@ -33,7 +34,10 @@ const AcceptReturnHistoryPage = () => {
 
   return (
     <div className="listInvoices blockListHistory">
-      <h3 className="titlePage">Список накладных возврат</h3>
+      <div className="titleInAllPage">
+        <NavPrev />
+        <h3>Список накладных возврат</h3>
+      </div>
       <TableContainer
         component={Paper}
         sx={{ maxHeight: "100%" }}

@@ -21,6 +21,7 @@ import Krest from "../Krest/Krest";
 
 ///////// style
 import "./style.scss";
+import { myAlert } from "../../helpers/MyAlert";
 
 const AddProductsInvoice = (props) => {
   const { forAddTovar } = props;
@@ -56,7 +57,7 @@ const AddProductsInvoice = (props) => {
       const text = `Введите цену и ${
         temporaryData?.unit_codeid == 1 ? "количество" : "вес"
       }`;
-      alert(text);
+      myAlert(text, "error");
     } else {
       const data = {
         guid: temporaryData?.guid,

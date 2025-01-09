@@ -9,7 +9,7 @@ import { getSelectExpense } from "../../store/reducers/requestSlice";
 //////components
 import ListExpense from "../../components/Spendings/ListExpense/ListExpense";
 import ModalAddSpending from "../../components/Spendings/ModalAddSpending/ModalAddSpending";
-import NavPrev from "../../assets/MyIcons/NavPrev";
+import NavPrev from "../../common/NavPrev/NavPrev";
 
 ////style
 import "./style.scss";

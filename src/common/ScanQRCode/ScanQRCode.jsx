@@ -7,7 +7,7 @@ import "./style.scss";
 ////// components
 import SaleProds from "../../components/SaleQrCodePage/SaleProds/SaleProds";
 import SearchProdPage from "../../components/SaleQrCodePage/SearchProdPage/SearchProdPage";
-import NavPrev from "../../assets/MyIcons/NavPrev";
+import NavPrev from "../NavPrev/NavPrev";
 
 const ScanQRCode = (props) => {
   const { title, invoice_guid, codeid, type } = props;

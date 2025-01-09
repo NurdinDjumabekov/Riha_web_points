@@ -8,6 +8,7 @@ import EveryMyInvoice from "../../../components/MainInvoiceProd/EveryMyInvoice/E
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableContainer, TableHead } from "@mui/material";
 import { TableRow, Paper } from "@mui/material";
+import NavPrev from "../../../common/NavPrev/NavPrev";
 
 ////// fns
 import { getMyReturnInvoice } from "../../../store/reducers/requestSlice";
@@ -25,9 +26,7 @@ const MyReturnsPage = () => {
   const { listMyInvoiceReturn } = useSelector((state) => state.requestSlice);
   const { data } = useSelector((state) => state.saveDataSlice);
 
-  const getData = () => {
-    dispatch(getMyReturnInvoice(data?.seller_guid));
-  };
+  const getData = () => dispatch(getMyReturnInvoice(data?.seller_guid));
 
   useEffect(() => {
     getData();
@@ -41,7 +40,10 @@ const MyReturnsPage = () => {
   return (
     <div className="listInvoices acceptInvoiceProdPage">
       <div className="header">
-        <h3 className="titlePage">Список накладных для воврата</h3>
+        <div className="titleInAllPage">
+          <NavPrev />
+          <h3>Список накладных для воврата</h3>
+        </div>
         <button className="saveAction" onClick={getHistory}>
           <LibraryAddIcon sx={{ width: 16, height: 16 }} />
           <p>Список принятых накладных</p>

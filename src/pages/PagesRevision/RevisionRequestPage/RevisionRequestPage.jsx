@@ -10,9 +10,12 @@ import { getRevisionRequest } from "../../../store/reducers/requestSlice";
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableContainer, TableHead } from "@mui/material";
 import { TableRow, Paper } from "@mui/material";
+import NavPrev from "../../../common/NavPrev/NavPrev";
 
-////style
+//// style
 import "./style.scss";
+
+//// helpers
 import { statusColor, statusRevision } from "../../../helpers/Data";
 import { roundingNum } from "../../../helpers/amounts";
 
@@ -32,15 +35,14 @@ const RevisionRequestPage = () => {
   }, []);
 
   const lookInvoice = ({ guid }) => {
-    // console.log(guid);
-    // navigate("/revision/every", { state: { invoice_guid } });
     navigate("/main_invoice/every_accept_inv", { state: { guid, type: 3 } });
   };
 
   return (
     <div className="revisionRequest">
-      <div className="header">
-        <h3 className="titlePage">Входные накладные ревизии</h3>
+      <div className="titleInAllPage">
+        <NavPrev />
+        <h3>Входные накладные ревизии</h3>
       </div>
       <TableContainer
         component={Paper}

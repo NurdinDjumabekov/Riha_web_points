@@ -4,23 +4,20 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 ////// imgs
-import LogoutIcon from "@mui/icons-material/Logout";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 
 ///// fns
 import { changePreloader } from "../../../store/reducers/requestSlice";
 import { clearLogin } from "../../../store/reducers/stateSlice";
-import {
-  activePageFN,
-  clearLocalData,
-} from "../../../store/reducers/saveDataSlice";
+import { clearLocalData } from "../../../store/reducers/saveDataSlice";
 
 ////// style
 import "./style.scss";
 
 /////// components
-import { Tooltip } from "@mui/material";
+import { List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 
-const LogOut = ({ active }) => {
+const LogOut = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -28,29 +25,26 @@ const LogOut = ({ active }) => {
     dispatch(changePreloader(true));
     dispatch(clearLogin());
     dispatch(clearLocalData());
-    dispatch(activePageFN(1));
     setTimeout(() => {
       navigate("/");
       dispatch(changePreloader(false));
     }, 300);
   };
 
-  if (active) {
-    return (
-      <button onClick={logOut} className="logOutDecs">
-        <LogoutIcon sx={{ color: "#506690" }} />
-        {active && <p>Выйти</p>}
-      </button>
-    );
-  }
-
   return (
-    <Tooltip title={"Выйти"} placement="left">
-      <button onClick={logOut} className="logOutDecs">
-        <LogoutIcon sx={{ color: "#506690" }} />
-        {active && <p>Выйти</p>}
-      </button>
-    </Tooltip>
+    <>
+      <List sx={{ marginTop: "auto" }}>
+        <ListItem
+          sx={{ padding: 2, justifyContent: "center", cursor: "pointer" }}
+          onClick={logOut}
+        >
+          <ListItemIcon sx={{ minWidth: 32 }}>
+            <ExitToAppIcon />
+          </ListItemIcon>
+          <ListItemText primary={"Выход"} />
+        </ListItem>
+      </List>
+    </>
   );
 };
 

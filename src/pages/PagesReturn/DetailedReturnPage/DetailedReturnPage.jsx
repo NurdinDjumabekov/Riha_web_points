@@ -1,24 +1,20 @@
 /////hooks
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate } from "react-router-dom";
 
 /////components
 import ConfirmationModal from "../../../common/ConfirmationModal/ConfirmationModal";
-import ResultCounts from "../../../common/ResultCounts/ResultCounts";
-import NavMenu from "../../../common/NavMenu/NavMenu";
+import { RenderResult } from "../../../common/RenderResult/RenderResult";
 
 /////fns
 import { getMyEveryInvoiceReturn } from "../../../store/reducers/requestSlice";
 import { acceptInvoiceReturn } from "../../../store/reducers/requestSlice";
 
 /////helpers
-import { formatCount } from "../../../helpers/amounts";
 
 /////style
 import "./style.scss";
-import MyTable from "../../../components/Tables/MyTable/MyTable";
-import { useLocation, useNavigate } from "react-router-dom";
-import { RenderResult } from "../../../common/RenderResult/RenderResult";
 
 const DetailedReturnPage = () => {
   const dispatch = useDispatch();
@@ -65,7 +61,7 @@ const DetailedReturnPage = () => {
     <>
       <div className="detailedMain">
         {checkStatus && (
-          <div className="actionBlockHeader">
+          <div className="rightPosition">
             <button className="saveAction" onClick={clickOkay}>
               Принять
             </button>

@@ -14,6 +14,7 @@ import "./style.scss";
 
 //// helpers
 import CLOUDS from "vanta/src/vanta.net";
+import { myAlert } from "../../helpers/MyAlert";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -30,11 +31,12 @@ const LoginPage = () => {
   };
 
   const sendLogin = (e) => {
-    e.preventDefault(); // Prevent form submission
+    e.preventDefault();
     if (dataLogin?.login && dataLogin?.password) {
       dispatch(logInAccount({ dataLogin, navigate, data }));
     } else {
-      alert("Введите логин и пароль!");
+      myAlert("Введите логин и пароль!", "error");
+      
     }
   };
 
@@ -75,7 +77,7 @@ const LoginPage = () => {
             ref={loginRef}
             value={dataLogin?.login}
             onChange={onChange}
-            placeholder={"..."}
+            placeholder={""}
             onFocus={handleFocus}
             name="login"
             className="input"
@@ -89,7 +91,7 @@ const LoginPage = () => {
             ref={passwordRef}
             value={dataLogin?.password}
             onChange={onChange}
-            placeholder={"..."}
+            placeholder={""}
             onFocus={handleFocus}
             name="password"
             type="password"
