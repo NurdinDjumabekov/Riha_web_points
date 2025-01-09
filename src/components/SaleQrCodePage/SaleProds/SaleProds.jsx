@@ -59,7 +59,7 @@ const SaleProds = (props) => {
       setModal(res);
       setTimeout(() => {
         refInputSum.current?.focus();
-      }, 500);
+      }, 200);
     } else {
       myAlert("Не удалось найти такой продукт", "error");
       setSum("");
