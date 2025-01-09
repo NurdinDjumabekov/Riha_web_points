@@ -16,6 +16,7 @@ import "./style.scss";
 
 //// helpers
 import { transformLists } from "../../../helpers/transformLists";
+import { myAlert } from "../../../helpers/MyAlert";
 
 ///// icons
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
@@ -40,7 +41,7 @@ const ModalCreateSoputka = ({ openModal, setOpenModal }) => {
   const listContrAgentsNew = transformLists(listContrAgents, "guid", "name");
   const listAgentsNew = transformLists(listAgents, "guid", "fio");
 
-  const choiceContrAgent = async ({ label, value }) => {
+  async function choiceContrAgent({ label, value }) {
     setActiveContrAgent({ label, value });
     setObj({ ...obj, contragent_guid: value });
     ////// get список актуальных агентов для торговой точки
@@ -50,20 +51,20 @@ const ModalCreateSoputka = ({ openModal, setOpenModal }) => {
     } else {
       setActiveAgent({});
     }
-  };
+  }
 
-  const choiceAgent = ({ label, value }) => {
+  function choiceAgent({ label, value }) {
     setActiveAgent({ label, value });
-  };
+  }
 
-  const createInvoiceSoputka = async (e) => {
+  async function createInvoiceSoputka(e) {
     e.preventDefault();
     if (!!!activeContrAgent?.value) {
-      return alert("Выберите контрагента");
+      return myAlert("Выберите контрагента", "error");
     }
 
     if (!!!activeAgent?.value) {
-      return alert("Выберите агента");
+      return myAlert("Выберите агента", "error");
     }
 
     const dataObj = {
@@ -72,16 +73,15 @@ const ModalCreateSoputka = ({ openModal, setOpenModal }) => {
       agent_guid: activeAgent?.value,
     };
 
-    const res = await dispatch(
-      createInvoiceSoputkaTT({ navigate, dataObj })
-    ).unwrap();
+    const send = { navigate, dataObj };
 
+    const res = await dispatch(createInvoiceSoputkaTT(send)).unwrap();
+
+    const state = { invoice_guid: res?.invoice_guid, type: 2 };
     if (!!res?.invoice_guid) {
-      navigate(`/sale_qr_code/main`, {
-        state: { invoice_guid: res?.invoice_guid, type: 2 },
-      });
+      navigate(`/soputka/qr_scan`, { state });
     }
-  };
+  }
 
   return (
     <MyModals

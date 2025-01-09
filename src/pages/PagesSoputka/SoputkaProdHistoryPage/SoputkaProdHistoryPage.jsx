@@ -2,32 +2,28 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Fragment } from "react";
 
-//// redux
+//// fns
 import { confirmSoputka } from "../../../store/reducers/requestSlice";
 import { deleteSoputkaProd } from "../../../store/reducers/requestSlice";
 import { getListSoputkaProd } from "../../../store/reducers/requestSlice";
 
 //// helpers
-import {
-  formatCount,
-  roundingNum,
-  sumSoputkaProds,
-} from "../../../helpers/amounts";
+import { roundingNum } from "../../../helpers/amounts";
+
+///// icons
+import DeleteIcon from "../../../assets/MyIcons/DeleteIcon";
 
 /////components
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableContainer, TableHead } from "@mui/material";
 import { TableRow, Paper } from "@mui/material";
 import ConfirmationModal from "../../../common/ConfirmationModal/ConfirmationModal";
-import { RenderResult } from "../../../common/RenderResult/RenderResult";
-import ResultCounts from "../../../common/ResultCounts/ResultCounts";
-import NavMenu from "../../../common/NavMenu/NavMenu";
-import Krest from "../../../common/Krest/Krest";
+import NavPrev from "../../../assets/MyIcons/NavPrev";
 
 //// style
 import "./style.scss";
-import DeleteIcon from "../../../assets/MyIcons/DeleteIcon";
 
 const SoputkaProdHistoryPage = () => {
   //// история каждой накладной сапутки
@@ -50,15 +46,16 @@ const SoputkaProdHistoryPage = () => {
     getData();
   }, []);
 
-  const confirmBtn = () => {
-    dispatch(confirmSoputka({ invoice_guid: guidInvoice, navigate }));
+  const confirmBtn = async () => {
+    const send = { invoice_guid: guidInvoice };
+    const res = await dispatch(confirmSoputka(send)).unwrap();
+    if (res === 1) navigate("/soputka/main");
     /// подтверждение накладной сопутки
   };
 
   const addProd = () => {
-    navigate(`/sale_qr_code/main`, {
-      state: { invoice_guid: guidInvoice, type: 2 },
-    });
+    const state = { invoice_guid: guidInvoice, type: 2 };
+    navigate(`/soputka/qr_scan`, { state });
     /// д0бавление товара в накладную сопутки
   };
 
@@ -68,24 +65,29 @@ const SoputkaProdHistoryPage = () => {
     /// удаление товара в накладную сопутки
   };
 
-  const status = listProdSoputka?.[0]?.status === 0; /// 0 - не подтверждён
+  const status = listProdSoputka?.[0]?.status == 0; /// 0 - не подтверждён
 
   const listData = listProdSoputka?.[0]?.list;
 
   return (
     <>
       <div className="everyProd soputkaHistoryParent">
-        {status && (
-          <div className="actionBlockHeader">
-            <button className="saveAction" onClick={() => setConfirm(true)}>
-              Подтвердить принятие
-            </button>
-            <button className="saveAction" onClick={addProd}>
-              Добавить товар
-            </button>
+        <div className="header">
+          <div className="titleInAllPage">
+            <NavPrev />
+            <h3 className="titlePage">{`Накладная № ${listData?.[0]?.codeid}`}</h3>
           </div>
-        )}
-        <h3 className="titlePage">{`Накладная № ${listData?.[0]?.codeid}`}</h3>
+          {status && (
+            <div className="actionBlockHeader">
+              <button className="saveAction" onClick={() => setConfirm(true)}>
+                Подтвердить принятие
+              </button>
+              <button className="saveAction" onClick={addProd}>
+                Добавить товар
+              </button>
+            </div>
+          )}
+        </div>
         <TableContainer
           component={Paper}
           sx={{ maxHeight: "100%" }}
@@ -113,8 +115,8 @@ const SoputkaProdHistoryPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {listData?.map((item) => (
-                <>
+              {listData?.map((item, index) => (
+                <Fragment key={index}>
                   <TableRow className="tableInvoice">
                     <TableCell
                       align="center"
@@ -141,12 +143,14 @@ const SoputkaProdHistoryPage = () => {
                       сом
                     </TableCell>
                     <TableCell align="left" style={{ width: "8%" }}>
-                      <button
-                        onClick={() => setModalItemGuid(item?.guid)}
-                        className="del"
-                      >
-                        <DeleteIcon width={19} height={19} color={"red"} />
-                      </button>
+                      {status && (
+                        <button
+                          onClick={() => setModalItemGuid(item?.guid)}
+                          className="del"
+                        >
+                          <DeleteIcon width={19} height={19} color={"red"} />
+                        </button>
+                      )}
                     </TableCell>
                   </TableRow>
                   <ConfirmationModal
@@ -156,7 +160,7 @@ const SoputkaProdHistoryPage = () => {
                     onNo={() => setModalItemGuid(null)}
                     onClose={() => setModalItemGuid(null)}
                   />
-                </>
+                </Fragment>
               ))}
             </TableBody>
           </Table>

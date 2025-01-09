@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { API } from "../../env";
 import axios from "axios";
 import { transformDate } from "../../helpers/transformDate";
+import { myAlert } from "../../helpers/MyAlert";
 
 const initialState = {
   preloaderSale: false,
@@ -157,7 +158,7 @@ export const updateStatusInvoice = createAsyncThunk(
     try {
       const response = await axios?.[objSend?.[type]](url, data);
       if (response.status >= 200 && response.status < 300) {
-        alert("Процесс завершился успешно");
+        myAlert("Процесс завершился успешно");
         return response?.data;
       } else {
         throw Error(`Error: ${response.status}`);

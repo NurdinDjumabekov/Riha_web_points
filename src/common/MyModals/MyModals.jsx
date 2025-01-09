@@ -7,15 +7,20 @@ const MyModals = (props) => {
   const closeModalFN = () => closeModal();
 
   useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key == "Escape") closeModalFN();
+    };
     if (openModal) {
       document.body.style.overflow = "hidden";
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
+      document.addEventListener("keydown", handleKeyDown);
     } else {
       document.body.style.overflow = "visible";
     }
     return () => {
       document.body.style.overflow = "visible";
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, [openModal]);
 

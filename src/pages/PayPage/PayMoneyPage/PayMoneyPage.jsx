@@ -22,6 +22,7 @@ import { typesPay } from "../../../helpers/Data";
 ///// icons
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import ModalPay from "../../../components/Pay/ModalPay/ModalPay";
+import NavPrev from "../../../assets/MyIcons/NavPrev";
 
 const PayMoneyPage = () => {
   ///// оплата ТА (принятие денег ТА)
@@ -47,7 +48,10 @@ const PayMoneyPage = () => {
   return (
     <div className="containerPay">
       <div className="header">
-        <h3 className="titlePage">Оплаты</h3>
+        <div className="titleInAllPage">
+          <NavPrev />
+          <h3>Оплаты</h3>
+        </div>
         <button className="saveAction" onClick={() => setModalState(true)}>
           <LibraryAddIcon sx={{ width: 16, height: 16 }} />
           <p>+ Произвести оплату</p>

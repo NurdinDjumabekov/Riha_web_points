@@ -8,7 +8,6 @@ import EveryInvoiceAcceptPage from "./EveryInvoiceAcceptPage/EveryInvoiceAcceptP
 const PagesMainInvoice = () => {
   return (
     <Routes>
-      <Route path="/" element={<PagesMainInvoice />} />
       <Route path="/accept_prod" element={<AcceptInvoiceProdPage />} />
       <Route path="/accept_detailed" element={<DetailedInvoiceProdPage />} />
       <Route path="/accept_history" element={<AcceptInvoiceHistoryPage />} />

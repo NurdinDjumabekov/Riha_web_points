@@ -1,5 +1,4 @@
 ///// hooks
-import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState, useCallback } from "react";
 
@@ -23,6 +22,7 @@ import {
 ////// helpers
 import { debounce } from "lodash";
 import { roundingNum } from "../../helpers/amounts";
+import NavPrev from "../../assets/MyIcons/NavPrev";
 
 const LeftoversScreen = () => {
   const dispatch = useDispatch();
@@ -113,34 +113,37 @@ const LeftoversScreen = () => {
       <div className="searchProd leftoversContainer">
         <div className="searchProd__inner">
           <div className="titleAction">
-            <div className="myInputs inputSend">
-              <h6>Поиск товаров </h6>
-              <input
-                ref={refInputSearch}
-                type="text"
-                // placeholder="Поиск товаров ..."
-                onChange={onChange}
-                value={searchProd}
-                className="searchInput"
-              />
-            </div>
-            <div className="myInputs selectPosition">
-              <h6>Цех</h6>
-              <Select
-                options={listWorkShops}
-                className="select"
-                onChange={onChangeWS}
-                value={activeWorkShop}
-              />
-            </div>
-            <div className="myInputs selectPosition">
-              <h6>Категории</h6>
-              <Select
-                options={listCategs}
-                className="select"
-                onChange={onChangeCateg}
-                value={activeCategs}
-              />
+            <NavPrev />
+            <div className="titleAction__inner">
+              <div className="myInputs inputSend">
+                <h6>Поиск товаров </h6>
+                <input
+                  ref={refInputSearch}
+                  type="text"
+                  // placeholder="Поиск товаров ..."
+                  onChange={onChange}
+                  value={searchProd}
+                  className="searchInput"
+                />
+              </div>
+              <div className="myInputs selectPosition">
+                <h6>Цех</h6>
+                <Select
+                  options={listWorkShops}
+                  className="select"
+                  onChange={onChangeWS}
+                  value={activeWorkShop}
+                />
+              </div>
+              <div className="myInputs selectPosition">
+                <h6>Категории</h6>
+                <Select
+                  options={listCategs}
+                  className="select"
+                  onChange={onChangeCateg}
+                  value={activeCategs}
+                />
+              </div>
             </div>
           </div>
           {emptyDataProd ? (

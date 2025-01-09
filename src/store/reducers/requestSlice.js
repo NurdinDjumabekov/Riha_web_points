@@ -187,14 +187,11 @@ export const acceptInvoiceTT = createAsyncThunk(
   /// для принятия накладной торговой точкой
   async function ({ props, navigate }, { rejectWithValue }) {
     const { status } = props;
+    const url = `${API}/tt/point_conf_inv`;
     try {
-      const response = await axios({
-        method: "POST",
-        url: `${API}/tt/point_conf_inv`,
-        data: props,
-      });
+      const response = await axios.post(url, props);
       if (response.status >= 200 && response.status < 300) {
-        navigate("/");
+        navigate("/main_invoice/accept_prod");
         return status;
       } else {
         throw Error(`Error: ${response.status}`);
@@ -969,17 +966,12 @@ export const getHistorySoputka = createAsyncThunk(
 export const confirmSoputka = createAsyncThunk(
   /// подверждение товаров сопутки
   "confirmSoputka",
-  async function ({ invoice_guid, navigate }, { dispatch, rejectWithValue }) {
+  async function (data, { dispatch, rejectWithValue }) {
+    const url = `${API}/tt/confirm_invoice_soputka`;
     try {
-      const response = await axios({
-        method: "POST",
-        url: `${API}/tt/confirm_invoice_soputka`,
-        data: { invoice_guid },
-      });
+      const response = await axios.post(url, data);
       if (response.status >= 200 && response.status < 300) {
-        if (+response?.data?.result === 1) {
-          navigate("/");
-        }
+        return response?.data?.result;
       } else {
         throw Error(`Error: ${response.status}`);
       }

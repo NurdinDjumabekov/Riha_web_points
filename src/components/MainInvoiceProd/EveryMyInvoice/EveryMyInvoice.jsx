@@ -1,6 +1,6 @@
 //// hooks
 import { useDispatch } from "react-redux";
-import { formatCount, roundingNum } from "../../../helpers/amounts";
+import { roundingNum } from "../../../helpers/amounts";
 import { useLocation, useNavigate } from "react-router-dom";
 
 /////fns
@@ -11,9 +11,8 @@ import { changePreloader } from "../../../store/reducers/requestSlice";
 import "./style.scss";
 
 //// components
-import { Table, TableBody, TableCell } from "@mui/material";
-import { TableContainer, TableHead } from "@mui/material";
-import { TableRow, Paper } from "@mui/material";
+import { TableCell } from "@mui/material";
+import { TableRow } from "@mui/material";
 
 const EveryMyInvoice = (props) => {
   const { obj, screns } = props;
@@ -85,48 +84,42 @@ const EveryMyInvoice = (props) => {
   };
 
   return (
-    <>
-      <TableRow
-        key={obj?.codeid}
-        className="tableInvoice"
-        onClick={lookInvoice}
+    <TableRow key={obj?.codeid} className="tableInvoice" onClick={lookInvoice}>
+      <TableCell
+        align="center"
+        component="th"
+        scope="row"
+        style={{ width: "5%" }}
       >
-        <TableCell
-          align="center"
-          component="th"
-          scope="row"
-          style={{ width: "5%" }}
-        >
-          {obj?.codeid}
-        </TableCell>
-        <TableCell
-          component="th"
-          scope="row"
-          style={{ width: "5%", textAlign: "center" }}
-        >
-          <input type="checkbox" value={true} />
-        </TableCell>
-        <TableCell align="left" style={{ width: "25%" }}>
-          {obj?.agent}
-        </TableCell>
-        <TableCell align="left" style={{ width: "15%" }}>
-          {obj?.date}
-        </TableCell>
-        <TableCell
-          align="left"
-          style={{ width: "15%", color: checkStyle?.color }}
-        >
-          {checkStyle?.text}
-        </TableCell>
-        <TableCell align="left" style={{ width: "15%" }}>
-          {roundingNum(obj?.total_price)} сом
-        </TableCell>
+        {obj?.codeid}
+      </TableCell>
+      <TableCell
+        component="th"
+        scope="row"
+        style={{ width: "5%", textAlign: "center" }}
+      >
+        <input type="checkbox" value={true} />
+      </TableCell>
+      <TableCell align="left" style={{ width: "25%" }}>
+        {obj?.agent}
+      </TableCell>
+      <TableCell align="left" style={{ width: "15%" }}>
+        {obj?.date}
+      </TableCell>
+      <TableCell
+        align="left"
+        style={{ width: "15%", color: checkStyle?.color }}
+      >
+        {checkStyle?.text}
+      </TableCell>
+      <TableCell align="left" style={{ width: "15%" }}>
+        {roundingNum(obj?.total_price)} сом
+      </TableCell>
 
-        <TableCell align="left" style={{ width: "20%" }}>
-          {obj?.comment || "..."}
-        </TableCell>
-      </TableRow>
-    </>
+      <TableCell align="left" style={{ width: "20%" }}>
+        {obj?.comment || "..."}
+      </TableCell>
+    </TableRow>
   );
 };
 

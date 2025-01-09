@@ -1,9 +1,10 @@
 ///// hooks
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 ////// helpers
+import { myAlert } from "../../../helpers/MyAlert";
 import { roundingNum } from "../../../helpers/amounts";
 
 ///// fns
@@ -22,7 +23,6 @@ import { TableRow, Paper } from "@mui/material";
 import GeneratePdfCheque from "../GeneratePdfCheque/GeneratePdfCheque";
 import ConfirmationModal from "../../../common/ConfirmationModal/ConfirmationModal";
 import SaleProdModal from "../SaleProdModal/SaleProdModal";
-import { debounce } from "lodash";
 
 ///// icons
 import DeleteIcon from "../../../assets/MyIcons/DeleteIcon";
@@ -30,7 +30,7 @@ import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 
 ////// styles
 import "./style.scss";
-import { useMemo } from "react";
+import NavPrev from "../../../assets/MyIcons/NavPrev";
 
 const SaleProds = (props) => {
   const { invoice_guid, status, codeid, type } = props;
@@ -46,7 +46,7 @@ const SaleProds = (props) => {
 
   const [sum, setSum] = useState("");
   const [modal, setModal] = useState({});
-  const [price, setPrice] = useState(1);
+  const [price, setPrice] = useState("");
   const [confirm, setConfirm] = useState(false);
 
   const getData = () => dispatch(getProducts({ invoice_guid, type }));
@@ -58,10 +58,11 @@ const SaleProds = (props) => {
     if (!!res?.guid) {
       setModal(res);
       setTimeout(() => {
-        refInputSum.current.focus();
-      }, 200);
+        refInputSum.current?.focus();
+      }, 500);
     } else {
-      alert("Не удалось найти такой продукт");
+      myAlert("Не удалось найти такой продукт", "error");
+      setSum("");
     }
   };
 
@@ -69,42 +70,12 @@ const SaleProds = (props) => {
     getData();
     setTimeout(() => {
       if (!!!status) {
-        refInput.current.focus();
+        refInput.current?.focus();
       }
-    }, 300);
+    }, 500);
   }, [invoice_guid]);
 
   const onChange = (e) => setSum(e.target.value);
-
-  const handleDebouncedSearch = useCallback(
-    debounce(async (value) => {
-      if (value?.length > 2) {
-        const send = { qrcode: value, seller_guid: data?.seller_guid }; // Отправляем актуальное значение
-        try {
-          const res = await dispatch(getProductsInQr(send)).unwrap();
-          if (res?.guid) {
-            setSum("");
-            setModal(res);
-            setTimeout(() => {
-              refInputSum.current.focus();
-            }, 200);
-          } else {
-            setSum("");
-            alert("Не удалось найти такой продукт");
-          }
-        } catch (error) {
-          alert("Ошибка при поиске продукта");
-        }
-      }
-    }, 800),
-    []
-  );
-
-  useEffect(() => {
-    if (sum.length > 2) {
-      handleDebouncedSearch(sum);
-    }
-  }, [sum, handleDebouncedSearch]);
 
   const clickDelProd = async (obj) => {
     const send = { product_guid: obj?.guid };
@@ -116,8 +87,8 @@ const SaleProds = (props) => {
 
   const clearStates = () => {
     setSum("");
-    setPrice(1);
-    refInput.current.focus();
+    setPrice("");
+    refInput.current?.focus();
   };
 
   const closeModal = () => {
@@ -127,37 +98,32 @@ const SaleProds = (props) => {
 
   const sendAcceptInvoice = async () => {
     if (listProds?.length == 0) {
-      alert("Пустой список!");
+      myAlert("Пустой список!", "error");
       setConfirm("");
       return;
     }
 
     const send = { invoice_guid, status: 2 };
-    //// 2 - подтверждение накладной продажи,сопутки и ревизии
+    //// 2 - подтверждение накладной продажи, сопутки и ревизии
     const res = await dispatch(updateStatusInvoice({ send, type })).unwrap();
-    if (!!res?.result) {
-      if (type == 1) {
-        //// Продажи
-        navigate("/");
-        const res = await dispatch(createInvoice(data)).unwrap();
-        if (res?.guid) {
-          navigate(`/sale_qr_code/main`, {
-            state: { invoice_guid: res?.guid, type: 1 },
-          });
-        }
+    if (type == 1 && !!res?.result) {
+      //// Продажи
+      navigate("/");
+      const res = await dispatch(createInvoice(data)).unwrap();
+      const state = { invoice_guid: res?.guid, type: 1 };
+      if (res?.guid) {
+        navigate(`/sale_qr_code/main`, { state });
       }
-      if (type == 2) {
-        //// Сопутка
-        navigate("/");
-        navigate("/soputka/main");
-      }
-      if (type == 3) {
-        //// Ревизия
-        navigate("/");
-        navigate("/revision/main");
-      }
+    } else if (type == 2 && !!res?.result) {
+      //// Сопутка
+      navigate("/soputka/main");
+    } else if (type == 3 && !!res?.result) {
+      //// Ревизия
+      navigate("/");
+      navigate("/revision/main");
     }
   };
+
   const objAction = {
     1: (
       <>
@@ -189,10 +155,11 @@ const SaleProds = (props) => {
     <>
       <div className="saleProdsQR">
         <div className="saleProdsQR__inner">
-          <div className="header">
+          <div className={`header ${!!!status ? "moreHeader" : ""}`}>
             {!!status ? (
-              <div className="titles">
-                <h1>Накладная № {codeid}</h1>
+              <div className="titleInAllPage">
+                <NavPrev />
+                <h3 className="titlePage">Накладная № {codeid}</h3>
               </div>
             ) : (
               <form className="actionAddProd" onSubmit={sendProd}>
@@ -201,14 +168,10 @@ const SaleProds = (props) => {
                   <input
                     ref={refInput}
                     type="search"
-                    onChange={(e) => onChange(e, 1)}
+                    onChange={onChange}
                     value={sum}
                   />
                 </div>
-                {/* <button className="saveAction" type="submit">
-                  <NoteAddIcon sx={{ width: 16, height: 16 }} />
-                  <p>Добавить товар</p>
-                </button> */}
               </form>
             )}
             <div className="header headerIner">
@@ -235,10 +198,10 @@ const SaleProds = (props) => {
                     </TableCell>
                     <TableCell style={{ width: "41%" }}>Продукт</TableCell>
                     <TableCell align="left" style={{ width: "15%" }}>
-                      Цена за кг
+                      Цена за кг (шт)
                     </TableCell>
                     <TableCell align="left" style={{ width: "15%" }}>
-                      Итоговый вес
+                      Итоговый вес (шт)
                     </TableCell>
                     <TableCell align="left" style={{ width: "15%" }}>
                       Cумма продажи
@@ -267,13 +230,13 @@ const SaleProds = (props) => {
                         {row?.product_name}
                       </TableCell>
                       <TableCell align="left" style={{ width: "15%" }}>
-                        {roundingNum(row?.product_price)} сом
-                      </TableCell>
-                      <TableCell align="left" style={{ width: "15%" }}>
-                        {roundingNum(row?.count)} кг
-                      </TableCell>
-                      <TableCell align="left" style={{ width: "15%" }}>
                         {roundingNum(row?.price)} сом
+                      </TableCell>
+                      <TableCell align="left" style={{ width: "15%" }}>
+                        {roundingNum(row?.count)} {row?.unit}
+                      </TableCell>
+                      <TableCell align="left" style={{ width: "15%" }}>
+                        {roundingNum(row?.product_price)} сом
                       </TableCell>
                       <TableCell align="left" style={{ width: "9%" }}>
                         {!!!status ? (

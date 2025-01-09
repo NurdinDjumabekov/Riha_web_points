@@ -1,8 +1,3 @@
-/////// icons
-import logo from "../../assets/images/rihaLogo.png";
-import twoArrow from "../../assets/icons/twoArrow.svg";
-import arrowRight from "../../assets/icons/arrowMenu.svg";
-
 ///// hooks
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,8 +14,14 @@ import LogOut from "../../components/AllCategPage/LogOut/LogOut";
 //// helpers
 import { dataCategory } from "../../helpers/Data";
 
+/////// icons
+import logo from "../../assets/images/rihaLogo.png";
+import twoArrow from "../../assets/icons/twoArrow.svg";
+import arrowRight from "../../assets/icons/arrowMenu.svg";
+
 ///// fns
 import { createInvoice } from "../../store/reducers/saleSlice";
+import { activePageFN } from "../../store/reducers/saveDataSlice";
 
 const MenuMain = () => {
   const dispatch = useDispatch();
@@ -29,9 +30,10 @@ const MenuMain = () => {
 
   const [active, setActive] = useState(true);
 
-  const { data } = useSelector((state) => state.saveDataSlice);
+  const { data, activePage } = useSelector((state) => state.saveDataSlice);
 
   const clickPage = async ({ link, codeid }) => {
+    dispatch(activePageFN(codeid)); /// для активной страницы
     if (codeid == 5) {
       /// Продажа с чеком
       navigate("/");
@@ -66,7 +68,7 @@ const MenuMain = () => {
           <Fragment key={codeid}>
             {active ? (
               <div
-                // className={`/${link}` == pathname ? "activeMenu" : ""}
+                className={codeid == activePage ? "activeMenu" : ""}
                 onClick={() => clickPage({ link, codeid })}
               >
                 <button>{icon}</button>

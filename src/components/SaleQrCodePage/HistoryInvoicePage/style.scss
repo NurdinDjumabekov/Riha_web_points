@@ -1,9 +1,7 @@
 .historyInvoice {
   background: #fff;
   width: 100%;
-  height: calc(100% - 16px);
-  padding: 10px 0px;
-  margin: 8px 0;
+  height: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   margin-right: 10px;
@@ -20,7 +18,7 @@
   }
 
   &__table {
-    height: calc(100% - 30px);
+    height: calc(100% - 50px);
 
     .standartTable {
       box-shadow: none !important;
@@ -28,6 +26,7 @@
       table {
         tbody {
           tr {
+            cursor: pointer;
             th,
             td {
               padding: 10px 8px !important;

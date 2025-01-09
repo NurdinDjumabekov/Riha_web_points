@@ -7,17 +7,15 @@ import "./style.scss";
 ////// components
 import ScanQRCode from "../../../common/ScanQRCode/ScanQRCode";
 
-const SaleProdPage = () => {
+const SoputkaQRscanPage = () => {
   const location = useLocation();
 
   const { invoice_guid, codeid, type } = location.state;
 
-  // const typeTitle = { 1: "Продажи", 2: "Сопутка", 3: "Ревизия" };
-
   return (
     <div className="saleProdPage">
       <ScanQRCode
-        title={"Продажи"}
+        title={"Сопутка"}
         invoice_guid={invoice_guid}
         codeid={codeid}
         type={type}
@@ -26,4 +24,4 @@ const SaleProdPage = () => {
   );
 };
 
-export default SaleProdPage;
+export default SoputkaQRscanPage;

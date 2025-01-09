@@ -9,7 +9,10 @@ import LogoutIcon from "@mui/icons-material/Logout";
 ///// fns
 import { changePreloader } from "../../../store/reducers/requestSlice";
 import { clearLogin } from "../../../store/reducers/stateSlice";
-import { clearLocalData } from "../../../store/reducers/saveDataSlice";
+import {
+  activePageFN,
+  clearLocalData,
+} from "../../../store/reducers/saveDataSlice";
 
 ////// style
 import "./style.scss";
@@ -25,6 +28,7 @@ const LogOut = ({ active }) => {
     dispatch(changePreloader(true));
     dispatch(clearLogin());
     dispatch(clearLocalData());
+    dispatch(activePageFN(1));
     setTimeout(() => {
       navigate("/");
       dispatch(changePreloader(false));

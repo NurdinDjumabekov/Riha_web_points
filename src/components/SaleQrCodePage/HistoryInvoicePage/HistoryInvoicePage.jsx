@@ -17,6 +17,7 @@ import { TableRow, Paper } from "@mui/material";
 
 ////// styles
 import "./style.scss";
+import NavPrev from "../../../assets/MyIcons/NavPrev";
 
 const HistoryInvoicePage = () => {
   const dispatch = useDispatch();
@@ -47,8 +48,9 @@ const HistoryInvoicePage = () => {
 
   return (
     <div className="historyInvoice">
-      <div className="titles">
-        <h1>История продаж</h1>
+      <div className="titleInAllPage">
+        <NavPrev />
+        <h3 className="titlePage">История продаж</h3>
       </div>
       <div className="historyInvoice__table">
         <TableContainer

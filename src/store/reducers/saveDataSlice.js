@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   data: { seller_guid: "", seller_fio: "", point_name: "", count_type: "" },
   //// данные пользователя
+  activePage: 1,
 };
 
 const saveDataSlice = createSlice({
@@ -20,9 +21,14 @@ const saveDataSlice = createSlice({
         count_type: "",
       };
     },
+
+    activePageFN: (state, action) => {
+      state.activePage = action.payload;
+    },
   },
 });
 
-export const { changeLocalData, clearLocalData } = saveDataSlice.actions;
+export const { changeLocalData, clearLocalData, activePageFN } =
+  saveDataSlice.actions;
 
 export default saveDataSlice.reducer;

@@ -1,8 +1,27 @@
-//// style
+//// hooks
+import { useEffect } from "react";
+
+///// componenst
 import Modals from "../Modals/Modals";
+
+//// styles
 import "./style.scss";
 
 const ConfirmationModal = ({ visible, message, onYes, onNo, onClose }) => {
+  function handleKeyDown(e) {
+    if (e.key == "Escape") onClose();
+    if (e.key == "Enter") onYes();
+  }
+
+  useEffect(() => {
+    if (visible) {
+      document.addEventListener("keydown", handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [visible]);
+
   return (
     <Modals openModal={visible} setOpenModal={onClose}>
       <div onClick={onClose}>

@@ -24,12 +24,6 @@ const ListExpense = ({ getData }) => {
 
   const [del, setDel] = useState(""); //// для модалки удаления расходов
 
-  const emptyData = listExpense?.length === 0;
-
-  if (emptyData) {
-    return <p className="noneData">Список пустой</p>;
-  }
-
   const objType = {
     0: { text: "Ожидание", color: "red" },
     1: { text: "Отменено админом", color: "red" },

@@ -1,8 +1,6 @@
 .saleProdsQR {
-  height: calc(100% - 10px);
-  margin: 8px 10px 0 0;
-  width: calc(100% - 10px);
-  padding: 9px 0 0 0;
+  height: (100%);
+  width: (100%);
   background: #fff;
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.144) !important;
   border-radius: 5px;
@@ -14,8 +12,9 @@
       display: flex;
       justify-content: space-between;
       gap: 15px;
-      padding: 0 15px;
-      align-items: flex-end;
+      padding: 0 20px 0 0;
+      align-items: center;
+      // height: 75px;
     }
 
     .headerIner {
@@ -29,6 +28,7 @@
       justify-content: flex-start;
       align-items: center;
       gap: 10px;
+      margin: 10px;
 
       h6 {
         margin-bottom: 2px;
@@ -42,7 +42,7 @@
         border-radius: 5px;
         height: 38px;
         color: rgba(0, 0, 0, 0.782);
-        padding: 3px 15px;
+        padding: 3px 8px;
         font-size: 18px;
         width: 100%;
 
@@ -69,7 +69,6 @@
     }
 
     .standartTable {
-      margin: 10px 0 0 0;
       height: 100%;
       box-shadow: none !important;
       border-radius: 0 0 5px 5px !important;
@@ -95,10 +94,19 @@
     .endSale {
       background: #805dca;
     }
+
+    .moreHeader {
+      align-items: flex-end !important;
+      padding-right: 5px !important;
+
+      .headerIner {
+        margin: 10px;
+      }
+    }
   }
 
   &__table {
-    height: calc(100% - 70px);
+    height: calc(100% - 75px);
 
     .delIcon {
       display: flex;

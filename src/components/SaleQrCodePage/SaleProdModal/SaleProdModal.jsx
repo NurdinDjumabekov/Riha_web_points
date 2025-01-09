@@ -31,7 +31,7 @@ const SaleProdModal = (props) => {
     e.preventDefault();
 
     if (price == 0 || price == "") {
-      alert("Введите сумму товара");
+      alert("Введите вес товара");
       return;
     }
 
@@ -76,9 +76,8 @@ const SaleProdModal = (props) => {
   };
 
   const onChangeCount = (e) => {
-    const value = e.target.value;
-    if (/^\d*\.?\d*$/.test(value)) {
-      setPrice(value);
+    if (/^\d*\.?\d*$/.test(e.target.value)) {
+      setPrice(e.target.value);
     }
   };
 
@@ -104,7 +103,7 @@ const SaleProdModal = (props) => {
         </div>
         <div className="info">
           <p>Единица измерения</p>
-          <p>"{modal?.unit}"</p>
+          {modal?.unit && <p>"{modal?.unit}"</p>}
         </div>
         <button className="saveAction" type="submit">
           <NoteAddIcon sx={{ width: 16, height: 16 }} />

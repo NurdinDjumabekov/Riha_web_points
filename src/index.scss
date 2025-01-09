@@ -254,8 +254,24 @@ img {
   }
 }
 
-.titlePage {
-  padding: 18px;
-  font-size: 18px;
-  font-weight: 500;
+.titleInAllPage {
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  h3 {
+    padding: 18px 20px;
+    font-size: 18px;
+    font-weight: 500;
+  }
+}
+
+.rightPosition {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background: #fff;
+  z-index: 2;
 }

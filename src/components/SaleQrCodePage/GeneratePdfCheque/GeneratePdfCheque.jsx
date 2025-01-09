@@ -15,7 +15,6 @@ import { transformDatePeriod } from "../../../helpers/transformDate";
 import { roundingNum } from "../../../helpers/amounts";
 
 ////// icons
-import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import logo from "../../../assets/images/rihaLogo.png";
 
 const GeneratePdfCheque = ({ list, invoice_guid }) => {
@@ -29,13 +28,13 @@ const GeneratePdfCheque = ({ list, invoice_guid }) => {
   const handlePrint = async () => {
     const doc = (
       <Document>
-        <Page size={{ width: 226.77, height: 595.28 }} style={styles.page}>
+        <Page size={{ width: 250, height: 1000 }} style={styles.page}>
           <View style={styles.section}>
             <Image src={logo} style={styles.image} />
             <Text style={styles.title}>Риха</Text>
           </View>
           <Text style={styles.header}>
-            Чек № {list?.[0]?.codeid} от {date}
+            Чек № {list?.[0]?.codeid} от {list?.[0]?.date || date}
           </Text>
           <View style={styles.table}>
             <View style={styles.tableRow}>
@@ -48,7 +47,7 @@ const GeneratePdfCheque = ({ list, invoice_guid }) => {
                 </Text>
               </View>
               <View style={[styles.tableCol, styles.headersOther]}>
-                <Text style={styles.textTitle}>Вес</Text>
+                <Text style={styles.textTitle}>Вес (шт)</Text>
               </View>
               <View style={[styles.tableCol, styles.headersOther]}>
                 <Text style={styles.textTitle}>Цена</Text>
@@ -104,6 +103,8 @@ const GeneratePdfCheque = ({ list, invoice_guid }) => {
               </Text>
             </View>
           </View>
+          <Text style={{}}>.</Text>
+          <Text style={{}}>.</Text>
         </Page>
       </Document>
     );
@@ -134,7 +135,6 @@ const GeneratePdfCheque = ({ list, invoice_guid }) => {
   return (
     <div className="generateBlock">
       <button className="saveAction endSaleBtn" onClick={handlePrint}>
-        {/* <LibraryAddIcon sx={{ width: 16, height: 16 }} /> */}
         <p>Распечатать чек</p>
       </button>
       <iframe

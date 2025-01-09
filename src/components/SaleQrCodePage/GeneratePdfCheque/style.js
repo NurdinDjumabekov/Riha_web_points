@@ -30,12 +30,15 @@ Font.register({
 export const styles = StyleSheet.create({
   page: {
     padding: 10,
-    paddingVertical: 30,
+    paddingBottom: 200,
+    // backgroundColor: "red",
+    paddingTop: 0,
     backgroundColor: "#FFFFFF",
     fontFamily: "Montserrat",
     fontWeight: "400",
     fontSize: 16,
     height: "100%",
+    width: "100%",
   },
 
   section: {
@@ -43,7 +46,6 @@ export const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
-    gap: 15,
     alignItems: "center",
     gap: 10,
   },
@@ -102,7 +104,7 @@ export const styles = StyleSheet.create({
     width: "39%",
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
   },
 
   name: {
@@ -121,6 +123,9 @@ export const styles = StyleSheet.create({
 
   numsMain: {
     paddingHorizontal: 2,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
 
   numsMainInner: {
@@ -140,7 +145,8 @@ export const styles = StyleSheet.create({
   numsInnerText: {
     textAlign: "left",
     paddingVertical: 3,
-    paddingHorizontal: 5,
+    paddingHorizontal: 3,
+    overflow: "hidden",
   },
 
   namesInner: { width: "39%", textAlign: "right" },

@@ -9,6 +9,7 @@ import { getSelectExpense } from "../../store/reducers/requestSlice";
 //////components
 import ListExpense from "../../components/Spendings/ListExpense/ListExpense";
 import ModalAddSpending from "../../components/Spendings/ModalAddSpending/ModalAddSpending";
+import NavPrev from "../../assets/MyIcons/NavPrev";
 
 ////style
 import "./style.scss";
@@ -36,7 +37,10 @@ const StoreSpendingPage = () => {
   return (
     <div className="parentBlockSpending">
       <div className="header">
-        <h3 className="titlePage">Список расходов</h3>
+        <div className="titleInAllPage">
+          <NavPrev />
+          <h3>Список расходов</h3>
+        </div>
         <button className="saveAction" onClick={() => setModal(true)}>
           <LibraryAddIcon sx={{ width: 16, height: 16 }} />
           <p>Добавить трату</p>
@@ -44,6 +48,7 @@ const StoreSpendingPage = () => {
       </div>
 
       <ListExpense getData={getData} />
+
       <ModalAddSpending modal={modal} setModal={setModal} getData={getData} />
     </div>
   );

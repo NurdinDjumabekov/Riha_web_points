@@ -13,6 +13,7 @@ import { getAcceptInvoice } from "../../../store/reducers/requestSlice";
 
 ////style
 import "./style.scss";
+import NavPrev from "../../../assets/MyIcons/NavPrev";
 
 const AcceptInvoiceHistoryPage = () => {
   const dispatch = useDispatch();
@@ -34,7 +35,10 @@ const AcceptInvoiceHistoryPage = () => {
 
   return (
     <div className="listInvoices">
-      <h3 className="titlePage">Список принятых накладных</h3>
+      <div className="titleInAllPage">
+        <NavPrev />
+        <h3>Список принятых накладных</h3>
+      </div>
       <TableContainer
         component={Paper}
         sx={{ maxHeight: "100%" }}

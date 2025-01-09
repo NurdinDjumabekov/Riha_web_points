@@ -17,6 +17,7 @@ import "./style.scss";
 
 ///// icons
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
+import NavPrev from "../../../assets/MyIcons/NavPrev";
 
 const AcceptInvoiceProdPage = () => {
   ////// загрузки
@@ -43,7 +44,10 @@ const AcceptInvoiceProdPage = () => {
   return (
     <div className="listInvoices acceptInvoiceProdPage">
       <div className="header">
-        <h3 className="titlePage">Список накладных</h3>
+        <div className="titleInAllPage">
+          <NavPrev />
+          <h3>Список накладных</h3>
+        </div>
         <button className="saveAction" onClick={getHistory}>
           <LibraryAddIcon sx={{ width: 16, height: 16 }} />
           <p>Список принятых накладных</p>

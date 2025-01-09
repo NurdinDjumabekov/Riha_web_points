@@ -12,6 +12,7 @@ import "./style.scss";
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableContainer, TableHead } from "@mui/material";
 import { TableRow, Paper } from "@mui/material";
+import NavPrev from "../../assets/MyIcons/NavPrev";
 
 const ViewInvoiceHisotry = ({ list, title, keyLink }) => {
   const navigate = useNavigate();
@@ -26,7 +27,10 @@ const ViewInvoiceHisotry = ({ list, title, keyLink }) => {
 
   return (
     <div className="listInvoices soputkaBody">
-      <h3 className="titlePage">{title}</h3>
+      <div className="titleInAllPage">
+        <NavPrev />
+        <h3>{title}</h3>
+      </div>
       <TableContainer
         component={Paper}
         sx={{ maxHeight: "100%" }}

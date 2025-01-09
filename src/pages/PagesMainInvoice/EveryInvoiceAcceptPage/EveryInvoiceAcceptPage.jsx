@@ -5,15 +5,17 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 ////// components
 import { RenderResult } from "../../../common/RenderResult/RenderResult";
-import { getAcceptProdInvoice } from "../../../store/reducers/requestSlice";
 import ConfirmationModal from "../../../common/ConfirmationModal/ConfirmationModal";
 
 ////style
 import "./style.scss";
 
+///// fns
+import { getAcceptProdInvoice } from "../../../store/reducers/requestSlice";
+import { updateStatusInvoice } from "../../../store/reducers/saleSlice";
+
 ///// icons
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
-import { updateStatusInvoice } from "../../../store/reducers/saleSlice";
 
 const EveryInvoiceAcceptPage = () => {
   //// каждый возврат накладной типо истории
@@ -26,7 +28,6 @@ const EveryInvoiceAcceptPage = () => {
   const { guid, type } = location.state; /// guid - накладной
 
   const { listAcceptInvoiceProd } = useSelector((state) => state.requestSlice);
-  const { data } = useSelector((state) => state.saveDataSlice);
 
   useEffect(() => {
     dispatch(getAcceptProdInvoice({ guid, type }));
@@ -42,12 +43,6 @@ const EveryInvoiceAcceptPage = () => {
       navigate("/");
     }
   };
-
-  console.log(data, "data");
-
-  console.log(listAcceptInvoiceProd, "listAcceptInvoiceProd");
-
-  console.log(data?.seller_fio == listAcceptInvoiceProd?.seller_to);
 
   const objAction = {
     3: (
@@ -68,6 +63,7 @@ const EveryInvoiceAcceptPage = () => {
   return (
     <div className="parentAcceptEvery">
       {objAction?.[type]}
+
       <RenderResult
         list={newList?.slice(1, 100)}
         title={`Накладная № ${newList?.[0]?.codeid}`}

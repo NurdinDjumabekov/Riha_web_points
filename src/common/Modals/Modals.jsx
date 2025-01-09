@@ -27,13 +27,7 @@ const Modals = (props) => {
       <>
         <div className="modal" ref={modalRef}>
           <div className="modal__shadow" onClick={closeModal}></div>
-          <div className="modal__inner">
-            {props.children}
-            {/* Пример использования кнопки закрытия */}
-            {/* <button className="krest" onClick={closeModal}>
-              <img src={krest} alt="x" />
-            </button> */}
-          </div>
+          <div className="modal__inner">{props.children}</div>
         </div>
       </>
     );

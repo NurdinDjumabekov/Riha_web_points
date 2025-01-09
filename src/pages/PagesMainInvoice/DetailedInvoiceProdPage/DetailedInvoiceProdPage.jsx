@@ -5,7 +5,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 ///components
 import ConfirmationModal from "../../../common/ConfirmationModal/ConfirmationModal";
-import NavMenu from "../../../common/NavMenu/NavMenu";
 import { RenderResult } from "../../../common/RenderResult/RenderResult";
 
 ///states
@@ -62,7 +61,7 @@ const DetailedInvoiceProdPage = () => {
   return (
     <div className="detailedMain">
       {checkStatus && (
-        <div className="actionBlockHeader">
+        <div className="rightPosition">
           <button className="saveAction" onClick={clickOkay}>
             Принять
           </button>

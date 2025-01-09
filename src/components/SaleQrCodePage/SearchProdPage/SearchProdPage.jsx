@@ -1,5 +1,4 @@
 ///// hooks
-import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState, useCallback } from "react";
 
@@ -38,7 +37,7 @@ const SearchProdPage = ({ invoice_guid, type }) => {
   const [activeWorkShop, setActiveWorkShop] = useState({});
   const [activeCategs, setActiveCategs] = useState({});
   const [modal, setModal] = useState({});
-  const [price, setPrice] = useState(1);
+  const [price, setPrice] = useState("");
 
   useEffect(() => {
     setTimeout(() => {
@@ -114,7 +113,7 @@ const SearchProdPage = ({ invoice_guid, type }) => {
 
   const closeModal = () => {
     setModal({});
-    setPrice(1);
+    setPrice("");
     refInputSearch.current.focus();
   };
 
@@ -178,7 +177,6 @@ const SearchProdPage = ({ invoice_guid, type }) => {
               <input
                 ref={refInputSearch}
                 type="text"
-                // placeholder="Поиск товаров ..."
                 onChange={onChange}
                 value={searchProd}
                 className="searchInput"

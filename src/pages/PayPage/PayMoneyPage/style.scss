@@ -1,26 +1,15 @@
 .containerPay {
   height: 100%;
   position: relative;
-  padding: 60px 0 0 0;
   box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.144) !important;
+  border-radius: 5px;
 
   .header {
-    position: absolute;
-    left: 0px;
-    top: 7px;
-    z-index: 10;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 46px;
-    padding: 0 15px;
-
-    .titlePage {
-      padding: 0;
-      font-size: 16px;
-      padding-left: 15px;
-    }
+    padding: 0 15px 0 0;
   }
 
   .standartTable {

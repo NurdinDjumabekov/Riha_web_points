@@ -4,17 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 
 /////components
 import ModalCreateSoputka from "../../../components/Soputka/ModalCreateSoputka/ModalCreateSoputka";
+import ViewInvoiceHisotry from "../../../common/ViewInvoiceHisotry/ViewInvoiceHisotry";
 
-/////redux
+///// fns
 import { getListContrAgents } from "../../../store/reducers/requestSlice";
 import { clearListAgents } from "../../../store/reducers/requestSlice";
 import { clearListCategory } from "../../../store/reducers/requestSlice";
 import { clearListProductTT } from "../../../store/reducers/requestSlice";
 import { getHistorySoputka } from "../../../store/reducers/requestSlice";
 
-////style
+//// style
 import "./style.scss";
-import ViewInvoiceHisotry from "../../../common/ViewInvoiceHisotry/ViewInvoiceHisotry";
 
 const SoputkaMainPage = () => {
   //// Сопуткаа
@@ -27,8 +27,8 @@ const SoputkaMainPage = () => {
   const { listHistorySoputka } = useSelector((state) => state.requestSlice);
 
   useEffect(() => {
-    getData();
     window.scrollTo({ top: 0, behavior: "smooth" });
+    getData();
 
     return () => {
       dispatch(clearListCategory());
@@ -46,7 +46,7 @@ const SoputkaMainPage = () => {
   return (
     <>
       <div className="soputkaParent">
-        <div className="actionBlockHeader">
+        <div className="rightPosition">
           <button className="saveAction" onClick={() => setOpenModal(true)}>
             + Создать накладную для сопутки
           </button>

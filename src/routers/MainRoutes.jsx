@@ -28,16 +28,14 @@ const MainRoutes = () => {
           <Route path="/" element={<LoginPage />} />
         ) : (
           <Route element={<Layouts />}>
-            <Route path="/" element={<AllCategPage />} />
+            <Route path="/" element={<AllCategPage />} /> 
             <Route path="/main_invoice/*" element={<PagesMainInvoice />} />
             <Route path="/soputka/*" element={<PagesSoputka />} />
             <Route path="/leftovers" element={<LeftoversPage />} />
-            {/* <Route path="/sale/*" element={<PagesSale />} /> */}
             <Route path="/sale_qr_code/*" element={<SaleQrCodePage />} />
             <Route path="/spending" element={<StoreSpendingPage />} />
             <Route path="/pay/*" element={<PagesPay />} />
             <Route path="/return/*" element={<PagesReturn />} />
-
             <Route path="/revision/*" element={<PagesRevision />} />
           </Route>
         )}
