@@ -14,13 +14,14 @@ import "./style.scss";
 ////// fns
 import { delExpenseTT } from "../../../store/reducers/requestSlice";
 import { roundingNum } from "../../../helpers/amounts";
+
+///// icons
 import DeleteIcon from "../../../assets/MyIcons/DeleteIcon";
 
 const ListExpense = ({ getData }) => {
   const dispatch = useDispatch();
 
   const { listExpense } = useSelector((state) => state.requestSlice);
-  const { seller_guid } = useSelector((state) => state.saveDataSlice.data);
 
   const [del, setDel] = useState(""); //// для модалки удаления расходов
 
@@ -30,10 +31,13 @@ const ListExpense = ({ getData }) => {
     2: { text: "Одобрено", color: "green" },
   };
 
-  const delSpending = () => {
-    dispatch(delExpenseTT({ getData, seller_guid, del }));
-    setDel("");
+  const delSpending = async () => {
     ///// удаляю расходы через запрос
+    const res = await dispatch(delExpenseTT({ guid: del })).unwrap();
+    if (res == 1) {
+      getData();
+      setDel("");
+    }
   };
 
   return (

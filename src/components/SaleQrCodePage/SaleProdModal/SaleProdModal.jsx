@@ -3,8 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 
-////// helpers
-
 ///// fns
 import {
   addProdInInvoice,
@@ -17,9 +15,11 @@ import MyModals from "../../../common/MyModals/MyModals";
 ///// icons
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 
+///// helpers
+import { myAlert } from "../../../helpers/MyAlert";
+
 ////// styles
 import "./style.scss";
-import { myAlert } from "../../../helpers/MyAlert";
 
 const SaleProdModal = (props) => {
   const dispatch = useDispatch();
@@ -28,12 +28,14 @@ const SaleProdModal = (props) => {
   const { modal, closeModal, price, setPrice } = props;
   const { invoice_guid, refInputSum, type } = props;
 
-  const addProd = async (e) => {
+  const [lastInputTime, setLastInputTime] = useState(Date.now());
+  const SCANNER_THRESHOLD = 50; /// временя для сканера в миллисекундах
+
+  const addProdFN = async (e) => {
     e.preventDefault();
 
     if (price == 0 || price == "") {
-      myAlert("Введите вес товара", "error");
-      return;
+      return myAlert("Введите вес товара", "error");
     }
 
     const sendDataSale = {
@@ -77,8 +79,27 @@ const SaleProdModal = (props) => {
   };
 
   const onChangeCount = (e) => {
-    if (/^\d*\.?\d*$/.test(e.target.value)) {
+    const now = Date.now();
+    const timeDifference = now - lastInputTime;
+
+    const check =
+      /^\d*\.?\d*$/.test(e.target.value) && timeDifference > SCANNER_THRESHOLD;
+
+    if (check) {
       setPrice(e.target.value);
+      setLastInputTime(now);
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    const now = Date.now();
+    const timeDifference = now - lastInputTime;
+
+    if (e.code === "Enter") {
+      if (timeDifference < SCANNER_THRESHOLD) {
+        e.preventDefault();
+        setPrice("");
+      }
     }
   };
 
@@ -88,14 +109,16 @@ const SaleProdModal = (props) => {
       closeModal={closeModal}
       title={modal?.product_name || "..."}
     >
-      <form onSubmit={addProd} className="actionsAddProd">
+      <form onSubmit={addProdFN} className="actionsAddProd">
         <div className="inputSend">
           <p>{objTypeVes?.[modal?.unit_codeid]}</p>
           <input
             ref={refInputSum}
             type="text"
             onChange={onChangeCount}
+            onKeyPress={handleKeyPress}
             value={price}
+            autoComplete="off"
           />
         </div>
         <div className="info">

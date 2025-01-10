@@ -18,16 +18,19 @@
     box-shadow: none !important;
 
     table tbody {
-      td,
-      th {
-        padding: 10px 8px !important;
+      tr {
+        cursor: pointer;
+        td,
+        th {
+          padding: 10px 8px !important;
 
-        .delIcon {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          button {
-            background: transparent;
+          .delIcon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            button {
+              background: transparent;
+            }
           }
         }
       }

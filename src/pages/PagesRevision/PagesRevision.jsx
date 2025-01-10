@@ -16,9 +16,9 @@ const PagesRevision = () => {
     <Routes>
       <Route path="/main" element={<CheckTovarPage />} />
       {/* <Route path="/every" element={<EveryRevisionRequestPage />} /> */}
-      <Route path="/request" element={<RevisionRequestPage />} />
       <Route path="/check" element={<InvoiceCheckPage />} />
       <Route path="/qr_scan" element={<RevisionQRscanPage />} />
+      <Route path="/request" element={<RevisionRequestPage />} />
     </Routes>
   );
 };

@@ -146,7 +146,6 @@ export const getHistoryInvoice = createAsyncThunk(
 export const updateStatusInvoice = createAsyncThunk(
   "updateStatusInvoice",
   async function ({ send, type }, { dispatch, rejectWithValue }) {
-    const data = send;
     const objUrl = {
       1: "tt/desc/set_invoice_status",
       2: "tt/confirm_invoice_soputka",
@@ -156,7 +155,7 @@ export const updateStatusInvoice = createAsyncThunk(
     const objSend = { 1: "put", 2: "post", 3: "post" };
 
     try {
-      const response = await axios?.[objSend?.[type]](url, data);
+      const response = await axios?.[objSend?.[type]](url, send);
       if (response.status >= 200 && response.status < 300) {
         myAlert("Процесс завершился успешно");
         return response?.data;

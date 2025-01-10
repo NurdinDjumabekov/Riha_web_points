@@ -602,18 +602,12 @@ export const addExpenseTT = createAsyncThunk(
 export const delExpenseTT = createAsyncThunk(
   /// добавление продукта(по одному) в накладную торговой точки
   "delExpenseTT",
-  async function (props, { dispatch, rejectWithValue }) {
-    const { getData, del } = props;
-    const data = { guid: del };
+  async function (data, { dispatch, rejectWithValue }) {
+    const url = `${API}/tt/del_expense`;
     try {
-      const response = await axios({
-        method: "POST",
-        url: `${API}/tt/del_expense`,
-        data,
-      });
+      const response = await axios.post(url, data);
       if (response.status >= 200 && response.status < 300) {
-        getData();
-        return response?.data;
+        return response?.data?.result;
       } else {
         throw Error(`Error: ${response.status}`);
       }

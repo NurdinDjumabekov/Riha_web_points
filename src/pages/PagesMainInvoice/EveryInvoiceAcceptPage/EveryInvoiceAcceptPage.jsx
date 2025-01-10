@@ -28,6 +28,7 @@ const EveryInvoiceAcceptPage = () => {
   const { guid, type } = location.state; /// guid - накладной
 
   const { listAcceptInvoiceProd } = useSelector((state) => state.requestSlice);
+  const { data } = useSelector((state) => state.saveDataSlice);
 
   useEffect(() => {
     dispatch(getAcceptProdInvoice({ guid, type }));
@@ -37,25 +38,25 @@ const EveryInvoiceAcceptPage = () => {
   const newList = listAcceptInvoiceProd?.[0]?.list;
 
   const acceptInvoiceRevision = async () => {
-    const data = { invoice_guid: guid, status: 2 };
-    const res = await dispatch(updateStatusInvoice({ data, type })).unwrap();
+    const send = { invoice_guid: guid, status: 2 };
+    const res = await dispatch(updateStatusInvoice({ send, type })).unwrap();
     if (!!res?.result) {
       navigate("/");
     }
   };
 
+  const checkUser =
+    data?.seller_guid == listAcceptInvoiceProd?.[0]?.seller_to_guid;
+
   const objAction = {
     3: (
       <div className="header">
-        {/* {data?.seller_fio == listAcceptInvoiceProd?.seller_from && ( */}
-        <>
-          <h3 className="titlePage"></h3>
+        {checkUser && (
           <button className="saveAction " onClick={() => setConfirm(true)}>
             <LibraryAddIcon sx={{ width: 16, height: 16 }} />
             <p>Принять ревизию</p>
           </button>
-        </>
-        {/* )} */}
+        )}
       </div>
     ),
   };

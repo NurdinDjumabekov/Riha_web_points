@@ -22,6 +22,7 @@ import { TableContainer, TableHead } from "@mui/material";
 import { TableRow, Paper } from "@mui/material";
 import GeneratePdfCheque from "../GeneratePdfCheque/GeneratePdfCheque";
 import ConfirmationModal from "../../../common/ConfirmationModal/ConfirmationModal";
+import NavPrev from "../../../common/NavPrev/NavPrev";
 import SaleProdModal from "../SaleProdModal/SaleProdModal";
 
 ///// icons
@@ -30,7 +31,6 @@ import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 
 ////// styles
 import "./style.scss";
-import NavPrev from "../../../common/NavPrev/NavPrev";
 
 const SaleProds = (props) => {
   const { invoice_guid, status, codeid, type } = props;
@@ -267,6 +267,7 @@ const SaleProds = (props) => {
             </TableContainer>
           </div>
         </div>
+
         <SaleProdModal
           modal={modal}
           closeModal={closeModal}
@@ -277,9 +278,10 @@ const SaleProds = (props) => {
           type={type}
         />
       </div>
+
       <ConfirmationModal
         visible={!!confirm}
-        message="Завершить продажу ?"
+        message="Завершить ?"
         onYes={sendAcceptInvoice}
         onNo={() => setConfirm("")}
         onClose={() => setConfirm("")}

@@ -106,8 +106,6 @@ const LeftoversScreen = () => {
     ////// очищаю поиск
   };
 
-  const emptyDataProd = listProdsSearch?.length === 0;
-
   return (
     <>
       <div className="searchProd leftoversContainer">
@@ -120,7 +118,6 @@ const LeftoversScreen = () => {
                 <input
                   ref={refInputSearch}
                   type="text"
-                  // placeholder="Поиск товаров ..."
                   onChange={onChange}
                   value={searchProd}
                   className="searchInput"
@@ -146,81 +143,76 @@ const LeftoversScreen = () => {
               </div>
             </div>
           </div>
-          {emptyDataProd ? (
-            <p className="noneData">Список пустой</p>
-          ) : (
-            <div className="searchProd__prod">
-              <TableContainer
-                component={Paper}
-                sx={{ maxHeight: "100%" }}
-                className="scroll_table standartTable"
-              >
-                <Table stickyHeader aria-label="sticky table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell align="center" style={{ width: "5%" }}>
-                        №
+          <div className="searchProd__prod">
+            <TableContainer
+              component={Paper}
+              sx={{ maxHeight: "100%" }}
+              className="scroll_table standartTable"
+            >
+              <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center" style={{ width: "5%" }}>
+                      №
+                    </TableCell>
+                    <TableCell style={{ width: "20%" }}>Товар</TableCell>
+                    <TableCell align="left" style={{ width: "15%" }}>
+                      Цена
+                    </TableCell>
+                    <TableCell align="left" style={{ width: "15%" }}>
+                      Остаток на начало
+                    </TableCell>
+                    <TableCell align="left" style={{ width: "15%" }}>
+                      Приход
+                    </TableCell>
+                    <TableCell align="left" style={{ width: "15%" }}>
+                      Расход
+                    </TableCell>
+                    <TableCell align="left" style={{ width: "15%" }}>
+                      Остаток на конец
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {listProdsSearch?.map((row, index) => (
+                    <TableRow key={index}>
+                      <TableCell
+                        align="center"
+                        component="th"
+                        scope="row"
+                        style={{ width: "5%" }}
+                      >
+                        {index + 1}
                       </TableCell>
-                      <TableCell style={{ width: "20%" }}>Товар</TableCell>
-                      <TableCell align="left" style={{ width: "15%" }}>
-                        Цена
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        style={{ width: "25%" }}
+                      >
+                        {row?.product_name}
                       </TableCell>
                       <TableCell align="left" style={{ width: "15%" }}>
-                        Остаток на начало
+                        {roundingNum(row?.sale_price) || 0} сом
                       </TableCell>
                       <TableCell align="left" style={{ width: "15%" }}>
-                        Приход
+                        {roundingNum(row?.start_outcome) || "0"}{" "}
+                        {row?.unit || ""}
                       </TableCell>
                       <TableCell align="left" style={{ width: "15%" }}>
-                        Расход
+                        {roundingNum(row?.income) || "0"} {row?.unit || ""}
                       </TableCell>
                       <TableCell align="left" style={{ width: "15%" }}>
-                        Остаток на конец
+                        {roundingNum(row?.outcome) || "0"} {row?.unit || ""}
+                      </TableCell>
+                      <TableCell align="left" style={{ width: "15%" }}>
+                        {roundingNum(row?.end_outcome) || "0"} {row?.unit || ""}
                       </TableCell>
                     </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {listProdsSearch?.map((row, index) => (
-                      <TableRow key={index}>
-                        <TableCell
-                          align="center"
-                          component="th"
-                          scope="row"
-                          style={{ width: "5%" }}
-                        >
-                          {index + 1}
-                        </TableCell>
-                        <TableCell
-                          component="th"
-                          scope="row"
-                          style={{ width: "25%" }}
-                        >
-                          {row?.product_name}
-                        </TableCell>
-                        <TableCell align="left" style={{ width: "15%" }}>
-                          {roundingNum(row?.sale_price) || 0} сом
-                        </TableCell>
-                        <TableCell align="left" style={{ width: "15%" }}>
-                          {roundingNum(row?.start_outcome) || "0"}{" "}
-                          {row?.unit || ""}
-                        </TableCell>
-                        <TableCell align="left" style={{ width: "15%" }}>
-                          {roundingNum(row?.income) || "0"} {row?.unit || ""}
-                        </TableCell>
-                        <TableCell align="left" style={{ width: "15%" }}>
-                          {roundingNum(row?.outcome) || "0"} {row?.unit || ""}
-                        </TableCell>
-                        <TableCell align="left" style={{ width: "15%" }}>
-                          {roundingNum(row?.end_outcome) || "0"}{" "}
-                          {row?.unit || ""}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </div>
-          )}
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
         </div>
       </div>
     </>

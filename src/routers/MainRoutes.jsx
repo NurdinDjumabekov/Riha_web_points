@@ -26,7 +26,7 @@ const MainRoutes = () => {
   return (
     <>
       <Routes>
-        {!data?.seller_guid ? (
+        {!!!data?.seller_guid ? (
           <Route path="/" element={<LoginPage />} />
         ) : (
           <Route element={<Layouts />}>

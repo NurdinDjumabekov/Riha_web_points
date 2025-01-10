@@ -139,7 +139,7 @@ const CheckTovarPage = () => {
                     align="left"
                     style={{ width: "15%", color: statusColor?.[item?.status] }}
                   >
-                    {statusRevision?.[item.status]}
+                    {statusRevision?.[item?.status]}
                   </TableCell>
                   <TableCell align="left" style={{ width: "15%" }}>
                     {roundingNum(item?.total_price)} сом
