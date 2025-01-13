@@ -11,8 +11,6 @@ import { RenderResult } from "../../../common/RenderResult/RenderResult";
 import { getMyEveryInvoiceReturn } from "../../../store/reducers/requestSlice";
 import { acceptInvoiceReturn } from "../../../store/reducers/requestSlice";
 
-/////helpers
-
 /////style
 import "./style.scss";
 
@@ -58,43 +56,41 @@ const DetailedReturnPage = () => {
   const checkStatus = everyInvoiceReturn?.status !== 0;
 
   return (
-    <>
-      <div className="detailedMain">
-        {checkStatus && (
-          <div className="rightPosition">
-            <button className="saveAction" onClick={clickOkay}>
-              Принять
-            </button>
-            <button className="saveAction rejectBtn" onClick={clickNo}>
-              Отклонить
-            </button>
-          </div>
-        )}
-
-        <div className="detailedMain__inner">
-          <RenderResult
-            list={everyInvoiceReturn?.list}
-            title={`Дата создания: ${everyInvoiceReturn?.date}`}
-          />
+    <div className="detailedMain">
+      {checkStatus && (
+        <div className="rightPosition">
+          <button className="saveAction" onClick={clickOkay}>
+            Принять
+          </button>
+          <button className="saveAction rejectBtn" onClick={clickNo}>
+            Отклонить
+          </button>
         </div>
+      )}
 
-        <ConfirmationModal
-          visible={acceptOk}
-          message="Принять накладную ?"
-          onYes={acceptInvoiceFN}
-          onNo={() => setAcceptOk(false)}
-          onClose={() => setAcceptOk(false)}
-        />
-
-        <ConfirmationModal
-          visible={rejectNo}
-          message="Отклонить накладную ?"
-          onYes={rejectInvoiceFN}
-          onNo={() => setRejectNo(false)}
-          onClose={() => setRejectNo(false)}
+      <div className="detailedMain__inner">
+        <RenderResult
+          list={everyInvoiceReturn?.list}
+          title={`Накладная № ${everyInvoiceReturn?.codeid}, дата создания: ${everyInvoiceReturn?.date} `}
         />
       </div>
-    </>
+
+      <ConfirmationModal
+        visible={acceptOk}
+        message="Принять накладную ?"
+        onYes={acceptInvoiceFN}
+        onNo={() => setAcceptOk(false)}
+        onClose={() => setAcceptOk(false)}
+      />
+
+      <ConfirmationModal
+        visible={rejectNo}
+        message="Отклонить накладную ?"
+        onYes={rejectInvoiceFN}
+        onNo={() => setRejectNo(false)}
+        onClose={() => setRejectNo(false)}
+      />
+    </div>
   );
 };
 

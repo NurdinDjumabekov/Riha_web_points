@@ -107,15 +107,20 @@ export const listTableForReturnProd = [
 // };
 
 export const statusRevision = {
-  1: "Не подтверждён",
-  2: "Подтверждён",
-  ///// статус накладных для ревизии
+  0: { t: "Не подтверждён", c: "red" },
+  1: { t: "Подтверждён вами", c: "orange" },
+  2: { t: "Подтверждён принимаемой стороной", c: "green" },
+  ///// статус накладных для ревизии (свои накладные)
 };
 
-export const statusColor = {
-  1: "red",
-  2: "green",
+export const statusRevisionAccept = {
+  0: { t: "Ожидание", c: "red" },
+  1: { t: "Подтверждён отправляемой стороной", c: "orange" },
+  2: { t: "Подтверждён вами", c: "green" },
+  ///// статус накладных для ревизии (чужие накладные)
 };
+
+export const statusColor = { 1: "red", 2: "green" };
 
 export const typesPay = {
   1: "Поступление средств по накладной",

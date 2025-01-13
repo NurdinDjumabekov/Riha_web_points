@@ -34,7 +34,7 @@ import "./style.scss";
 
 const SaleProds = (props) => {
   const { invoice_guid, status, codeid, type } = props;
-  //// type - 1 редакти
+  //// type - 1(сопутка),2(продажа),3(ревизия)
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -44,25 +44,42 @@ const SaleProds = (props) => {
   const { data } = useSelector((state) => state.saveDataSlice);
   const { listProds } = useSelector((state) => state.saleSlice);
 
-  const [sum, setSum] = useState("");
+  const [qrCodeInput, setQrCodeInput] = useState("");
   const [modal, setModal] = useState({});
-  const [price, setPrice] = useState("");
   const [confirm, setConfirm] = useState(false);
+
+  console.log(modal, "modal");
 
   const getData = () => dispatch(getProducts({ invoice_guid, type }));
 
   const sendProd = async (e) => {
     e.preventDefault();
-    const send = { qrcode: sum, seller_guid: data?.seller_guid };
+    const send = { qrcode: qrCodeInput, seller_guid: data?.seller_guid };
     const res = await dispatch(getProductsInQr(send)).unwrap();
     if (!!res?.guid) {
-      setModal(res);
+      setModal({ ...res, count: "", unit_codeid: res?.unit_codeid || 1 }); /// default 1 - шт
       setTimeout(() => {
         refInputSum.current?.focus();
       }, 200);
     } else {
-      myAlert("Не удалось найти такой продукт", "error");
-      setSum("");
+      setModal({
+        unit_codeid: 1,
+        count: "",
+        count_type: 2,
+        guid: qrCodeInput,
+        price: "",
+        product_name: "Не найденный товар",
+        sale_price: "",
+        none_prod: qrCodeInput,
+      });
+      myAlert(
+        "Не удалось найти такой продукт, введите вес и цену за шт(кг) ",
+        "error"
+      );
+      setQrCodeInput("");
+      setTimeout(() => {
+        refInputSum.current?.focus();
+      }, 200);
     }
   };
 
@@ -72,28 +89,21 @@ const SaleProds = (props) => {
       if (!!!status) {
         refInput.current?.focus();
       }
-    }, 500);
+    }, 300);
   }, [invoice_guid]);
 
-  const onChange = (e) => setSum(e.target.value);
+  const onChange = (e) => setQrCodeInput(e.target.value);
 
   const clickDelProd = async (obj) => {
     const send = { product_guid: obj?.guid };
     const res = await dispatch(delProdInInvoice(send)).unwrap();
-    if (res?.result == 0) {
-      getData();
-    }
-  };
-
-  const clearStates = () => {
-    setSum("");
-    setPrice("");
-    refInput.current?.focus();
+    if (res?.result == 0) getData();
   };
 
   const closeModal = () => {
     setModal({});
-    clearStates();
+    setQrCodeInput("");
+    refInput.current?.focus();
   };
 
   const sendAcceptInvoice = async () => {
@@ -103,8 +113,10 @@ const SaleProds = (props) => {
       return;
     }
 
-    const send = { invoice_guid, status: 2 };
+    const objStatus = { 1: 2, 2: 2, 3: 1 };
+    const send = { invoice_guid, status: objStatus?.[type] };
     //// 2 - подтверждение накладной продажи, сопутки и ревизии
+
     const res = await dispatch(updateStatusInvoice({ send, type })).unwrap();
     if (type == 1 && !!res?.result) {
       //// Продажи
@@ -150,6 +162,8 @@ const SaleProds = (props) => {
     ),
   };
 
+  const checkTypeOne = type == 1;
+
   return (
     <>
       <div className="saleProdsQR">
@@ -161,14 +175,19 @@ const SaleProds = (props) => {
                 <h3 className="titlePage">Накладная № {codeid}</h3>
               </div>
             ) : (
-              <form className="actionAddProd" onSubmit={sendProd}>
+              <form
+                className={`actionAddProd ${
+                  checkTypeOne ? "checkTypeOne" : ""
+                }`}
+                onSubmit={sendProd}
+              >
                 <div className="myInputs inputSend">
                   <h6>Поиск по штрих коду</h6>
                   <input
                     ref={refInput}
                     type="search"
                     onChange={onChange}
-                    value={sum}
+                    value={qrCodeInput}
                   />
                 </div>
               </form>
@@ -267,13 +286,11 @@ const SaleProds = (props) => {
             </TableContainer>
           </div>
         </div>
-
         <SaleProdModal
           modal={modal}
+          setModal={setModal}
           closeModal={closeModal}
           refInputSum={refInputSum}
-          price={price}
-          setPrice={setPrice}
           invoice_guid={invoice_guid}
           type={type}
         />

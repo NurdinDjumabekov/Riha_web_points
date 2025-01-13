@@ -16,7 +16,7 @@ import NavPrev from "../../../common/NavPrev/NavPrev";
 import "./style.scss";
 
 //// helpers
-import { statusColor, statusRevision } from "../../../helpers/Data";
+import { statusColor, statusRevisionAccept } from "../../../helpers/Data";
 import { roundingNum } from "../../../helpers/amounts";
 
 const RevisionRequestPage = () => {
@@ -42,7 +42,7 @@ const RevisionRequestPage = () => {
     <div className="revisionRequest">
       <div className="titleInAllPage">
         <NavPrev />
-        <h3>Входные накладные ревизии</h3>
+        <h3>Запросы других продавцов</h3>
       </div>
       <TableContainer
         component={Paper}
@@ -103,9 +103,12 @@ const RevisionRequestPage = () => {
                 </TableCell>
                 <TableCell
                   align="left"
-                  style={{ width: "15%", color: statusColor?.[item?.status] }}
+                  style={{
+                    width: "15%",
+                    color: statusRevisionAccept?.[item?.status]?.c,
+                  }}
                 >
-                  {statusRevision?.[item.status]}
+                  {statusRevisionAccept?.[item.status]?.t}
                 </TableCell>
                 <TableCell align="left" style={{ width: "15%" }}>
                   {roundingNum(item?.total_price)} сом

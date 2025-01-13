@@ -8,6 +8,9 @@ import { persistor, store } from "./store";
 import { PersistGate } from "redux-persist/integration/react";
 import { ToastContainer } from "react-toastify";
 
+////// datepicker
+import "react-datepicker/dist/react-datepicker.css";
+
 document.addEventListener("touchmove", function (e) {}, { passive: true });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

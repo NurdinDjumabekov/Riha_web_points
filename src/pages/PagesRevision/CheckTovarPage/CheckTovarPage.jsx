@@ -20,7 +20,7 @@ import "./style.scss";
 
 ///// helpers
 import { roundingNum } from "../../../helpers/amounts";
-import { statusColor, statusRevision } from "../../../helpers/Data";
+import { statusRevision } from "../../../helpers/Data";
 
 const CheckTovarPage = () => {
   const dispatch = useDispatch();
@@ -137,9 +137,12 @@ const CheckTovarPage = () => {
                   </TableCell>
                   <TableCell
                     align="left"
-                    style={{ width: "15%", color: statusColor?.[item?.status] }}
+                    style={{
+                      width: "15%",
+                      color: statusRevision?.[item?.status]?.c,
+                    }}
                   >
-                    {statusRevision?.[item?.status]}
+                    {statusRevision?.[item?.status]?.t}
                   </TableCell>
                   <TableCell align="left" style={{ width: "15%" }}>
                     {roundingNum(item?.total_price)} сом

@@ -12,8 +12,6 @@ const SaleProdPage = () => {
 
   const { invoice_guid, codeid, type } = location.state;
 
-  // const typeTitle = { 1: "Продажи", 2: "Сопутка", 3: "Ревизия" };
-
   return (
     <div className="saleProdPage">
       <ScanQRCode

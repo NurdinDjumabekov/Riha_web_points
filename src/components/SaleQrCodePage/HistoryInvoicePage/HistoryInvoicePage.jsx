@@ -4,31 +4,42 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 
 ////// helpers
-
 import { roundingNum } from "../../../helpers/amounts";
-///// fns
+import { ru } from "date-fns/locale";
+import { format } from "date-fns";
 
+///// fns
 import { getHistoryInvoice } from "../../../store/reducers/saleSlice";
 
 ////// components
 import { Table, TableBody, TableCell, Tooltip } from "@mui/material";
 import { TableContainer, TableHead } from "@mui/material";
 import { TableRow, Paper } from "@mui/material";
+import ReactDatePicker from "react-datepicker";
+import NavPrev from "../../../common/NavPrev/NavPrev";
 
 ////// styles
 import "./style.scss";
-import NavPrev from "../../../common/NavPrev/NavPrev";
 
 const HistoryInvoicePage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [date, setDate] = useState(new Date());
+
   const { listHistoryInvoice } = useSelector((state) => state.saleSlice);
   const { data } = useSelector((state) => state.saveDataSlice);
 
   useEffect(() => {
-    dispatch(getHistoryInvoice(data));
+    const send = { date: format(new Date(), "dd.MM.yyyy", { locale: ru }) };
+    dispatch(getHistoryInvoice({ ...data, ...send }));
   }, []);
+
+  function onChangeDate(e) {
+    const dateSend = format(e, "dd.MM.yyyy", { locale: ru });
+    setDate(e);
+    dispatch(getHistoryInvoice({ ...data, date: dateSend }));
+  }
 
   const objStatus = {
     0: { text: "Ожидание", color: "red" },
@@ -48,10 +59,26 @@ const HistoryInvoicePage = () => {
 
   return (
     <div className="historyInvoice">
-      <div className="titleInAllPage">
-        <NavPrev />
-        <h3 className="titlePage">История продаж</h3>
+      <div className="header">
+        <div className="titleInAllPage">
+          <NavPrev />
+          <h3 className="titlePage">История продаж</h3>
+        </div>
+        <div className="date">
+          <ReactDatePicker
+            selected={date}
+            onChange={onChangeDate}
+            yearDropdownItemNumber={100}
+            placeholderText="ДД.ММ.ГГГГ"
+            shouldCloseOnSelect={true}
+            scrollableYearDropdown
+            dateFormat="dd.MM.yyyy"
+            locale={ru}
+            maxDate={new Date()}
+          />
+        </div>
       </div>
+
       <div className="historyInvoice__table">
         <TableContainer
           component={Paper}

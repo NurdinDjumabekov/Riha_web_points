@@ -15,12 +15,17 @@ const PagesRevision = () => {
   return (
     <Routes>
       <Route path="/main" element={<CheckTovarPage />} />
-      {/* <Route path="/every" element={<EveryRevisionRequestPage />} /> */}
+      <Route path="/request" element={<RevisionRequestPage />} />
       <Route path="/check" element={<InvoiceCheckPage />} />
       <Route path="/qr_scan" element={<RevisionQRscanPage />} />
-      <Route path="/request" element={<RevisionRequestPage />} />
+      {/* <Route path="/every" element={<EveryRevisionRequestPage />} /> */}
     </Routes>
   );
 };
 
 export default PagesRevision;
+
+// 0 - создан
+// 1 - подтвердил отправляемый продавец
+// 2 - подтвердил получающий продавец
+// -1 - удален отменен

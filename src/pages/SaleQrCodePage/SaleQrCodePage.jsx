@@ -6,7 +6,6 @@ import { Route, Routes } from "react-router-dom";
 import SaleLayout from "../../LayoutsList/SaleLayout/SaleLayout";
 
 ////// components
-import HistoryInvoicePage from "../../components/SaleQrCodePage/HistoryInvoicePage/HistoryInvoicePage";
 import ViewSaleProdsPage from "../../components/SaleQrCodePage/ViewSaleProdsPage/ViewSaleProdsPage";
 import SaleProdPage from "../../components/SaleQrCodePage/SaleProdPage/SaleProdPage";
 

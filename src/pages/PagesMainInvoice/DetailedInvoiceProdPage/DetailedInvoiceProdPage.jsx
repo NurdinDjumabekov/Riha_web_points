@@ -73,7 +73,7 @@ const DetailedInvoiceProdPage = () => {
       <div className="detailedMain__inner">
         <RenderResult
           list={everyInvoice?.list}
-          title={`Дата создания: ${everyInvoice?.date}`}
+          title={`Накладная № ${everyInvoice?.codeid}, дата создания: ${everyInvoice?.date} `}
         />
       </div>
 

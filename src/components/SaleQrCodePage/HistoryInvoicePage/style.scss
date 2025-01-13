@@ -36,4 +36,32 @@
       }
     }
   }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 20px;
+    position: relative;
+
+    .date {
+      height: 38px;
+      width: 210px;
+      z-index: 10;
+
+      .react-datepicker-wrapper {
+        input {
+          border: 1px solid #e1dede !important;
+          box-shadow: none !important;
+          cursor: pointer;
+          border-radius: 5px;
+          width: 210px !important;
+          height: 38px;
+          color: rgba(0, 0, 0, 0.782);
+          padding: 3px 15px;
+          font-size: 18px;
+        }
+      }
+    }
+  }
 }

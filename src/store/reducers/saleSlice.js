@@ -128,7 +128,7 @@ export const getHistoryInvoice = createAsyncThunk(
   "getHistoryInvoice",
   async function (props, { dispatch, rejectWithValue }) {
     const { date, seller_guid } = props;
-    const urlLink = `${API}/tt/desc/get_point_invoice?seller_guid=${seller_guid}`; // &date=08.08.2024-08.08.2024
+    const urlLink = `${API}/tt/desc/get_point_invoice?seller_guid=${seller_guid}&date=${date}-${date}`;
     try {
       const response = await axios(urlLink);
       if (response.status >= 200 && response.status < 300) {

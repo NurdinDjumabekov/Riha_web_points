@@ -1,5 +1,4 @@
 ///// hooks
-import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 
@@ -11,59 +10,62 @@ import {
 
 ////// components
 import MyModals from "../../../common/MyModals/MyModals";
+import Switch from "@mui/material/Switch";
 
 ///// icons
 import NoteAddIcon from "@mui/icons-material/NoteAdd";
 
-///// helpers
-import { myAlert } from "../../../helpers/MyAlert";
-
 ////// styles
 import "./style.scss";
 
-const SaleProdModal = (props) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+///// helpers
+import { myAlert } from "../../../helpers/MyAlert";
 
-  const { modal, closeModal, price, setPrice } = props;
+const SaleProdModal = (props) => {
+  const { modal, setModal, closeModal } = props;
   const { invoice_guid, refInputSum, type } = props;
 
+  const dispatch = useDispatch();
+
   const [lastInputTime, setLastInputTime] = useState(Date.now());
-  const SCANNER_THRESHOLD = 50; /// временя для сканера в миллисекундах
 
   const addProdFN = async (e) => {
     e.preventDefault();
 
-    if (price == 0 || price == "") {
+    if (modal?.count == "" || modal?.count == 0) {
       return myAlert("Введите вес товара", "error");
+    }
+
+    if (modal?.sale_price == "" || modal?.sale_price == 0) {
+      return myAlert("Введите стоимость товара", "error");
     }
 
     const sendDataSale = {
       invoice_guid,
       product_guid: modal?.guid,
-      count: price,
+      count: modal?.count,
       sale_price: 0,
       price: modal?.sale_price,
+      unit_codeid: modal?.unit_codeid,
+      none_prod: modal?.none_prod,
     };
 
     const sendDataSoputa = {
       guid: modal?.guid,
-      count: price,
+      count: modal?.count,
       price: modal?.sale_price,
       sale_price: modal?.sale_price,
       invoice_guid,
     };
 
-    const objType = {
-      1: sendDataSale,
-      2: sendDataSoputa,
-      3: {
-        invoice_guid,
-        products: [
-          { count: price, guid: modal?.guid, price: modal?.sale_price },
-        ],
-      },
+    const sendSoputka = {
+      invoice_guid,
+      products: [
+        { count: modal?.count, guid: modal?.guid, price: modal?.sale_price },
+      ],
     };
+
+    const objType = { 1: sendDataSale, 2: sendDataSoputa, 3: sendSoputka };
 
     const send = { data: objType?.[type], type };
     const resp = await dispatch(addProdInInvoice(send)).unwrap();
@@ -78,15 +80,14 @@ const SaleProdModal = (props) => {
     2: "Введите вес товара в 'кг'",
   };
 
-  const onChangeCount = (e) => {
+  const onChange = (e) => {
     const now = Date.now();
     const timeDifference = now - lastInputTime;
 
-    const check =
-      /^\d*\.?\d*$/.test(e.target.value) && timeDifference > SCANNER_THRESHOLD;
+    const check = /^\d*\.?\d*$/.test(e.target.value) && timeDifference > 50;
 
     if (check) {
-      setPrice(e.target.value);
+      setModal({ ...modal, [e.target?.name]: e.target?.value });
       setLastInputTime(now);
     }
   };
@@ -96,11 +97,19 @@ const SaleProdModal = (props) => {
     const timeDifference = now - lastInputTime;
 
     if (e.code === "Enter") {
-      if (timeDifference < SCANNER_THRESHOLD) {
+      if (timeDifference < 50) {
         e.preventDefault();
-        setPrice("");
+        if (e?.target?.name == "count") {
+          setModal({ ...modal, count: "" });
+        } else if (e?.target?.name == "sale_price") {
+          setModal({ ...modal, sale_price: "" });
+        }
       }
     }
+  };
+
+  const onChangeRadio = (e) => {
+    setModal({ ...modal, unit_codeid: !!e?.target?.checked ? 1 : 2 });
   };
 
   return (
@@ -115,20 +124,44 @@ const SaleProdModal = (props) => {
           <input
             ref={refInputSum}
             type="text"
-            onChange={onChangeCount}
+            onChange={onChange}
             onKeyPress={handleKeyPress}
-            value={price}
+            value={modal?.count}
             autoComplete="off"
+            name="count"
+            required
           />
         </div>
-        <div className="info">
+
+        <div className="inputSend">
           <p>Стоимость товара</p>
-          <p>{modal?.sale_price} сом</p>
+          <input
+            type="text"
+            onChange={onChange}
+            onKeyPress={handleKeyPress}
+            value={modal?.sale_price}
+            autoComplete="off"
+            name="sale_price"
+            required
+          />
         </div>
-        <div className="info">
+
+        <div className="info labelRadio">
           <p>Единица измерения</p>
-          {modal?.unit && <p>"{modal?.unit}"</p>}
+          <div>
+            {modal?.unit_codeid && (
+              <p>"{modal?.unit_codeid == 1 ? "шт" : "кг"}"</p>
+            )}
+            <div className="labelRadio__main">
+              <Switch
+                onChange={onChangeRadio}
+                value={modal?.unit_codeid == 1 ? true : false}
+                defaultChecked={modal?.unit_codeid == 1 ? true : false}
+              />
+            </div>
+          </div>
         </div>
+
         <button className="saveAction" type="submit">
           <NoteAddIcon sx={{ width: 16, height: 16 }} />
           <p>Добавить товар</p>

@@ -18,7 +18,7 @@ const ScanQRCode = (props) => {
         <NavPrev />
         <h3>{title}</h3>
       </div>
-      <SearchProdPage invoice_guid={invoice_guid} type={type} />
+      {/* {type != 1 && <SearchProdPage invoice_guid={invoice_guid} type={type} />} */}
       <SaleProds
         invoice_guid={invoice_guid}
         status={0}
