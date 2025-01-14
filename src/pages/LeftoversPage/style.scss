@@ -10,6 +10,46 @@
       display: flex;
       align-items: flex-end;
       gap: 10px;
+
+      .inputSend {
+        width: 350px !important;
+        cursor: pointer;
+        position: relative;
+
+        .krestImg {
+          height: 38px;
+          width: 38px;
+          background: transparent;
+          padding: 7px;
+          cursor: pointer;
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
+      }
+
+      .searchBtn {
+        height: 38px;
+        background: #299b31;
+        padding: 0px 20px 0px;
+        border-radius: 5px;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+      }
     }
   }
+
+  .searchProd__prod {
+    height: calc(100% - 62px) !important;
+  }
+}
+
+.sdas {
+  height: 100vh; /* Используем 100% высоты окна */
+  width: 100%;
+  margin: 0 0 20px 0;
+  overflow-y: auto; /* Изменено на auto для появления скролла при необходимости */
 }

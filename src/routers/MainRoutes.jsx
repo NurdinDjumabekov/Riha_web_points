@@ -15,9 +15,9 @@ import PagesPay from "../pages/PayPage/PagesPay";
 import PagesReturn from "../pages/PagesReturn/PagesReturn";
 import PagesRevision from "../pages/PagesRevision/PagesRevision";
 import SaleQrCodePage from "../pages/SaleQrCodePage/SaleQrCodePage";
-import HistoryInvoicePage from "../components/SaleQrCodePage/HistoryInvoicePage/HistoryInvoicePage";
 
 ////// components
+import HistoryInvoicePage from "../components/SaleQrCodePage/HistoryInvoicePage/HistoryInvoicePage";
 import Preloader from "../common/Preloader/Preloader";
 
 const MainRoutes = () => {

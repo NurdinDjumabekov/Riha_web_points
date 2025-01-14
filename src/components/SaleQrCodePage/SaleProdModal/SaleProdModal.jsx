@@ -134,7 +134,7 @@ const SaleProdModal = (props) => {
         </div>
 
         <div className="inputSend">
-          <p>Стоимость товара</p>
+          <p>Стоимость товара за {modal?.unit_codeid == 1 ? "шт" : "кг"}</p>
           <input
             type="text"
             onChange={onChange}

@@ -48,8 +48,6 @@ const SaleProds = (props) => {
   const [modal, setModal] = useState({});
   const [confirm, setConfirm] = useState(false);
 
-  console.log(modal, "modal");
-
   const getData = () => dispatch(getProducts({ invoice_guid, type }));
 
   const sendProd = async (e) => {
@@ -68,7 +66,7 @@ const SaleProds = (props) => {
         count_type: 2,
         guid: qrCodeInput,
         price: "",
-        product_name: "Не найденный товар",
+        product_name: "Товар",
         sale_price: "",
         none_prod: qrCodeInput,
       });

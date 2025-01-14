@@ -162,6 +162,19 @@ const SoputkaProdHistoryPage = () => {
                   />
                 </Fragment>
               ))}
+              <TableRow className="tableInvoice">
+                <TableCell
+                  align="center"
+                  component="th"
+                  scope="row"
+                  colSpan={4}
+                >
+                  Итого
+                </TableCell>
+                <TableCell align="left" component="th" scope="row" colSpan={2}>
+                  {listProdSoputka?.[0]?.total_price} сом
+                </TableCell>
+              </TableRow>
             </TableBody>
           </Table>
         </TableContainer>

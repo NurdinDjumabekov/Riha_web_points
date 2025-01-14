@@ -1,110 +1,95 @@
 ///// hooks
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, Fragment } from "react";
 
 ////// components
 import { Table, TableBody, TableCell } from "@mui/material";
 import { TableContainer, TableHead } from "@mui/material";
 import { TableRow, Paper } from "@mui/material";
-import Select from "react-select";
+import NavPrev from "../../common/NavPrev/NavPrev";
 
 ////// styles
 import "./style.scss";
 
+////// icons
+import krest from "../../assets/icons/krest.svg";
+
 ////// fns
-import {
-  getCategs,
-  getSortProds,
-  getWorkShops,
-  searchProdLeftovers,
-} from "../../store/reducers/saleSlice";
+import { searchProdLeftovers } from "../../store/reducers/saleSlice";
 
 ////// helpers
-import { debounce } from "lodash";
 import { roundingNum } from "../../helpers/amounts";
-import NavPrev from "../../common/NavPrev/NavPrev";
+import { myAlert } from "../../helpers/MyAlert";
 
 const LeftoversScreen = () => {
   const dispatch = useDispatch();
 
+  const refInputSearch = useRef(null);
+  const loader = useRef(null);
+  const containerRef = useRef(null);
+  const [searchProd, setSearchProd] = useState("");
+  const [hasMore, setHasMore] = useState(true);
+
   const { data } = useSelector((state) => state.saveDataSlice);
   const { listProdsSearch } = useSelector((state) => state.saleSlice);
-  const { listWorkShops } = useSelector((state) => state.saleSlice);
-  const { listCategs } = useSelector((state) => state.saleSlice);
 
-  const refInputSearch = useRef(null);
-  const [searchProd, setSearchProd] = useState("");
-  const [activeWorkShop, setActiveWorkShop] = useState({});
-  const [activeCategs, setActiveCategs] = useState({});
+  const fetchData = (initialLoad = false) => {
+    // setProducts((prevProducts) => {
+    //   if (prevProducts.length >= 1000) {
+    //     setHasMore(false);
+    //     return prevProducts;
+    //   }
+    //   const lastId = prevProducts[prevProducts.length - 1]?.id || 0;
+    //   const newProducts = generateProducts(lastId + 1, initialLoad ? 150 : 30);
+    // });
+    return [];
+  };
 
   useEffect(() => {
-    setTimeout(() => {
-      refInputSearch.current.focus();
-    }, 200);
-    setSearchProd("");
+    fetchData(true);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && hasMore) {
+          fetchData();
+        }
+      },
+      { root: containerRef.current, threshold: 1 } // Отслеживаем именно прокрутку контейнера
+    );
+    if (loader.current) {
+      observer.observe(loader.current);
+    }
+    return () => observer.disconnect();
+  }, [hasMore]);
+
+  useEffect(() => {
+    setTimeout(() => refInputSearch.current.focus(), 200);
     getData();
   }, []);
 
-  const searchData = useCallback(
-    debounce((text) => {
-      if (text?.length > 1) {
-        const sendData = { text, seller_guid: data?.seller_guid };
-        dispatch(searchProdLeftovers({ ...sendData }));
-        // Выполнение поиска с заданными параметрами
-      }
-    }, 500),
-    []
-  );
-
-  const onChange = (e) => {
+  function onChange(e) {
     const text = e?.target?.value;
-    if (text?.[0] === " " || text?.includes("  ")) {
-      return;
-    }
+    if (text?.includes("  ")) return;
     setSearchProd(text);
-    text?.length == 0 ? getData() : searchData(text);
-  };
+  }
 
-  const onChangeWS = async ({ label, value }) => {
-    setActiveWorkShop({ label, value });
-    const send = { ...data, workshop_guid: value };
-    const resp = await dispatch(getCategs(send)).unwrap();
-    const labelCateg = resp?.[0]?.category_name || "";
-    const valueCateg = resp?.[0]?.category_guid || "";
-    setActiveCategs({ label: labelCateg, value: valueCateg });
-    dispatch(getSortProds({ ...data, valueCateg, value }));
+  function searchData(e) {
+    e.preventDefault();
+    const error = "В поисковой строке должно быть не меньше 3х букв";
+    if (searchProd?.length < 3) return myAlert(error, "error");
+    const sendData = { text: searchProd, seller_guid: data?.seller_guid };
+    dispatch(searchProdLeftovers(sendData));
+  }
+
+  function getData() {
+    setSearchProd("Колб");
+    const sendData = { text: "Колб", seller_guid: data?.seller_guid };
+    dispatch(searchProdLeftovers(sendData));
+  }
+
+  function clearInputSearch() {
+    getData();
     setSearchProd("");
-    ////// очищаю поиск
-  };
-
-  const onChangeCateg = async ({ label, value }) => {
-    setActiveCategs({ label, value });
-    const send = {
-      ...data,
-      valueCateg: value || "",
-      value: activeWorkShop?.value || "",
-    };
-    dispatch(getSortProds(send));
-    setSearchProd("");
-    ////// очищаю поиск
-  };
-
-  const getData = async () => {
-    // ////// внутри есть getCategoryTT и getProductTT
-    const res = await dispatch(getWorkShops(data)).unwrap();
-    const label = res?.[0]?.name;
-    const value = res?.[0]?.guid;
-    setActiveWorkShop({ label, value });
-
-    const send = { ...data, workshop_guid: value };
-    const resp = await dispatch(getCategs(send)).unwrap();
-    const labelCateg = resp?.[0]?.category_name;
-    const valueCateg = resp?.[0]?.category_guid;
-    setActiveCategs({ label: labelCateg, value: valueCateg });
-    dispatch(getSortProds({ ...data, valueCateg, value }));
-    setSearchProd("");
-    ////// очищаю поиск
-  };
+  }
 
   return (
     <>
@@ -112,36 +97,24 @@ const LeftoversScreen = () => {
         <div className="searchProd__inner">
           <div className="titleAction">
             <NavPrev />
-            <div className="titleAction__inner">
+            <form className="titleAction__inner" onSubmit={searchData}>
               <div className="myInputs inputSend">
-                <h6>Поиск товаров </h6>
                 <input
                   ref={refInputSearch}
-                  type="text"
                   onChange={onChange}
                   value={searchProd}
                   className="searchInput"
                 />
+                {searchProd?.length !== 0 && (
+                  <div className="krestImg" onClick={clearInputSearch}>
+                    <img src={krest} alt="x" />
+                  </div>
+                )}
               </div>
-              <div className="myInputs selectPosition">
-                <h6>Цех</h6>
-                <Select
-                  options={listWorkShops}
-                  className="select"
-                  onChange={onChangeWS}
-                  value={activeWorkShop}
-                />
-              </div>
-              <div className="myInputs selectPosition">
-                <h6>Категории</h6>
-                <Select
-                  options={listCategs}
-                  className="select"
-                  onChange={onChangeCateg}
-                  value={activeCategs}
-                />
-              </div>
-            </div>
+              <button className="searchBtn">
+                <p>Поиск товаров</p>
+              </button>
+            </form>
           </div>
           <div className="searchProd__prod">
             <TableContainer
@@ -173,43 +146,56 @@ const LeftoversScreen = () => {
                     </TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody>
-                  {listProdsSearch?.map((row, index) => (
-                    <TableRow key={index}>
-                      <TableCell
-                        align="center"
-                        component="th"
-                        scope="row"
-                        style={{ width: "5%" }}
-                      >
-                        {index + 1}
-                      </TableCell>
-                      <TableCell
-                        component="th"
-                        scope="row"
-                        style={{ width: "25%" }}
-                      >
-                        {row?.product_name}
-                      </TableCell>
-                      <TableCell align="left" style={{ width: "15%" }}>
-                        {roundingNum(row?.sale_price) || 0} сом
-                      </TableCell>
-                      <TableCell align="left" style={{ width: "15%" }}>
-                        {roundingNum(row?.start_outcome) || "0"}{" "}
-                        {row?.unit || ""}
-                      </TableCell>
-                      <TableCell align="left" style={{ width: "15%" }}>
-                        {roundingNum(row?.income) || "0"} {row?.unit || ""}
-                      </TableCell>
-                      <TableCell align="left" style={{ width: "15%" }}>
-                        {roundingNum(row?.outcome) || "0"} {row?.unit || ""}
-                      </TableCell>
-                      <TableCell align="left" style={{ width: "15%" }}>
-                        {roundingNum(row?.end_outcome) || "0"} {row?.unit || ""}
-                      </TableCell>
-                    </TableRow>
+                <TableBody ref={containerRef}>
+                  {listProdsSearch?.map((category, index) => (
+                    <Fragment key={index}>
+                      <TableRow>
+                        <TableCell align="left" component="th"></TableCell>
+                        <TableCell colSpan={6} align="left" component="th">
+                          Категория: {category.title}
+                        </TableCell>
+                      </TableRow>
+                      {category?.list?.map((row, idx) => (
+                        <TableRow key={idx}>
+                          <TableCell
+                            align="center"
+                            component="th"
+                            scope="row"
+                            style={{ width: "5%" }}
+                          >
+                            {idx + 1}
+                          </TableCell>
+                          <TableCell
+                            component="th"
+                            scope="row"
+                            style={{ width: "25%" }}
+                          >
+                            {row?.product_name}
+                          </TableCell>
+                          <TableCell align="left" style={{ width: "15%" }}>
+                            {roundingNum(row?.sale_price) || 0} сом
+                          </TableCell>
+                          <TableCell align="left" style={{ width: "15%" }}>
+                            {roundingNum(row?.start_outcome) || "0"}{" "}
+                            {row?.unit || ""}
+                          </TableCell>
+                          <TableCell align="left" style={{ width: "15%" }}>
+                            {roundingNum(row?.income) || "0"} {row?.unit || ""}
+                          </TableCell>
+                          <TableCell align="left" style={{ width: "15%" }}>
+                            {roundingNum(row?.outcome) || "0"} {row?.unit || ""}
+                          </TableCell>
+                          <TableCell align="left" style={{ width: "15%" }}>
+                            {roundingNum(row?.end_outcome) || "0"}{" "}
+                            {row?.unit || ""}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </Fragment>
                   ))}
                 </TableBody>
+                {hasMore && <div ref={loader}>Загружаю...</div>}
+                {!hasMore && <p>Все товары загружены!</p>}
               </Table>
             </TableContainer>
           </div>

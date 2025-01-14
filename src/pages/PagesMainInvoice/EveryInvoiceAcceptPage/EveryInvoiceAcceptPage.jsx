@@ -66,8 +66,8 @@ const EveryInvoiceAcceptPage = () => {
       {objAction?.[type]}
 
       <RenderResult
-        list={newList?.slice(1, 100)}
-        title={`Накладная № ${newList?.[0]?.codeid}`}
+        list={newList}
+        title={`Накладная № ${listAcceptInvoiceProd?.[0]?.codeid}`}
       />
 
       <ConfirmationModal

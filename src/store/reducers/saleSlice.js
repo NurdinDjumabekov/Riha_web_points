@@ -217,7 +217,15 @@ export const searchProdLeftovers = createAsyncThunk(
     try {
       const response = await axios(urlLink);
       if (response.status >= 200 && response.status < 300) {
-        return response?.data;
+        // return response?.data;
+        return [
+          { title: "asdasd", list: response?.data?.slice(1, 500) },
+          { title: "asdasd", list: response?.data?.slice(1, 500) },
+          { title: "asdasd", list: response?.data?.slice(1, 500) },
+          { title: "asdasd", list: response?.data?.slice(1, 500) },
+          { title: "asdasd", list: response?.data?.slice(1, 500) },
+          { title: "asdasd", list: response?.data?.slice(1, 500) },
+        ];
       } else {
         throw Error(`Error: ${response.status}`);
       }

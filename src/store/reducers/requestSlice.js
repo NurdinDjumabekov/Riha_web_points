@@ -754,10 +754,9 @@ export const getMyEveryInvoiceReturn = createAsyncThunk(
   }
 );
 
-/// acceptInvoiceReturn
+/// acceptInvoiceReturn - для принятия и отклонения накладной возврата торговой точкой
 export const acceptInvoiceReturn = createAsyncThunk(
   "acceptInvoiceReturn",
-  /// для принятия накладной возврата торговой точкой
   async function ({ props, navigate }, { rejectWithValue }) {
     const { status } = props;
     try {
@@ -767,7 +766,7 @@ export const acceptInvoiceReturn = createAsyncThunk(
         data: props,
       });
       if (response.status >= 200 && response.status < 300) {
-        navigate("/");
+        navigate("/return/main");
         return status;
       } else {
         throw Error(`Error: ${response.status}`);
