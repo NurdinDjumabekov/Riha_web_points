@@ -44,12 +44,33 @@
 
   .searchProd__prod {
     height: calc(100% - 62px) !important;
-  }
-}
 
-.sdas {
-  height: 100vh; /* Используем 100% высоты окна */
-  width: 100%;
-  margin: 0 0 20px 0;
-  overflow-y: auto; /* Изменено на auto для появления скролла при необходимости */
+    .loader {
+      width: 100%;
+      height: 70px;
+      padding: 8px 45px !important;
+      position: relative;
+
+      .preloader {
+        position: absolute !important;
+        height: 70px !important;
+        background: transparent !important;
+        justify-content: flex-start;
+        padding-left: 100px !important;
+
+        .lds-roller {
+          transform: scale(0.4) !important;
+        }
+      }
+    }
+
+    .subTitle {
+      background: #edf2f975 !important;
+      font-weight: 600;
+      border-right: none !important;
+      font-size: 11px !important;
+      border-bottom: 1px solid rgba(128, 128, 128, 0.261) !important;
+      border-top: 1px solid rgba(128, 128, 128, 0.261) !important;
+    }
+  }
 }

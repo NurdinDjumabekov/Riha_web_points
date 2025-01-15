@@ -61,17 +61,16 @@ const SaleProds = (props) => {
       }, 200);
     } else {
       setModal({
-        unit_codeid: 1,
+        unit_codeid: 2,
         count: "",
         count_type: 2,
-        guid: qrCodeInput,
+        guid: "6566A456-66E9-48A6-8302-15FE4CF09EF1",
         price: "",
-        product_name: "Товар",
+        product_name: "Не найденные продукты (кг)",
         sale_price: "",
-        none_prod: qrCodeInput,
       });
       myAlert(
-        "Не удалось найти такой продукт, введите вес и цену за шт(кг) ",
+        "Не удалось найти такой продукт, введите вес и цену за кг",
         "error"
       );
       setQrCodeInput("");

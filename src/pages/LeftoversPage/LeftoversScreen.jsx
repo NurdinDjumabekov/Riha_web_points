@@ -27,33 +27,42 @@ const LeftoversScreen = () => {
   const refInputSearch = useRef(null);
   const loader = useRef(null);
   const containerRef = useRef(null);
+
   const [searchProd, setSearchProd] = useState("");
   const [hasMore, setHasMore] = useState(true);
+  const [checkScroll, setCheckScroll] = useState(true); //  можно ли скролить и получать данные дальше или нельзя
+  const [count, setCount] = useState(50);
 
   const { data } = useSelector((state) => state.saveDataSlice);
   const { listProdsSearch } = useSelector((state) => state.saleSlice);
 
-  const fetchData = (initialLoad = false) => {
-    // setProducts((prevProducts) => {
-    //   if (prevProducts.length >= 1000) {
-    //     setHasMore(false);
-    //     return prevProducts;
-    //   }
-    //   const lastId = prevProducts[prevProducts.length - 1]?.id || 0;
-    //   const newProducts = generateProducts(lastId + 1, initialLoad ? 150 : 30);
-    // });
-    return [];
-  };
+  async function getAllDataSearch(initialLoad) {
+    //// получение данных по 50
+    if (!checkScroll) return setHasMore(false);
+
+    setCount(async (prevCount) => {
+      const send = {
+        text: searchProd,
+        seller_guid: data?.seller_guid,
+        start: "1",
+        end: prevCount + 50,
+      };
+      const res = await dispatch(searchProdLeftovers(send)).unwrap();
+      setCheckScroll(res?.check);
+      return prevCount + 50;
+    });
+  }
 
   useEffect(() => {
-    fetchData(true);
+    getAllDataSearch(true);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && hasMore) {
-          fetchData();
+          getAllDataSearch(false);
         }
       },
-      { root: containerRef.current, threshold: 1 } // Отслеживаем именно прокрутку контейнера
+      { root: containerRef.current, threshold: 1 }
+      // Отслеживаем именно прокрутку контейнера
     );
     if (loader.current) {
       observer.observe(loader.current);
@@ -62,7 +71,7 @@ const LeftoversScreen = () => {
   }, [hasMore]);
 
   useEffect(() => {
-    setTimeout(() => refInputSearch.current.focus(), 200);
+    setTimeout(() => refInputSearch.current?.focus(), 200);
     getData();
   }, []);
 
@@ -72,24 +81,39 @@ const LeftoversScreen = () => {
     setSearchProd(text);
   }
 
-  function searchData(e) {
+  async function searchData(e) {
     e.preventDefault();
     const error = "В поисковой строке должно быть не меньше 3х букв";
     if (searchProd?.length < 3) return myAlert(error, "error");
-    const sendData = { text: searchProd, seller_guid: data?.seller_guid };
-    dispatch(searchProdLeftovers(sendData));
+    const send = {
+      text: searchProd,
+      seller_guid: data?.seller_guid,
+      start: "1",
+      end: "50",
+    };
+    const res = await dispatch(searchProdLeftovers(send)).unwrap();
+    setCheckScroll(res?.check);
   }
 
-  function getData() {
+  async function getData() {
     setSearchProd("Колб");
-    const sendData = { text: "Колб", seller_guid: data?.seller_guid };
-    dispatch(searchProdLeftovers(sendData));
+    setCount(50);
+    const send = {
+      text: "Колб",
+      seller_guid: data?.seller_guid,
+      start: "1",
+      end: "50",
+    };
+    const res = await dispatch(searchProdLeftovers(send)).unwrap();
+    setCheckScroll(res?.check);
   }
 
   function clearInputSearch() {
     getData();
     setSearchProd("");
   }
+
+  console.log(listProdsSearch, "listProdsSearch");
 
   return (
     <>
@@ -128,34 +152,41 @@ const LeftoversScreen = () => {
                     <TableCell align="center" style={{ width: "5%" }}>
                       №
                     </TableCell>
-                    <TableCell style={{ width: "20%" }}>Товар</TableCell>
-                    <TableCell align="left" style={{ width: "15%" }}>
+                    <TableCell style={{ width: "29%" }}>Товар</TableCell>
+                    <TableCell align="left" style={{ width: "11%" }}>
                       Цена
                     </TableCell>
-                    <TableCell align="left" style={{ width: "15%" }}>
+                    <TableCell align="left" style={{ width: "11%" }}>
                       Остаток на начало
                     </TableCell>
-                    <TableCell align="left" style={{ width: "15%" }}>
+                    <TableCell align="left" style={{ width: "11%" }}>
                       Приход
                     </TableCell>
-                    <TableCell align="left" style={{ width: "15%" }}>
+                    <TableCell align="left" style={{ width: "11%" }}>
                       Расход
                     </TableCell>
-                    <TableCell align="left" style={{ width: "15%" }}>
+                    <TableCell align="left" style={{ width: "11%" }}>
                       Остаток на конец
+                    </TableCell>
+                    <TableCell align="left" style={{ width: "11%" }}>
+                      Штрих коды
                     </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody ref={containerRef}>
-                  {listProdsSearch?.map((category, index) => (
+                  {listProdsSearch?.map((item, index) => (
                     <Fragment key={index}>
                       <TableRow>
-                        <TableCell align="left" component="th"></TableCell>
-                        <TableCell colSpan={6} align="left" component="th">
-                          Категория: {category.title}
+                        <TableCell className="subTitle"></TableCell>
+                        <TableCell
+                          colSpan={7}
+                          align="left"
+                          className="subTitle"
+                        >
+                          Категория: {item.categ}
                         </TableCell>
                       </TableRow>
-                      {category?.list?.map((row, idx) => (
+                      {item?.list?.map((row, idx) => (
                         <TableRow key={idx}>
                           <TableCell
                             align="center"
@@ -168,34 +199,59 @@ const LeftoversScreen = () => {
                           <TableCell
                             component="th"
                             scope="row"
-                            style={{ width: "25%" }}
+                            style={{ width: "29%" }}
                           >
                             {row?.product_name}
                           </TableCell>
-                          <TableCell align="left" style={{ width: "15%" }}>
+                          <TableCell align="left" style={{ width: "11%" }}>
                             {roundingNum(row?.sale_price) || 0} сом
                           </TableCell>
-                          <TableCell align="left" style={{ width: "15%" }}>
+                          <TableCell align="left" style={{ width: "11%" }}>
                             {roundingNum(row?.start_outcome) || "0"}{" "}
                             {row?.unit || ""}
                           </TableCell>
-                          <TableCell align="left" style={{ width: "15%" }}>
+                          <TableCell align="left" style={{ width: "11%" }}>
                             {roundingNum(row?.income) || "0"} {row?.unit || ""}
                           </TableCell>
-                          <TableCell align="left" style={{ width: "15%" }}>
+                          <TableCell align="left" style={{ width: "11%" }}>
                             {roundingNum(row?.outcome) || "0"} {row?.unit || ""}
                           </TableCell>
-                          <TableCell align="left" style={{ width: "15%" }}>
+                          <TableCell align="left" style={{ width: "11%" }}>
                             {roundingNum(row?.end_outcome) || "0"}{" "}
                             {row?.unit || ""}
+                          </TableCell>
+                          <TableCell align="left" style={{ width: "11%" }}>
+                            {row?.qrcode}
                           </TableCell>
                         </TableRow>
                       ))}
                     </Fragment>
                   ))}
+                  <TableRow>
+                    {hasMore && (
+                      <TableCell colSpan={8} align="left" className="loader">
+                        Загрузка...
+                        <div className="preloader">
+                          <div className="lds-roller">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                          </div>
+                        </div>
+                      </TableCell>
+                    )}
+                    {!hasMore && (
+                      <TableCell colSpan={7} align="left" className="loader">
+                        Все товары загружены!
+                      </TableCell>
+                    )}
+                  </TableRow>
                 </TableBody>
-                {hasMore && <div ref={loader}>Загружаю...</div>}
-                {!hasMore && <p>Все товары загружены!</p>}
               </Table>
             </TableContainer>
           </div>

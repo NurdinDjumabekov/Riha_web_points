@@ -208,24 +208,25 @@ export const getCategs = createAsyncThunk(
   }
 );
 
-/// searchProdLeftovers -  для поиска всех товаров
+/// searchProdLeftovers -  для поиска всех товаров в остатках
 export const searchProdLeftovers = createAsyncThunk(
   "searchProdLeftovers",
   async function (props, { dispatch, rejectWithValue }) {
-    const { text, seller_guid } = props;
+    const { text, seller_guid, start, end } = props;
+    // const urlLink = `${API}/tt/desc/get_product_all?seller_guid=${seller_guid}&search=${text}&start=${start}&end=${end}`;
     const urlLink = `${API}/tt/get_product_all?seller_guid=${seller_guid}&search=${text}`;
     try {
       const response = await axios(urlLink);
       if (response.status >= 200 && response.status < 300) {
         // return response?.data;
-        return [
-          { title: "asdasd", list: response?.data?.slice(1, 500) },
-          { title: "asdasd", list: response?.data?.slice(1, 500) },
-          { title: "asdasd", list: response?.data?.slice(1, 500) },
-          { title: "asdasd", list: response?.data?.slice(1, 500) },
-          { title: "asdasd", list: response?.data?.slice(1, 500) },
-          { title: "asdasd", list: response?.data?.slice(1, 500) },
-        ];
+        return {
+          check: true,
+          prods_list: [
+            { categ: "asdasd", list: response?.data?.slice(1, 50) },
+            { categ: "asdasd", list: response?.data?.slice(1, 50) },
+            { categ: "asdasd", list: response?.data?.slice(1, 50) },
+          ],
+        };
       } else {
         throw Error(`Error: ${response.status}`);
       }
@@ -333,11 +334,13 @@ const saleSlice = createSlice({
     ////// searchProdLeftovers
     builder.addCase(searchProdLeftovers.fulfilled, (state, action) => {
       // state.preloaderSale = false;
-      state.listProdsSearch = action.payload;
+      state.listProdsSearch = action.payload?.prods_list;
     });
     builder.addCase(searchProdLeftovers.rejected, (state, action) => {
       state.error = action.payload;
       // state.preloaderSale = false;
+      myAlert("Упс, что-то пошло не так, перезагрузите страницу", "error");
+      state.listProdsSearch = [];
     });
     builder.addCase(searchProdLeftovers.pending, (state, action) => {
       // state.preloaderSale = true;

@@ -47,7 +47,6 @@ const SaleProdModal = (props) => {
       sale_price: 0,
       price: modal?.sale_price,
       unit_codeid: modal?.unit_codeid,
-      none_prod: modal?.none_prod,
     };
 
     const sendDataSoputa = {
@@ -109,7 +108,21 @@ const SaleProdModal = (props) => {
   };
 
   const onChangeRadio = (e) => {
-    setModal({ ...modal, unit_codeid: !!e?.target?.checked ? 1 : 2 });
+    if (!!e?.target?.checked) {
+      setModal({
+        ...modal,
+        unit_codeid: 1,
+        guid: "599FC335-F64C-4D8B-B2A3-D9814D89E2B5",
+        product_name: "Не найденные продукты (шт)",
+      });
+    } else {
+      setModal({
+        ...modal,
+        unit_codeid: 2,
+        guid: "6566A456-66E9-48A6-8302-15FE4CF09EF1",
+        product_name: "Не найденные продукты (кг)",
+      });
+    }
   };
 
   return (
