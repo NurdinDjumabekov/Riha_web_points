@@ -5,6 +5,13 @@
         padding: 10px 0 3px 2px;
         background: transparent;
       }
+
+      .date {
+        width: 100% !important;
+        > div {
+          width: 100% !important;
+        }
+      }
     }
   }
 

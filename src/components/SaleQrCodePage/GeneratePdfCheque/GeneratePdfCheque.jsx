@@ -68,7 +68,10 @@ const GeneratePdfCheque = ({ list, invoice_guid }) => {
                 </View>
                 <View style={[styles.tableCol, styles.namesInner]}>
                   <Text style={[styles.tableCell, styles.numsInnerText]}>
-                    {i?.product_name}
+                    {i?.product_name == "Не найденные продукты (кг)" ||
+                    i?.product_name == "Не найденные продукты (шт)"
+                      ? "товар"
+                      : i?.product_name}
                   </Text>
                 </View>
                 <View style={[styles.tableCol, styles.headersOther]}>

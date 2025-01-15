@@ -68,7 +68,7 @@ export const getProductsInQr = createAsyncThunk(
   "getProductsInQr",
   async function (props, { dispatch, rejectWithValue }) {
     const { seller_guid, qrcode } = props;
-    const urlLink = `${API}/tt/get_product_detail?seller_guid=${seller_guid}&qrcode=${qrcode}`;
+    const urlLink = `${API}/tt/desc/get_product_detail_all?seller_guid=${seller_guid}&qrcode=${qrcode}`;
     try {
       const response = await axios(urlLink);
       if (response.status >= 200 && response.status < 300) {

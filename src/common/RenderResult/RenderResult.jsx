@@ -58,11 +58,11 @@ export const RenderResult = ({ list, title }) => {
                   {roundingNum(item?.count)} {item?.unit}
                 </TableCell>
                 <TableCell align="left" style={{ width: "15%" }}>
-                  {roundingNum(item?.sale_price)} сом
+                  {roundingNum(item?.price)} сом
                 </TableCell>
                 <TableCell align="left" style={{ width: "20%" }}>
                   {roundingNum(
-                    +item?.sale_price * (+item?.count_usushka || +item?.count)
+                    +item?.price * (+item?.count_usushka || +item?.count)
                   )}{" "}
                   сом
                 </TableCell>

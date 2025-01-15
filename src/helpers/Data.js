@@ -8,6 +8,7 @@ import RestoreIcon from "@mui/icons-material/Restore";
 import RuleIcon from "@mui/icons-material/Rule";
 import AppsIcon from "@mui/icons-material/Apps";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+import SummarizeIcon from "@mui/icons-material/Summarize";
 
 export const dataCategory = [
   {
@@ -51,6 +52,13 @@ export const dataCategory = [
     link: "history_sale",
     pathApi: "history_sale",
     icon: <ProductionQuantityLimitsIcon />,
+  },
+  {
+    codeid: 20,
+    name: "Отчёты",
+    link: "reports",
+    pathApi: "reports",
+    icon: <SummarizeIcon />,
   },
   {
     codeid: 7,

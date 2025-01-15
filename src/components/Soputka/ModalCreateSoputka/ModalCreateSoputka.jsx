@@ -10,6 +10,7 @@ import { createInvoiceSoputkaTT } from "../../../store/reducers/requestSlice";
 ///// components
 import Select from "react-select";
 import MyModals from "../../../common/MyModals/MyModals";
+import ReactDatePicker from "react-datepicker";
 
 ////style
 import "./style.scss";
@@ -17,6 +18,8 @@ import "./style.scss";
 //// helpers
 import { transformLists } from "../../../helpers/transformLists";
 import { myAlert } from "../../../helpers/MyAlert";
+import { ru } from "date-fns/locale";
+import { format } from "date-fns";
 
 ///// icons
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
@@ -30,12 +33,14 @@ const ModalCreateSoputka = ({ openModal, setOpenModal }) => {
   const [activeContrAgent, setActiveContrAgent] = useState({});
   const [activeAgent, setActiveAgent] = useState({});
 
-  const [obj, setObj] = useState({ contragent_guid: "", agent_guid: "" });
+  const [obj, setObj] = useState({
+    contragent_guid: "",
+    agent_guid: "",
+    date: new Date(),
+  });
 
   const { listContrAgents } = useSelector((state) => state.requestSlice);
-
   const { listAgents } = useSelector((state) => state.requestSlice);
-
   const { data } = useSelector((state) => state.saveDataSlice);
 
   const listContrAgentsNew = transformLists(listContrAgents, "guid", "name");
@@ -57,8 +62,13 @@ const ModalCreateSoputka = ({ openModal, setOpenModal }) => {
     setActiveAgent({ label, value });
   }
 
+  function onChangeDate(date) {
+    setObj({ ...obj, date });
+  }
+
   async function createInvoiceSoputka(e) {
     e.preventDefault();
+
     if (!!!activeContrAgent?.value) {
       return myAlert("Выберите контрагента", "error");
     }
@@ -67,13 +77,12 @@ const ModalCreateSoputka = ({ openModal, setOpenModal }) => {
       return myAlert("Выберите агента", "error");
     }
 
-    const dataObj = {
+    const send = {
       comment: "",
       seller_guid: data?.seller_guid,
       agent_guid: activeAgent?.value,
+      date: format(obj?.date, "yyyy-MM-dd HH:mm", { locale: ru }),
     };
-
-    const send = { navigate, dataObj };
 
     const res = await dispatch(createInvoiceSoputkaTT(send)).unwrap();
 
@@ -108,6 +117,26 @@ const ModalCreateSoputka = ({ openModal, setOpenModal }) => {
               onChange={choiceAgent}
               value={activeAgent}
             />
+          </div>
+          <div className="myInputs">
+            <h6>Дата поступления сопутки</h6>
+            <div className="date">
+              <ReactDatePicker
+                selected={obj?.date}
+                onChange={onChangeDate}
+                yearDropdownItemNumber={100}
+                placeholderText="ДД.ММ.ГГГГ ЧЧ:ММ"
+                shouldCloseOnSelect={true}
+                scrollableYearDropdown
+                dateFormat="yyyy.MM.dd HH:mm"
+                locale={ru}
+                maxDate={new Date()}
+                showTimeSelect
+                timeFormat="HH:mm"
+                timeIntervals={15}
+                timeCaption="Время"
+              />
+            </div>
           </div>
           <button className="saveAction" type="submit">
             <LibraryAddIcon sx={{ width: 16, height: 16 }} />

@@ -847,17 +847,11 @@ export const getListAgentsSorting = createAsyncThunk(
 export const createInvoiceSoputkaTT = createAsyncThunk(
   /// создание накладной для сопутки
   "createInvoiceSoputkaTT",
-  async function (props, { dispatch, rejectWithValue }) {
-    const { dataObj, navigate } = props;
+  async function (data, { dispatch, rejectWithValue }) {
     try {
       const url = `${API}/tt/create_invoice_soputka`;
-      const response = await axios({ method: "POST", url, data: dataObj });
-
+      const response = await axios({ method: "POST", url, data });
       if (response.status >= 200 && response.status < 300) {
-        // navigate("/soputka/add", {
-        //   state: { forAddTovar: response?.data },
-        // });
-
         return response?.data;
       } else {
         throw Error(`Error: ${response.status}`);

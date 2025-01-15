@@ -19,6 +19,7 @@ import SaleQrCodePage from "../pages/SaleQrCodePage/SaleQrCodePage";
 ////// components
 import HistoryInvoicePage from "../components/SaleQrCodePage/HistoryInvoicePage/HistoryInvoicePage";
 import Preloader from "../common/Preloader/Preloader";
+import ReportPage from "../pages/ReportPage/ReportPage";
 
 const MainRoutes = () => {
   const { data } = useSelector((state) => state.saveDataSlice);
@@ -36,6 +37,7 @@ const MainRoutes = () => {
             <Route path="/leftovers" element={<LeftoversPage />} />
             <Route path="/sale_qr_code/*" element={<SaleQrCodePage />} />
             <Route path="/history_sale" element={<HistoryInvoicePage />} />
+            <Route path="/reports" element={<ReportPage />} />
             <Route path="/spending" element={<StoreSpendingPage />} />
             <Route path="/pay/*" element={<PagesPay />} />
             <Route path="/return/*" element={<PagesReturn />} />
