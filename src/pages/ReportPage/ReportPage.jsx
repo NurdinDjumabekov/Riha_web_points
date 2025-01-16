@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 ////// components
+import GenerateReportPdf from "../../components/ReportPage/GenerateReportPdf/GenerateReportPdf";
 import NavPrev from "../../common/NavPrev/NavPrev";
 import ReactDatePicker from "react-datepicker";
 
@@ -15,23 +16,49 @@ import "./style.scss";
 
 ///// helpers
 import { ru } from "date-fns/locale";
-import { format } from "date-fns";
+import { format, startOfWeek, endOfWeek, addDays } from "date-fns";
+import ReportLeftovers from "../../components/ReportPage/ReportLeftovers/ReportLeftovers";
+import { splitArrayIntoTwoEqualParts } from "../../helpers/transformLists";
+import ReportPostavshik from "../../components/ReportPage/ReportPostavshik/ReportPostavshik";
 
 const ReportPage = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  const [date, setDate] = useState(new Date());
+  const { listReport } = useSelector((state) => state.reportSlice);
 
-  function onChangeDate(e) {
-    const date = format(e, "dd.MM.yyyy", { locale: ru });
-    setDate(e);
-    dispatch(getReportZ({ date }));
+  const [dateWeek, setDateWeek] = useState(
+    startOfWeek(new Date(), { weekStartsOn: 1 })
+  );
+
+  function onChangeDate(date) {
+    setDateWeek(date);
+    const start_date = format(
+      startOfWeek(date, { weekStartsOn: 1 }),
+      "dd.MM.yyyy",
+      { locale: ru }
+    );
+    const end_date = format(
+      endOfWeek(date, { weekStartsOn: 1 }),
+      "dd.MM.yyyy",
+      {
+        locale: ru,
+      }
+    );
+    dispatch(getReportZ({ start_date, end_date }));
   }
 
   function getData() {
-    const date = format(new Date(), "dd.MM.yyyy", { locale: ru });
-    dispatch(getReportZ({ date }));
+    const start_date = format(
+      startOfWeek(new Date(), { weekStartsOn: 1 }),
+      "dd.MM.yyyy",
+      { locale: ru }
+    );
+    const end_ate = format(
+      endOfWeek(new Date(), { weekStartsOn: 1 }),
+      "dd.MM.yyyy",
+      { locale: ru }
+    );
+    dispatch(getReportZ({ start_date, end_ate }));
   }
 
   useEffect(() => {
@@ -43,23 +70,70 @@ const ReportPage = () => {
       <div className="header">
         <div className="titleInAllPage">
           <NavPrev />
-          <h3>Отчёт за день</h3>
+          <h3>Отчёт за неделю</h3>
         </div>
-        <div className="date">
-          <ReactDatePicker
-            selected={date}
-            onChange={onChangeDate}
-            yearDropdownItemNumber={100}
-            placeholderText="ДД.ММ.ГГГГ"
-            shouldCloseOnSelect={true}
-            scrollableYearDropdown
-            dateFormat="dd.MM.yyyy"
-            locale={ru}
-            maxDate={new Date()}
-          />
+        <div className="action">
+          <div className="date">
+            <ReactDatePicker
+              selected={dateWeek}
+              onChange={onChangeDate}
+              placeholderText="Выберите неделю"
+              shouldCloseOnSelect={true}
+              scrollableYearDropdown
+              dateFormat="dd-MM-yyyy"
+              locale={ru}
+              showWeekPicker
+              maxDate={new Date()}
+            />
+            <p className="dateText">
+              {format(dateWeek, "dd.MM.yyyy")} -{" "}
+              {format(addDays(dateWeek, 6), "dd.MM.yyyy")}
+            </p>
+          </div>
         </div>
       </div>
-      <div className=""></div>
+      <div className="body">
+        <div className="main_report">
+          <ReportPostavshik />
+        </div>
+        <div className="actions_report">
+          <div className="start_report">
+            <ReportLeftovers
+              list={listReport?.debt_point_start}
+              title={"Общий долг по точкам на начало"}
+              firstTitle={"Дата"}
+              firstKey={"date"}
+            />
+            <ReportLeftovers
+              list={listReport?.list_leftovers_start}
+              title={"Остатки продукции на начало смены"}
+              firstTitle={"Дата"}
+              firstKey={"date"}
+            />
+          </div>
+
+          <div className="end_report">
+            <ReportLeftovers
+              list={listReport?.debt_point_end}
+              title={"Общий долг по точкам на конец"}
+              firstTitle={"Дата"}
+              firstKey={"date"}
+            />
+            <ReportLeftovers
+              list={listReport?.list_leftovers_end}
+              title={"Общий долг по точкам на конец"}
+              firstTitle={"Дата"}
+              firstKey={"date"}
+            />
+          </div>
+        </div>
+
+        {/* <GenerateReportPdf
+          startDate={format(dateWeek, "dd.MM.yyyy")}
+          endData={format(addDays(dateWeek, 6), "dd.MM.yyyy")}
+          addres={data?.point_name}
+        /> */}
+      </div>
     </div>
   );
 };

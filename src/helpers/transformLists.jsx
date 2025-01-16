@@ -40,3 +40,26 @@ export const transformListsProdsEdit = (list) => {
 
   return newList;
 };
+
+export const splitArrayIntoTwoEqualParts = (array) => {
+  //// разделяю один массив на два поровну
+  const defaultEmptyRows = 4; // Минимальное количество строк, если массив пустой
+  const isArrayEmpty = !array || array?.length === 0;
+
+  if (isArrayEmpty) {
+    return {
+      left: Array(defaultEmptyRows)?.fill({}),
+      right: Array(defaultEmptyRows)?.fill({}),
+    };
+  }
+
+  const midIndex = Math.ceil(array?.length / 2); // Точка разделения
+  const firstHalf = array?.slice(0, midIndex); // Первая половина
+  const secondHalf = array?.slice(midIndex); // Вторая половина
+  const maxRows = Math.max(firstHalf?.length, secondHalf?.length);
+
+  return {
+    left: [...firstHalf, ...Array(maxRows - firstHalf.length)?.fill({})],
+    right: [...secondHalf, ...Array(maxRows - secondHalf.length)?.fill({})],
+  };
+};
