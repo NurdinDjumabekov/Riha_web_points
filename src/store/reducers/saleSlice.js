@@ -213,20 +213,12 @@ export const searchProdLeftovers = createAsyncThunk(
   "searchProdLeftovers",
   async function (props, { dispatch, rejectWithValue }) {
     const { text, seller_guid, start, end } = props;
-    // const urlLink = `${API}/tt/desc/get_product_all?seller_guid=${seller_guid}&search=${text}&start=${start}&end=${end}`;
-    const urlLink = `${API}/tt/get_product_all?seller_guid=${seller_guid}&search=${text}`;
+    console.log(props, "props");
+    const urlLink = `${API}/tt/get_report_leftovers_search?seller_guid=${seller_guid}&search=${text}&start=${start}&end=${end}`;
     try {
       const response = await axios(urlLink);
       if (response.status >= 200 && response.status < 300) {
-        // return response?.data;
-        return {
-          check: true,
-          prods_list: [
-            { categ: "asdasd", list: response?.data?.slice(1, 50) },
-            { categ: "asdasd", list: response?.data?.slice(1, 50) },
-            { categ: "asdasd", list: response?.data?.slice(1, 50) },
-          ],
-        };
+        return response?.data;
       } else {
         throw Error(`Error: ${response.status}`);
       }

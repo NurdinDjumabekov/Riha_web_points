@@ -14,7 +14,14 @@
       thead {
         tr {
           th:first-child {
-            padding-left: 10px !important;
+            padding-left: 15px !important;
+          }
+        }
+      }
+      tbody {
+        tr {
+          td:first-child {
+            padding-left: 15px !important;
           }
         }
       }

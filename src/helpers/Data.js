@@ -115,7 +115,7 @@ export const listTableForReturnProd = [
 // };
 
 export const statusRevision = {
-  0: { t: "Не подтверждён", c: "red" },
+  0: { t: "Ожидание", c: "red" },
   1: { t: "Подтверждён вами", c: "orange" },
   2: { t: "Подтверждён принимаемой стороной", c: "green" },
   ///// статус накладных для ревизии (свои накладные)

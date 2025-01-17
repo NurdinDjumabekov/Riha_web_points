@@ -272,7 +272,7 @@ const SaleProds = (props) => {
                   ))}
                   <TableRow className="footerTable">
                     <TableCell colSpan={4} align="left">
-                      Итого к оплате
+                      {type == 3 ? "Итого" : "Итого к оплате"}
                     </TableCell>
                     <TableCell colSpan={2} align="left">
                       {roundingNum(listProds?.[0]?.total_price) || "0"} сом

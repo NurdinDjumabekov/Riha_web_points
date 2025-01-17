@@ -46,11 +46,11 @@ const AcceptInvoiceProdPage = () => {
       <div className="header">
         <div className="titleInAllPage">
           <NavPrev />
-          <h3>Список накладных</h3>
+          <h3>Список новых накладных</h3>
         </div>
         <button className="saveAction" onClick={getHistory}>
           <LibraryAddIcon sx={{ width: 16, height: 16 }} />
-          <p>Список принятых накладных</p>
+          <p>Принятые и отклонённые накладные</p>
         </button>
       </div>
       <TableContainer

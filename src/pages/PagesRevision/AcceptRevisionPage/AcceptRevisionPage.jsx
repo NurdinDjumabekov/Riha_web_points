@@ -17,7 +17,7 @@ import { updateStatusInvoice } from "../../../store/reducers/saleSlice";
 ///// icons
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 
-const EveryInvoiceAcceptPage = () => {
+const AcceptRevisionPage = () => {
   //// каждый возврат накладной типо истории
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,30 +40,24 @@ const EveryInvoiceAcceptPage = () => {
   const acceptInvoiceRevision = async () => {
     const send = { invoice_guid: guid, status: 2 };
     const res = await dispatch(updateStatusInvoice({ send, type })).unwrap();
-    if (!!res?.result) {
-      navigate("/main_invoice/accept_prod");
-    }
+    if (!!res?.result) navigate("/revision/request");
   };
 
   const checkUser =
     data?.seller_guid == listAcceptInvoiceProd?.[0]?.seller_to_guid;
 
-  const objAction = {
-    3: (
-      <div className="header">
-        {checkUser && (
-          <button className="saveAction " onClick={() => setConfirm(true)}>
-            <LibraryAddIcon sx={{ width: 16, height: 16 }} />
-            <p>Принять ревизию</p>
-          </button>
-        )}
-      </div>
-    ),
-  };
-
   return (
     <div className="parentAcceptEvery">
-      {objAction?.[type]}
+      {listAcceptInvoiceProd?.[0]?.status !== 2 && (
+        <div className="header">
+          {checkUser && (
+            <button className="saveAction " onClick={() => setConfirm(true)}>
+              <LibraryAddIcon sx={{ width: 16, height: 16 }} />
+              <p>Принять ревизию</p>
+            </button>
+          )}
+        </div>
+      )}
 
       <RenderResult
         list={newList}
@@ -81,4 +75,4 @@ const EveryInvoiceAcceptPage = () => {
   );
 };
 
-export default EveryInvoiceAcceptPage;
+export default AcceptRevisionPage;

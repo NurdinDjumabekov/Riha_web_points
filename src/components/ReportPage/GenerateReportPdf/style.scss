@@ -1,20 +1,26 @@
-.genearateReportEveryDay {
+.generateReportPdf {
   .actionPdf {
-    height: 38px;
-    background: #299b31;
-    padding: 0px 20px 0px;
-    border-radius: 5px;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    > button {
+      height: 38px;
+      background: #299b31;
+      padding: 0px 20px 0px;
+      border-radius: 5px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
   }
-}
 
-.nurdin {
-  iframe {
-    width: 100%;
-    height: 100%;
+  .modal {
+    &__inner {
+      top: 48% !important;
+
+      iframe {
+        width: 80vw;
+        height: 90vh;
+      }
+    }
   }
 }

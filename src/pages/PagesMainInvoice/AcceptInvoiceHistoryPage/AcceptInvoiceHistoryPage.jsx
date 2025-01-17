@@ -37,7 +37,7 @@ const AcceptInvoiceHistoryPage = () => {
     <div className="listInvoices">
       <div className="titleInAllPage">
         <NavPrev />
-        <h3>Список принятых накладных</h3>
+        <h3>Список принятых и отклонённых накладных</h3>
       </div>
       <TableContainer
         component={Paper}

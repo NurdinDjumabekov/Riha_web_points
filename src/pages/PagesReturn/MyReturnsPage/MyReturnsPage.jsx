@@ -46,7 +46,7 @@ const MyReturnsPage = () => {
         </div>
         <button className="saveAction" onClick={getHistory}>
           <LibraryAddIcon sx={{ width: 16, height: 16 }} />
-          <p>Список принятых накладных</p>
+          <p>Принятые и отклонённые накладные</p>
         </button>
       </div>
       <TableContainer

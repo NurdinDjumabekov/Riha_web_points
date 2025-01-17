@@ -10,6 +10,7 @@ import CheckTovarPage from "./CheckTovarPage/CheckTovarPage";
 import RevisionRequestPage from "./RevisionRequestPage/RevisionRequestPage";
 import InvoiceCheckPage from "./InvoiceCheckPage/InvoiceCheckPage";
 import RevisionQRscanPage from "./RevisionQRscanPage/RevisionQRscanPage";
+import AcceptRevisionPage from "./AcceptRevisionPage/AcceptRevisionPage";
 
 const PagesRevision = () => {
   return (
@@ -18,6 +19,7 @@ const PagesRevision = () => {
       <Route path="/request" element={<RevisionRequestPage />} />
       <Route path="/check" element={<InvoiceCheckPage />} />
       <Route path="/qr_scan" element={<RevisionQRscanPage />} />
+      <Route path="/every_accept_inv" element={<AcceptRevisionPage />} />
       {/* <Route path="/every" element={<EveryRevisionRequestPage />} /> */}
     </Routes>
   );

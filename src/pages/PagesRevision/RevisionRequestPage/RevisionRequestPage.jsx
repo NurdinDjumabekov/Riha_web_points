@@ -16,7 +16,7 @@ import NavPrev from "../../../common/NavPrev/NavPrev";
 import "./style.scss";
 
 //// helpers
-import { statusColor, statusRevisionAccept } from "../../../helpers/Data";
+import { statusRevisionAccept } from "../../../helpers/Data";
 import { roundingNum } from "../../../helpers/amounts";
 
 const RevisionRequestPage = () => {
@@ -35,7 +35,7 @@ const RevisionRequestPage = () => {
   }, []);
 
   const lookInvoice = ({ guid }) => {
-    navigate("/main_invoice/every_accept_inv", { state: { guid, type: 3 } });
+    navigate("/revision/every_accept_inv", { state: { guid, type: 3 } });
   };
 
   return (

@@ -1,12 +1,13 @@
 ////// hooks
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 
 ////// components
 import GenerateReportPdf from "../../components/ReportPage/GenerateReportPdf/GenerateReportPdf";
 import NavPrev from "../../common/NavPrev/NavPrev";
 import ReactDatePicker from "react-datepicker";
+import ReportLeftovers from "../../components/ReportPage/ReportLeftovers/ReportLeftovers";
+import ReportPostavshik from "../../components/ReportPage/ReportPostavshik/ReportPostavshik";
 
 ////// fns
 import { getReportZ } from "../../store/reducers/reportSlice";
@@ -17,14 +18,14 @@ import "./style.scss";
 ///// helpers
 import { ru } from "date-fns/locale";
 import { format, startOfWeek, endOfWeek, addDays } from "date-fns";
-import ReportLeftovers from "../../components/ReportPage/ReportLeftovers/ReportLeftovers";
-import { splitArrayIntoTwoEqualParts } from "../../helpers/transformLists";
-import ReportPostavshik from "../../components/ReportPage/ReportPostavshik/ReportPostavshik";
 
 const ReportPage = () => {
   const dispatch = useDispatch();
 
   const { listReport } = useSelector((state) => state.reportSlice);
+  const { data } = useSelector((state) => state.saveDataSlice);
+
+  const [modalReportPdf, setModalReportPdf] = useState(false);
 
   const [dateWeek, setDateWeek] = useState(
     startOfWeek(new Date(), { weekStartsOn: 1 })
@@ -72,24 +73,35 @@ const ReportPage = () => {
           <NavPrev />
           <h3>Отчёт за неделю</h3>
         </div>
-        <div className="action">
-          <div className="date">
-            <ReactDatePicker
-              selected={dateWeek}
-              onChange={onChangeDate}
-              placeholderText="Выберите неделю"
-              shouldCloseOnSelect={true}
-              scrollableYearDropdown
-              dateFormat="dd-MM-yyyy"
-              locale={ru}
-              showWeekPicker
-              maxDate={new Date()}
-            />
-            <p className="dateText">
-              {format(dateWeek, "dd.MM.yyyy")} -{" "}
-              {format(addDays(dateWeek, 6), "dd.MM.yyyy")}
-            </p>
+
+        <div>
+          <div className="action">
+            Сортировка по дате
+            <div className="date">
+              <ReactDatePicker
+                selected={dateWeek}
+                onChange={onChangeDate}
+                placeholderText="Выберите неделю"
+                shouldCloseOnSelect={true}
+                scrollableYearDropdown
+                dateFormat="dd-MM-yyyy"
+                locale={ru}
+                showWeekPicker
+                maxDate={new Date()}
+              />
+              <p className="dateText">
+                {format(dateWeek, "dd.MM.yyyy")} -{" "}
+                {format(addDays(dateWeek, 6), "dd.MM.yyyy")}
+              </p>
+            </div>
           </div>
+          <GenerateReportPdf
+            startDate={format(dateWeek, "dd.MM.yyyy")}
+            endData={format(addDays(dateWeek, 6), "dd.MM.yyyy")}
+            addres={data?.point_name}
+            modalReportPdf={modalReportPdf}
+            setModalReportPdf={setModalReportPdf}
+          />
         </div>
       </div>
       <div className="body">
@@ -127,12 +139,6 @@ const ReportPage = () => {
             />
           </div>
         </div>
-
-        {/* <GenerateReportPdf
-          startDate={format(dateWeek, "dd.MM.yyyy")}
-          endData={format(addDays(dateWeek, 6), "dd.MM.yyyy")}
-          addres={data?.point_name}
-        /> */}
       </div>
     </div>
   );
