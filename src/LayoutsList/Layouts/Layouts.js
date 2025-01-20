@@ -1,3 +1,5 @@
+/////// hooks
+import { Suspense } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -7,6 +9,7 @@ import "./style.scss";
 ///// components
 import MenuMain from "../MenuMain/MenuMain";
 import UserInfo from "../../components/Header/UserInfo/UserInfo";
+import Preloader from "../../common/Preloader/Preloader";
 
 const Layouts = () => {
   const navigate = useNavigate();

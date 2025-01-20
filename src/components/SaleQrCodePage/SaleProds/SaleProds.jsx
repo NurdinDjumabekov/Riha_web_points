@@ -1,7 +1,7 @@
 ///// hooks
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 ////// helpers
 import { myAlert } from "../../../helpers/MyAlert";
@@ -31,6 +31,7 @@ import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 
 ////// styles
 import "./style.scss";
+import debounce from "debounce";
 
 const SaleProds = (props) => {
   const { invoice_guid, status, codeid, type } = props;
@@ -50,9 +51,12 @@ const SaleProds = (props) => {
 
   const getData = () => dispatch(getProducts({ invoice_guid, type }));
 
-  const sendProd = async (e) => {
+  const sendProd = async (e, qrcode) => {
     e.preventDefault();
-    const send = { qrcode: qrCodeInput, seller_guid: data?.seller_guid };
+
+    const errText = "Штрих код может быть только от 3х символов";
+    if (qrcode?.length < 3) return myAlert(errText, "error");
+    const send = { qrcode, seller_guid: data?.seller_guid };
     const res = await dispatch(getProductsInQr(send)).unwrap();
     if (!!res?.guid) {
       setModal({ ...res, count: "", unit_codeid: res?.unit_codeid || 1 }); /// default 1 - шт
@@ -89,7 +93,17 @@ const SaleProds = (props) => {
     }, 300);
   }, [invoice_guid]);
 
-  const onChange = (e) => setQrCodeInput(e.target.value);
+  const onChange = (e) => {
+    setQrCodeInput(e.target.value);
+    searchData(e, e.target.value);
+  };
+
+  const searchData = useCallback(
+    debounce((e, text) => {
+      if (text?.length > 3) sendProd(e, text);
+    }, 500),
+    []
+  );
 
   const clickDelProd = async (obj) => {
     const send = { product_guid: obj?.guid };
@@ -176,7 +190,7 @@ const SaleProds = (props) => {
                 className={`actionAddProd ${
                   checkTypeOne ? "checkTypeOne" : ""
                 }`}
-                onSubmit={sendProd}
+                onSubmit={(e) => sendProd(e, qrCodeInput)}
               >
                 <div className="myInputs inputSend">
                   <h6>Поиск по штрих коду</h6>

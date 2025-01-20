@@ -1,11 +1,12 @@
 ////// hooks
-import React from "react";
+import React, { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 ////// pages
 import LoginPage from "../pages/LoginPage/LoginPage";
 import Layouts from "../LayoutsList/Layouts/Layouts";
+
 import AllCategPage from "../pages/AllCategPage/AllCategPage";
 import PagesMainInvoice from "../pages/PagesMainInvoice/PagesMainInvoice";
 import PagesSoputka from "../pages/PagesSoputka/PagesSoputka";
