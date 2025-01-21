@@ -28,47 +28,9 @@ const LeftoversScreen = () => {
   const containerRef = useRef(null);
 
   const [searchProd, setSearchProd] = useState("");
-  const [checkScroll, setCheckScroll] = useState(true); //  можно ли скролить и получать данные дальше или нельзя
-  const [count, setCount] = useState(100);
 
   const { data } = useSelector((state) => state.saveDataSlice);
   const { listProdsSearch } = useSelector((state) => state.saleSlice);
-
-  const getAllDataSearch = async (nextCount, text) => {
-    //// получение данных по 100
-    if (!checkScroll) return;
-
-    const send = {
-      text,
-      seller_guid: data?.seller_guid,
-      start: "1",
-      end: nextCount,
-    };
-    const res = await dispatch(searchProdLeftovers(send)).unwrap();
-    setCheckScroll(res?.check);
-  };
-
-  useEffect(() => {
-    const container = containerRef.current;
-
-    const handleScroll = () => {
-      if (
-        container.scrollHeight - container.scrollTop ===
-        container.clientHeight
-      ) {
-        setCheckScroll(false);
-        container.scrollTop -= 50;
-        setCount((prevCount) => {
-          getAllDataSearch(prevCount + 100, searchProd);
-          return prevCount + 100;
-        });
-      }
-    };
-    container.addEventListener("scroll", handleScroll);
-    return () => {
-      container.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   useEffect(() => {
     setTimeout(() => refInputSearch.current?.focus(), 200);
@@ -84,7 +46,6 @@ const LeftoversScreen = () => {
   const searchData = async (e) => {
     e.preventDefault();
     const error = "В поисковой строке должно быть не меньше 3х букв";
-
     if (containerRef.current) {
       containerRef.current?.scrollTo({ top: 0 });
     }
@@ -93,24 +54,20 @@ const LeftoversScreen = () => {
       text: searchProd,
       seller_guid: data?.seller_guid,
       start: "1",
-      end: "100",
+      end: "200",
     };
-    setCount(100);
-    const res = await dispatch(searchProdLeftovers(send)).unwrap();
-    setCheckScroll(res?.check);
+    dispatch(searchProdLeftovers(send));
   };
 
   const getData = async () => {
     setSearchProd("");
-    setCount(100);
     const send = {
-      text: "",
+      text: "Хлеб",
       seller_guid: data?.seller_guid,
       start: "1",
-      end: "100",
+      end: "200",
     };
-    const res = await dispatch(searchProdLeftovers(send)).unwrap();
-    setCheckScroll(res?.check);
+    dispatch(searchProdLeftovers(send));
   };
 
   const clearInputSearch = () => {
@@ -122,6 +79,8 @@ const LeftoversScreen = () => {
   };
 
   let counter = 0; // Внешний счётчик для сквозной нумерации
+
+  console.log(listProdsSearch?.length == 0);
 
   return (
     <div className="searchProd leftoversContainer">
@@ -235,30 +194,15 @@ const LeftoversScreen = () => {
                   </Fragment>
                 ))}
                 <TableRow>
-                  {checkScroll ? (
-                    <TableCell colSpan={8} align="left" className="loader">
-                      Загрузка...
-                      <div className="preloader">
-                        <div className="lds-roller">
-                          <div></div>
-                          <div></div>
-                          <div></div>
-                          <div></div>
-                          <div></div>
-                          <div></div>
-                          <div></div>
-                          <div></div>
-                        </div>
-                      </div>
+                  {listProdsSearch?.length == 0 && searchProd == "" && (
+                    <TableCell className="loader" colSpan={8} align="center">
+                      Список пустой
                     </TableCell>
-                  ) : (
-                    <>
-                      {listProdsSearch?.length != 0 && (
-                        <TableCell colSpan={8} align="left" className="loader">
-                          Все товары загружены!
-                        </TableCell>
-                      )}
-                    </>
+                  )}
+                  {listProdsSearch?.length == 0 && searchProd != "" && (
+                    <TableCell className="loader" colSpan={8} align="center">
+                      Товар с названием "{searchProd}" не найден
+                    </TableCell>
                   )}
                 </TableRow>
               </TableBody>
