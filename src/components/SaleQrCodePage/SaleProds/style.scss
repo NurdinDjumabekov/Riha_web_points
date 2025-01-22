@@ -28,6 +28,33 @@
       gap: 10px;
       margin: 10px;
 
+      .soputka {
+        position: relative;
+
+        .search {
+          position: absolute;
+          left: 250px;
+          bottom: 0px;
+          height: 38px;
+          background: #299b31;
+          padding: 0px 20px 0px;
+          border-radius: 5px;
+          color: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 5px;
+          width: 130px;
+
+          p {
+            padding: 0 !important;
+            margin: 0;
+            font-size: 14px;
+            margin-right: 10px;
+          }
+        }
+      }
+
       h6 {
         margin-bottom: 2px;
       }

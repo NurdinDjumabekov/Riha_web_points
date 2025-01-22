@@ -69,19 +69,17 @@ const ModalCreateSoputka = ({ openModal, setOpenModal }) => {
   async function createInvoiceSoputka(e) {
     e.preventDefault();
 
-    if (!!!activeContrAgent?.value) {
+    if (!!!activeContrAgent?.value)
       return myAlert("Выберите контрагента", "error");
-    }
 
-    if (!!!activeAgent?.value) {
-      return myAlert("Выберите агента", "error");
-    }
+    if (!!!activeAgent?.value) return myAlert("Выберите агента", "error");
 
     const send = {
       comment: "",
       seller_guid: data?.seller_guid,
       agent_guid: activeAgent?.value,
       date: format(obj?.date, "yyyy-MM-dd HH:mm", { locale: ru }),
+      invoice_type: openModal,
     };
 
     const res = await dispatch(createInvoiceSoputkaTT(send)).unwrap();
@@ -92,11 +90,29 @@ const ModalCreateSoputka = ({ openModal, setOpenModal }) => {
     }
   }
 
+  const objType = {
+    1: {
+      title: "Создание накладной сопутки",
+      dateText: "Дата поступления сопутки",
+    },
+    2: {
+      title: "Оформление возврата сопутки",
+      dateText: "Дата оформления возврата сопутки",
+    },
+  };
+
+  function closeModal() {
+    setObj({ date: new Date() });
+    setOpenModal(0);
+    setActiveContrAgent({});
+    setActiveAgent({});
+  }
+
   return (
     <MyModals
-      openModal={openModal}
-      closeModal={() => setOpenModal(false)}
-      title={"Создание накладной сопутки"}
+      openModal={!!openModal}
+      closeModal={closeModal}
+      title={objType?.[openModal]?.title}
     >
       <form className="actionsAddProd" onSubmit={createInvoiceSoputka}>
         <div className="inputSend">
@@ -119,7 +135,7 @@ const ModalCreateSoputka = ({ openModal, setOpenModal }) => {
             />
           </div>
           <div className="myInputs">
-            <h6>Дата поступления сопутки</h6>
+            <h6>{objType?.[openModal]?.dateText}</h6>
             <div className="date">
               <ReactDatePicker
                 selected={obj?.date}

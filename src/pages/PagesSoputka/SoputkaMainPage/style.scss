@@ -1,4 +1,12 @@
 .soputkaParent {
   height: 100%;
   position: relative;
+
+  .return {
+    background: #1976d2;
+  }
+
+  .saveAction {
+    padding: 0px 15px 0px !important;
+  }
 }

@@ -20,7 +20,7 @@ const SoputkaMainPage = () => {
   //// Сопуткаа
   const dispatch = useDispatch();
 
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState(0); /// 1 - принятие сопутки, 2 - возврат
 
   const { data } = useSelector((state) => state.saveDataSlice);
 
@@ -47,14 +47,18 @@ const SoputkaMainPage = () => {
     <>
       <div className="soputkaParent">
         <div className="rightPosition">
-          <button className="saveAction" onClick={() => setOpenModal(true)}>
-            + Создать накладную для сопутки
+          <button className="saveAction return" onClick={() => setOpenModal(2)}>
+            Оформить возврат
+          </button>
+          <button className="saveAction" onClick={() => setOpenModal(1)}>
+            Создать накладную
           </button>
         </div>
         <ViewInvoiceHisotry
           keyLink={"/soputka/history"}
           title={"История сопутки"}
           list={listHistorySoputka}
+          type="soputka"
         />
       </div>
       <ModalCreateSoputka setOpenModal={setOpenModal} openModal={openModal} />

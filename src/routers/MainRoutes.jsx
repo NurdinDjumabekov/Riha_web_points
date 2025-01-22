@@ -24,7 +24,7 @@ import ReportPage from "../pages/ReportPage/ReportPage";
 
 const MainRoutes = () => {
   const { data } = useSelector((state) => state.saveDataSlice);
-
+  
   return (
     <>
       <Routes>

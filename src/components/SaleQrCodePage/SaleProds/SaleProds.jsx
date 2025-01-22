@@ -28,6 +28,7 @@ import SaleProdModal from "../SaleProdModal/SaleProdModal";
 ///// icons
 import DeleteIcon from "../../../assets/MyIcons/DeleteIcon";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
+import SearchIcon from "@mui/icons-material/Search";
 
 ////// styles
 import "./style.scss";
@@ -59,7 +60,14 @@ const SaleProds = (props) => {
     const send = { qrcode, seller_guid: data?.seller_guid };
     const res = await dispatch(getProductsInQr(send)).unwrap();
     if (!!res?.guid) {
-      setModal({ ...res, count: "", unit_codeid: res?.unit_codeid || 1 }); /// default 1 - шт
+      const past = {
+        ...res,
+        count: "",
+        sale_price:
+          res?.sale_price == 1 || res?.sale_price == 0 ? "" : res?.sale_price,
+        unit_codeid: res?.unit_codeid || 1, /// default 1 - шт
+      };
+      setModal(past);
       setTimeout(() => {
         refInputSum.current?.focus();
       }, 200);
@@ -95,7 +103,9 @@ const SaleProds = (props) => {
 
   const onChange = (e) => {
     setQrCodeInput(e.target.value);
-    searchData(e, e.target.value);
+    if (type !== 2) {
+      searchData(e, e.target.value);
+    }
   };
 
   const searchData = useCallback(
@@ -192,7 +202,9 @@ const SaleProds = (props) => {
                 }`}
                 onSubmit={(e) => sendProd(e, qrCodeInput)}
               >
-                <div className="myInputs inputSend">
+                <div
+                  className={`myInputs inputSend ${type == 2 ? "soputka" : ""}`}
+                >
                   <h6>Поиск по штрих коду</h6>
                   <input
                     ref={refInput}
@@ -200,6 +212,12 @@ const SaleProds = (props) => {
                     onChange={onChange}
                     value={qrCodeInput}
                   />
+                  {type == 2 && (
+                    <button className="search" type="submit">
+                      <SearchIcon />
+                      <p>Поиск</p>
+                    </button>
+                  )}
                 </div>
               </form>
             )}

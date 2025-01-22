@@ -1,5 +1,4 @@
 //// hooks
-import { useDispatch } from "react-redux";
 import { formatCount, roundingNum } from "../../helpers/amounts";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -14,7 +13,7 @@ import { TableContainer, TableHead } from "@mui/material";
 import { TableRow, Paper } from "@mui/material";
 import NavPrev from "../NavPrev/NavPrev";
 
-const ViewInvoiceHisotry = ({ list, title, keyLink }) => {
+const ViewInvoiceHisotry = ({ list, title, keyLink, type }) => {
   const navigate = useNavigate();
 
   const objStatus = {
@@ -45,6 +44,11 @@ const ViewInvoiceHisotry = ({ list, title, keyLink }) => {
               <TableCell align="center" style={{ width: "5%" }}>
                 ...
               </TableCell>
+              {type == "soputka" && (
+                <TableCell align="left" style={{ width: "10%" }}>
+                  Тип накладной
+                </TableCell>
+              )}
               <TableCell style={{ width: "25%" }}>Агент</TableCell>
               <TableCell align="left" style={{ width: "15%" }}>
                 Дата
@@ -82,11 +86,16 @@ const ViewInvoiceHisotry = ({ list, title, keyLink }) => {
                 >
                   <input type="checkbox" value={true} />
                 </TableCell>
+                {type == "soputka" && (
+                  <TableCell align="left" style={{ width: "10%" }}>
+                    {item?.invoice_type == 2 ? "Возврат" : "Отпускная"}
+                  </TableCell>
+                )}
                 <TableCell align="left" style={{ width: "25%" }}>
                   {item?.agent}
                 </TableCell>
                 <TableCell align="left" style={{ width: "15%" }}>
-                  {item?.date}
+                  {type == "soputka" ? item?.created_date : item?.date}
                 </TableCell>
                 <TableCell
                   align="left"

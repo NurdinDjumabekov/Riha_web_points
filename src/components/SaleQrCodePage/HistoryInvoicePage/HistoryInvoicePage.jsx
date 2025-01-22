@@ -4,7 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 
 ////// helpers
-import { roundingNum } from "../../../helpers/amounts";
+import {
+  formatCount,
+  roundingNum,
+  sumTotalEveryDay,
+} from "../../../helpers/amounts";
 import { ru } from "date-fns/locale";
 import { format } from "date-fns";
 
@@ -138,19 +142,19 @@ const HistoryInvoicePage = () => {
                   </TableCell>
                 </TableRow>
               ))}
-              {/* <TableRow>
-                <TableCell colSpan={4} align="left" className="footerTable">
-                  Итого к оплате
+              <TableRow>
+                <TableCell colSpan={2} align="left" className="footerTable pl">
+                  Итого
                 </TableCell>
                 <TableCell colSpan={2} align="left">
-                  {+totalSumPrice(listProds)} сом
+                  {formatCount(sumTotalEveryDay(listHistoryInvoice)) || "0"} сом
                 </TableCell>
                 <TableCell
                   colSpan={1}
                   align="left"
                   style={{ fontWeight: "bold" }}
                 ></TableCell>
-              </TableRow> */}
+              </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
