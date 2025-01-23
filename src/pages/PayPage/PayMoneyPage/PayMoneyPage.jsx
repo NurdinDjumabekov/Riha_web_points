@@ -76,6 +76,9 @@ const PayMoneyPage = () => {
                 Сумма
               </TableCell>
               <TableCell align="left" style={{ width: "15%" }}>
+                Получатели
+              </TableCell>
+              <TableCell align="left" style={{ width: "15%" }}>
                 Тип оплаты
               </TableCell>
               <TableCell align="left" style={{ width: "15%" }}>
@@ -102,6 +105,9 @@ const PayMoneyPage = () => {
                 </TableCell>
                 <TableCell align="left" style={{ width: "15%" }}>
                   {roundingNum(row?.total)} сом
+                </TableCell>
+                <TableCell align="left" style={{ width: "15%" }}>
+                  {row?.name_contragent || "..."}
                 </TableCell>
                 <TableCell align="left" style={{ width: "15%" }}>
                   {typesPay?.[row?.transaction_type]}

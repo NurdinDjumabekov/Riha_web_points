@@ -47,10 +47,10 @@ const SoputkaMainPage = () => {
     <>
       <div className="soputkaParent">
         <div className="rightPosition">
-          <button className="saveAction return" onClick={() => setOpenModal(2)}>
+          <button className="saveAction return" onClick={() => setOpenModal(7)}>
             Оформить возврат
           </button>
-          <button className="saveAction" onClick={() => setOpenModal(1)}>
+          <button className="saveAction" onClick={() => setOpenModal(3)}>
             Создать накладную
           </button>
         </div>

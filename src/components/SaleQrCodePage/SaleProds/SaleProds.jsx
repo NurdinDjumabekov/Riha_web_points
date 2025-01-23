@@ -178,7 +178,7 @@ const SaleProds = (props) => {
     3: (
       <button className="saveAction " onClick={() => setConfirm(true)}>
         <LibraryAddIcon sx={{ width: 16, height: 16 }} />
-        <p>Завершить ревизию</p>
+        <p>Отправить принимаемой стороне</p>
       </button>
     ),
   };

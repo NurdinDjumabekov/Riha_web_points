@@ -91,11 +91,11 @@ const ModalCreateSoputka = ({ openModal, setOpenModal }) => {
   }
 
   const objType = {
-    1: {
+    3: {
       title: "Создание накладной сопутки",
       dateText: "Дата поступления сопутки",
     },
-    2: {
+    7: {
       title: "Оформление возврата сопутки",
       dateText: "Дата оформления возврата сопутки",
     },

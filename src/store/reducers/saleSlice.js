@@ -264,6 +264,7 @@ const saleSlice = createSlice({
     builder.addCase(getProducts.rejected, (state, action) => {
       state.error = action.payload;
       state.preloaderSale = false;
+      state.listProds = [];
     });
     builder.addCase(getProducts.pending, (state, action) => {
       state.preloaderSale = true;

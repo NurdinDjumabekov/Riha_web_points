@@ -22,6 +22,8 @@ const ViewInvoiceHisotry = ({ list, title, keyLink, type }) => {
     2: { text: "Принят", color: "green" },
   };
 
+  const typeInoice = { 3: "Отпускная", 7: "Возврат" };
+
   const nav = (guidInvoice) => navigate(keyLink, { state: { guidInvoice } });
 
   return (
@@ -88,7 +90,7 @@ const ViewInvoiceHisotry = ({ list, title, keyLink, type }) => {
                 </TableCell>
                 {type == "soputka" && (
                   <TableCell align="left" style={{ width: "10%" }}>
-                    {item?.invoice_type == 2 ? "Возврат" : "Отпускная"}
+                    {typeInoice?.[item?.invoice_type] || "..."}
                   </TableCell>
                 )}
                 <TableCell align="left" style={{ width: "25%" }}>

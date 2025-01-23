@@ -54,7 +54,7 @@ const LeftoversScreen = () => {
       text: searchProd,
       seller_guid: data?.seller_guid,
       start: "1",
-      end: "200",
+      end: "500",
     };
     dispatch(searchProdLeftovers(send));
   };
@@ -62,10 +62,11 @@ const LeftoversScreen = () => {
   const getData = async () => {
     setSearchProd("");
     const send = {
-      text: "Хлеб",
+      // text: "Хлеб",
+      text: "",
       seller_guid: data?.seller_guid,
       start: "1",
-      end: "200",
+      end: "500",
     };
     dispatch(searchProdLeftovers(send));
   };
@@ -79,8 +80,6 @@ const LeftoversScreen = () => {
   };
 
   let counter = 0; // Внешний счётчик для сквозной нумерации
-
-  console.log(listProdsSearch?.length == 0);
 
   return (
     <div className="searchProd leftoversContainer">
@@ -121,9 +120,12 @@ const LeftoversScreen = () => {
                   </TableCell>
                   <TableCell style={{ width: "29%" }}>Товар</TableCell>
                   <TableCell align="left" style={{ width: "11%" }}>
-                    Цена
+                    Цеховая цена
                   </TableCell>
                   <TableCell align="left" style={{ width: "11%" }}>
+                    Отпускная цена
+                  </TableCell>
+                  {/* <TableCell align="left" style={{ width: "11%" }}>
                     Остаток на начало
                   </TableCell>
                   <TableCell align="left" style={{ width: "11%" }}>
@@ -131,9 +133,9 @@ const LeftoversScreen = () => {
                   </TableCell>
                   <TableCell align="left" style={{ width: "11%" }}>
                     Расход
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell align="left" style={{ width: "11%" }}>
-                    Остаток на конец
+                    Остаток
                   </TableCell>
                   <TableCell align="left" style={{ width: "11%" }}>
                     Штрих коды
@@ -169,18 +171,21 @@ const LeftoversScreen = () => {
                             {row?.product_name}
                           </TableCell>
                           <TableCell align="left" style={{ width: "11%" }}>
+                            {roundingNum(row?.price) || 0} сом
+                          </TableCell>
+                          <TableCell align="left" style={{ width: "11%" }}>
                             {roundingNum(row?.sale_price) || 0} сом
                           </TableCell>
-                          <TableCell align="left" style={{ width: "11%" }}>
-                            {roundingNum(row?.start_outcome) || "0"}{" "}
-                            {row?.unit || ""}
-                          </TableCell>
-                          <TableCell align="left" style={{ width: "11%" }}>
-                            {roundingNum(row?.income) || "0"} {row?.unit || ""}
-                          </TableCell>
-                          <TableCell align="left" style={{ width: "11%" }}>
-                            {roundingNum(row?.outcome) || "0"} {row?.unit || ""}
-                          </TableCell>
+                          {/* <TableCell align="left" style={{ width: "11%" }}>
+                              {roundingNum(row?.start_outcome) || "0"}{" "}
+                              {row?.unit || ""}
+                            </TableCell>
+                            <TableCell align="left" style={{ width: "11%" }}>
+                              {roundingNum(row?.income) || "0"} {row?.unit || ""}
+                            </TableCell>
+                            <TableCell align="left" style={{ width: "11%" }}>
+                              {roundingNum(row?.outcome) || "0"} {row?.unit || ""}
+                            </TableCell> */}
                           <TableCell align="left" style={{ width: "11%" }}>
                             {roundingNum(row?.end_outcome) || "0"}{" "}
                             {row?.unit || ""}

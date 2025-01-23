@@ -80,7 +80,7 @@ const SoputkaProdHistoryPage = () => {
           {status && (
             <div className="actionBlockHeader">
               <button className="saveAction" onClick={() => setConfirm(true)}>
-                Подтвердить принятие
+                Подтвердить
               </button>
               <button className="saveAction" onClick={addProd}>
                 Добавить товар
