@@ -61,20 +61,15 @@ export const RenderResult = ({ list, title }) => {
                   {roundingNum(item?.price)} сом
                 </TableCell>
                 <TableCell align="left" style={{ width: "20%" }}>
-                  {roundingNum(
-                    +item?.price * (+item?.count_usushka || +item?.count)
-                  )}{" "}
-                  сом
+                  {roundingNum(+item?.sale_price)} сом
                 </TableCell>
               </TableRow>
             ))}
-            <TableRow
-              className="tableInvoice"
-              style={{ background: "rgba(225, 230, 237, 0.149)" }}
-            >
-              <TableCell align="center" component="th" scope="row" colSpan={4}>
+            <TableRow className="tableInvoice">
+              <TableCell align="center" component="th" scope="row">
                 Итого
               </TableCell>
+              <TableCell scope="row" colSpan={3}></TableCell>
               <TableCell align="left" component="th" scope="row">
                 {list?.[0]?.total_price} сом
               </TableCell>

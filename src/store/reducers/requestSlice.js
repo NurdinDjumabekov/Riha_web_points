@@ -1083,15 +1083,14 @@ export const sendCheckListProduct = createAsyncThunk(
   }
 );
 
-/// getRevisionRequest
-/// get список запрос0в других пр0давцов для подтверждения ревизии
+/// getRevisionRequest - get список запрос0в других пр0давцов для подтверждения ревизии
 export const getRevisionRequest = createAsyncThunk(
   "getRevisionRequest",
   async function (seller_guid, { dispatch, rejectWithValue }) {
     try {
       const response = await axios({
         method: "GET",
-        url: `${API}/tt/get_invoice_revision?seller_guid=${seller_guid}&type=2`,
+        url: `${API}/tt/get_invoice_revision?seller_guid=${seller_guid}&type=1`,
       });
       if (response.status >= 200 && response.status < 300) {
         return response.data;
@@ -1104,15 +1103,14 @@ export const getRevisionRequest = createAsyncThunk(
   }
 );
 
-/// getHistoryRevision
-/// просмотр ревизии товара у ТT
+/// getHistoryRevision - просмотр ревизии товара у ТT
 export const getHistoryRevision = createAsyncThunk(
   "getHistoryRevision",
   async function (seller_guid, { dispatch, rejectWithValue }) {
     try {
       const response = await axios({
         method: "GET",
-        url: `${API}/tt/get_invoice_revision?seller_guid=${seller_guid}&type=1`,
+        url: `${API}/tt/get_invoice_revision?seller_guid=${seller_guid}&type=2`,
       });
       if (response.status >= 200 && response.status < 300) {
         return response?.data;

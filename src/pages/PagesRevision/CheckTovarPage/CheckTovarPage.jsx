@@ -67,7 +67,7 @@ const CheckTovarPage = () => {
         <div className="header">
           <div className="titleInAllPage moreTitle">
             <NavPrev />
-            <h3>История вашей ревизии</h3>
+            <h3>Накладные созданные вами</h3>
           </div>
           <div>
             <button className="saveAction" onClick={() => setOpenModal(true)}>

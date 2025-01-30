@@ -69,6 +69,8 @@ const SoputkaProdHistoryPage = () => {
 
   const listData = listProdSoputka?.[0]?.list;
 
+  console.log(listData, "listProdSoputka");
+
   return (
     <>
       <div className="everyProd soputkaHistoryParent">
@@ -133,14 +135,10 @@ const SoputkaProdHistoryPage = () => {
                       {roundingNum(item?.count)} {item?.unit}
                     </TableCell>
                     <TableCell align="left" style={{ width: "15%" }}>
-                      {roundingNum(item?.sale_price)} сом
+                      {roundingNum(item?.price)} сом
                     </TableCell>
                     <TableCell align="left" style={{ width: "20%" }}>
-                      {roundingNum(
-                        +item?.sale_price *
-                          (+item?.count_usushka || +item?.count)
-                      )}{" "}
-                      сом
+                      {roundingNum(+item?.sale_price)} сом
                     </TableCell>
                     <TableCell align="left" style={{ width: "8%" }}>
                       {status && (
@@ -163,16 +161,12 @@ const SoputkaProdHistoryPage = () => {
                 </Fragment>
               ))}
               <TableRow className="tableInvoice">
-                <TableCell
-                  align="center"
-                  component="th"
-                  scope="row"
-                  colSpan={4}
-                >
+                <TableCell align="center" component="th" scope="row">
                   Итого
                 </TableCell>
+                <TableCell component="th" scope="row" colSpan={3}></TableCell>
                 <TableCell align="left" component="th" scope="row" colSpan={2}>
-                  {listProdSoputka?.[0]?.total_price} сом
+                  {roundingNum(listProdSoputka?.[0]?.total_price)} сом
                 </TableCell>
               </TableRow>
             </TableBody>

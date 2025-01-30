@@ -112,6 +112,10 @@
             padding: 10px 8px !important;
             font-weight: 600;
           }
+
+          td:nth-child(1) {
+            padding: 10px 8px 10px 25px !important;
+          }
         }
       }
     }

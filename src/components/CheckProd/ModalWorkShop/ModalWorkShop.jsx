@@ -48,8 +48,8 @@ const ModalWorkShop = ({ openModal, setOpenModal }) => {
     }
 
     const send = {
-      seller_guid_to: sellerTo?.value,
-      seller_guid_from: data?.seller_guid,
+      seller_guid_to: data?.seller_guid,
+      seller_guid_from: sellerTo?.value,
       comment,
     };
     const res = await dispatch(createInvoiceCheck(send)).unwrap();

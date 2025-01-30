@@ -283,12 +283,12 @@ const SaleProds = (props) => {
                         {roundingNum(row?.count)} {row?.unit}
                       </TableCell>
                       <TableCell align="left" style={{ width: "15%" }}>
-                        {roundingNum(row?.product_price)} сом
+                        {roundingNum(row?.sale_price)} сом
                       </TableCell>
                       <TableCell align="left" style={{ width: "9%" }}>
-                        {!!!status ? (
+                        {!!!status && (
                           <div className="delIcon">
-                            <button onClick={(e) => clickDelProd(row)}>
+                            <button onClick={() => clickDelProd(row)}>
                               <DeleteIcon
                                 width={19}
                                 height={19}
@@ -296,18 +296,16 @@ const SaleProds = (props) => {
                               />
                             </button>
                           </div>
-                        ) : (
-                          "..."
                         )}
                       </TableCell>
                     </TableRow>
                   ))}
                   <TableRow className="footerTable">
                     <TableCell colSpan={4} align="left">
-                      {type == 3 ? "Итого" : "Итого к оплате"}
+                      Итого
                     </TableCell>
                     <TableCell colSpan={2} align="left">
-                      {roundingNum(listProds?.[0]?.total_price) || "0"} сом
+                      {roundingNum(listProds?.[0]?.total_price) || ""} сом
                     </TableCell>
                   </TableRow>
                 </TableBody>
