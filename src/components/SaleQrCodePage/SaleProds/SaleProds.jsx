@@ -36,7 +36,7 @@ import debounce from "debounce";
 
 const SaleProds = (props) => {
   const { invoice_guid, status, codeid, type } = props;
-  //// type - 1(сопутка),2(продажа),3(ревизия)
+  //// type - 2(сопутка),1(продажа),3(ревизия)
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -60,11 +60,19 @@ const SaleProds = (props) => {
     const send = { qrcode, seller_guid: data?.seller_guid };
     const res = await dispatch(getProductsInQr(send)).unwrap();
     if (!!res?.guid) {
+      const objPrice = {
+        1: res?.sale_price == 1 || res?.sale_price == 0 ? "" : res?.sale_price,
+        2:
+          res?.workshop_price == 1 || res?.workshop_price == 0
+            ? ""
+            : res?.workshop_price,
+        3: res?.sale_price == 1 || res?.sale_price == 0 ? "" : res?.sale_price,
+      };
       const past = {
         ...res,
         count: "",
-        sale_price:
-          res?.sale_price == 1 || res?.sale_price == 0 ? "" : res?.sale_price,
+        sale_price: objPrice?.[type],
+        price: objPrice?.[type],
         unit_codeid: res?.unit_codeid || 1, /// default 1 - шт
       };
       setModal(past);
@@ -185,6 +193,24 @@ const SaleProds = (props) => {
 
   const checkTypeOne = type == 1;
 
+  const objKey = {
+    1: {
+      price: "price",
+      total_price: "product_price",
+      total_price_invoice: "total_price",
+    },
+    2: {
+      price: "price",
+      total_price: "product_price",
+      total_price_invoice: "total_price",
+    },
+    3: {
+      price: "price",
+      total_price: "total",
+      total_price_invoice: "total_price",
+    },
+  };
+
   return (
     <>
       <div className="saleProdsQR">
@@ -277,13 +303,13 @@ const SaleProds = (props) => {
                         {row?.product_name}
                       </TableCell>
                       <TableCell align="left" style={{ width: "15%" }}>
-                        {roundingNum(row?.price)} сом
+                        {roundingNum(row?.[objKey?.[type]?.price])} сом
                       </TableCell>
                       <TableCell align="left" style={{ width: "15%" }}>
                         {roundingNum(row?.count)} {row?.unit}
                       </TableCell>
                       <TableCell align="left" style={{ width: "15%" }}>
-                        {roundingNum(row?.sale_price)} сом
+                        {roundingNum(row?.[objKey?.[type]?.total_price])} сом
                       </TableCell>
                       <TableCell align="left" style={{ width: "9%" }}>
                         {!!!status && (
@@ -305,7 +331,10 @@ const SaleProds = (props) => {
                       Итого
                     </TableCell>
                     <TableCell colSpan={2} align="left">
-                      {roundingNum(listProds?.[0]?.total_price) || ""} сом
+                      {roundingNum(
+                        listProds?.[0]?.[objKey?.[type]?.total_price_invoice]
+                      ) || ""}{" "}
+                      сом
                     </TableCell>
                   </TableRow>
                 </TableBody>

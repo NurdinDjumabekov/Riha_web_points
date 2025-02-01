@@ -61,6 +61,13 @@ const EveryInvoiceAcceptPage = () => {
     ),
   };
 
+  const keyName = {
+    count: "count",
+    price: "price",
+    total_price: "total_workshop",
+    total_price_invoice: "total_price",
+  };
+
   return (
     <div className="parentAcceptEvery">
       {objAction?.[type]}
@@ -68,6 +75,7 @@ const EveryInvoiceAcceptPage = () => {
       <RenderResult
         list={newList}
         title={`Накладная № ${listAcceptInvoiceProd?.[0]?.codeid}`}
+        keyName={keyName}
       />
 
       <ConfirmationModal

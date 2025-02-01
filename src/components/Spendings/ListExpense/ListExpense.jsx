@@ -110,8 +110,11 @@ const ListExpense = ({ getData }) => {
                   </TableCell>
                   <TableCell align="left" style={{ width: "5%" }}>
                     {+row?.status == 0 ? (
-                      <div className="delIcon">
-                        <button onClick={() => setDel(row?.guid)}>
+                      <div
+                        className="delIcon"
+                        onClick={() => setDel(row?.guid)}
+                      >
+                        <button>
                           <DeleteIcon width={19} height={19} color={"red"} />
                         </button>
                       </div>

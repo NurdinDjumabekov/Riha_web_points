@@ -28,11 +28,19 @@ const EveryReturnPage = () => {
 
   const newList = listAcceptReturnProd?.[0]?.list;
 
+  const keyName = {
+    count: "count",
+    price: "price",
+    total_price: "total_workshop",
+    total_price_invoice: "total_price",
+  };
+
   return (
     <div className="parentAcceptEvery">
       <RenderResult
         list={newList}
         title={`Накладная № ${newList?.[0]?.codeid}`}
+        keyName={keyName}
       />
     </div>
   );

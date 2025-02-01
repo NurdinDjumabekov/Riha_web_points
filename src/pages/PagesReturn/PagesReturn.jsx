@@ -9,8 +9,8 @@ const PagesReturn = () => {
   return (
     <Routes>
       <Route path="/main" element={<MyReturnsPage />} />
-      <Route path="/accept" element={<AcceptReturnHistoryPage />} />
       <Route path="/detailed" element={<DetailedReturnPage />} />
+      <Route path="/accept" element={<AcceptReturnHistoryPage />} />
       <Route path="/every" element={<EveryReturnPage />} />
     </Routes>
   );

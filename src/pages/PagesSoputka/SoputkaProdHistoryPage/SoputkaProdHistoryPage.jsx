@@ -106,7 +106,7 @@ const SoputkaProdHistoryPage = () => {
                   Кол-во (вес)
                 </TableCell>
                 <TableCell align="left" style={{ width: "15%" }}>
-                  Цена за кг (шт)
+                  Цена цеховая за кг (шт)
                 </TableCell>
                 <TableCell align="left" style={{ width: "15%" }}>
                   Итоговая сумма
@@ -138,7 +138,7 @@ const SoputkaProdHistoryPage = () => {
                       {roundingNum(item?.price)} сом
                     </TableCell>
                     <TableCell align="left" style={{ width: "20%" }}>
-                      {roundingNum(+item?.sale_price)} сом
+                      {roundingNum(+item?.product_price)} сом
                     </TableCell>
                     <TableCell align="left" style={{ width: "8%" }}>
                       {status && (

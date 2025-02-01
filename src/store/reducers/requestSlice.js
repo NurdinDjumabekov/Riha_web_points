@@ -674,7 +674,7 @@ export const getMyReturnInvoice = createAsyncThunk(
     try {
       const response = await axios({
         method: "GET",
-        url: `${API}/tt/get_invoice_return?seller_guid=${seller_guid}&invoice_status=1`,
+        url: `${API}/tt/get_invoice_return?seller_guid=${seller_guid}&invoice_status=0`,
       });
       if (response.status >= 200 && response.status < 300) {
         return response?.data;

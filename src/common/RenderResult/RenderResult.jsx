@@ -10,7 +10,7 @@ import { TableContainer, TableHead } from "@mui/material";
 import { TableRow, Paper } from "@mui/material";
 import NavPrev from "../NavPrev/NavPrev";
 
-export const RenderResult = ({ list, title }) => {
+export const RenderResult = ({ list, title, keyName }) => {
   return (
     <div className="everyProd">
       <div className="titleInAllPage">
@@ -55,13 +55,17 @@ export const RenderResult = ({ list, title }) => {
                   {item?.product_name}
                 </TableCell>
                 <TableCell align="left" style={{ width: "15%" }}>
-                  {roundingNum(item?.count)} {item?.unit}
+                  {roundingNum(item?.[keyName?.count] || item?.count)}{" "}
+                  {item?.unit}
                 </TableCell>
                 <TableCell align="left" style={{ width: "15%" }}>
-                  {roundingNum(item?.price)} сом
+                  {roundingNum(item?.[keyName?.price] || item?.price)} сом
                 </TableCell>
                 <TableCell align="left" style={{ width: "20%" }}>
-                  {roundingNum(+item?.sale_price)} сом
+                  {roundingNum(
+                    item?.[keyName?.total_price] || item?.sale_price
+                  )}{" "}
+                  сом
                 </TableCell>
               </TableRow>
             ))}
@@ -71,7 +75,11 @@ export const RenderResult = ({ list, title }) => {
               </TableCell>
               <TableCell scope="row" colSpan={3}></TableCell>
               <TableCell align="left" component="th" scope="row">
-                {list?.[0]?.total_price} сом
+                {roundingNum(
+                  list?.[0]?.[keyName?.total_price_invoice] ||
+                    list?.[0]?.total_price
+                )}{" "}
+                сом
               </TableCell>
             </TableRow>
           </TableBody>

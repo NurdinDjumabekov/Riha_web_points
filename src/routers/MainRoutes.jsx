@@ -52,3 +52,10 @@ const MainRoutes = () => {
 };
 
 export default MainRoutes;
+
+const keyName = {
+  count: "count",
+  price: "price",
+  total_price: "total_workshop",
+  total_price_invoice: "total_price",
+};

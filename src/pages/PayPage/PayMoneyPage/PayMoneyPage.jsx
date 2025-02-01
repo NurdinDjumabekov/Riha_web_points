@@ -115,6 +115,7 @@ const PayMoneyPage = () => {
                 <TableCell
                   align="left"
                   style={{ width: "15%", color: "green" }}
+                  // style={{ width: "15%" }}
                 >
                   Успешно
                 </TableCell>

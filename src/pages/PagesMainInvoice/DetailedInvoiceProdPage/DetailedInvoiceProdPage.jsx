@@ -58,6 +58,13 @@ const DetailedInvoiceProdPage = () => {
 
   const checkStatus = everyInvoice?.status !== 0;
 
+  const keyName = {
+    count: "count",
+    price: "price",
+    total_price: "total_workshop",
+    total_price_invoice: "total_price",
+  };
+
   return (
     <div className="detailedMain">
       {checkStatus && (
@@ -74,6 +81,7 @@ const DetailedInvoiceProdPage = () => {
         <RenderResult
           list={everyInvoice?.list}
           title={`Накладная № ${everyInvoice?.codeid}, дата создания: ${everyInvoice?.date} `}
+          keyName={keyName}
         />
       </div>
 

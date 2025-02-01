@@ -17,10 +17,10 @@ const PagesRevision = () => {
     <Routes>
       <Route path="/main" element={<CheckTovarPage />} />
       <Route path="/request" element={<RevisionRequestPage />} />
-      <Route path="/check" element={<InvoiceCheckPage />} />
+      {/* <Route path="/check" element={<InvoiceCheckPage />} /> */}
       <Route path="/qr_scan" element={<RevisionQRscanPage />} />
       <Route path="/every_accept_inv" element={<AcceptRevisionPage />} />
-      {/* <Route path="/every" element={<EveryRevisionRequestPage />} /> */}
+      <Route path="/every" element={<EveryRevisionRequestPage />} />
     </Routes>
   );
 };

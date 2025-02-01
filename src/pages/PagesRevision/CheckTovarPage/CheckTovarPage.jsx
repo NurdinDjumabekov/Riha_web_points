@@ -100,7 +100,7 @@ const CheckTovarPage = () => {
                   Статус
                 </TableCell>
                 <TableCell align="left" style={{ width: "15%" }}>
-                  Итоговая сумма
+                  Cумма
                 </TableCell>
                 <TableCell align="left" style={{ width: "20%" }}>
                   Комментарий

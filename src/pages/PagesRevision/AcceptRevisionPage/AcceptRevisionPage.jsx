@@ -44,7 +44,16 @@ const AcceptRevisionPage = () => {
   };
 
   const checkUser =
-    data?.seller_guid == listAcceptInvoiceProd?.[0]?.seller_to_guid;
+    data?.seller_guid == listAcceptInvoiceProd?.[0]?.seller_from_guid;
+
+  console.log(data, "asda");
+
+  const keyName = {
+    count: "count",
+    price: "price",
+    total_price: "total",
+    total_price_invoice: "total_price",
+  };
 
   return (
     <div className="parentAcceptEvery">
@@ -62,6 +71,7 @@ const AcceptRevisionPage = () => {
       <RenderResult
         list={newList}
         title={`Накладная № ${listAcceptInvoiceProd?.[0]?.codeid}`}
+        keyName={keyName}
       />
 
       <ConfirmationModal
