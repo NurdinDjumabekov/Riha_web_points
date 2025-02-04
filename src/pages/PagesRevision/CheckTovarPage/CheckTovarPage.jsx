@@ -21,12 +21,15 @@ import "./style.scss";
 ///// helpers
 import { roundingNum } from "../../../helpers/amounts";
 import { statusRevision } from "../../../helpers/Data";
+import ModaRevisonlPay from "../../../components/CheckProd/ModaRevisonlPay/ModaRevisonlPay";
+import EditIcon from "../../../assets/MyIcons/EditIcon";
 
 const CheckTovarPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [openModal, setOpenModal] = useState(false); /// выбор продавца для ревизии
+  const [modalPay, setModalPay] = useState({}); /// для модалки вводя остатка денег
 
   const { data } = useSelector((state) => state.saveDataSlice);
   const { listHistoryRevision } = useSelector((state) => state.requestSlice);
@@ -92,7 +95,7 @@ const CheckTovarPage = () => {
                 <TableCell align="center" style={{ width: "5%" }}>
                   ...
                 </TableCell>
-                <TableCell style={{ width: "25%" }}>Продавцу</TableCell>
+                <TableCell style={{ width: "20%" }}>Продавцу</TableCell>
                 <TableCell align="left" style={{ width: "15%" }}>
                   Дата
                 </TableCell>
@@ -102,23 +105,23 @@ const CheckTovarPage = () => {
                 <TableCell align="left" style={{ width: "15%" }}>
                   Cумма
                 </TableCell>
-                <TableCell align="left" style={{ width: "20%" }}>
+                <TableCell align="left" style={{ width: "15%" }}>
                   Комментарий
+                </TableCell>
+                <TableCell align="left" style={{ width: "15%" }}>
+                  Остаток денег
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {listHistoryRevision?.map((item) => (
-                <TableRow
-                  key={item?.codeid}
-                  className="tableInvoice"
-                  onClick={() => lookInvoice(item)}
-                >
+                <TableRow key={item?.codeid} className="tableInvoice">
                   <TableCell
                     align="center"
                     component="th"
                     scope="row"
                     style={{ width: "5%" }}
+                    onClick={() => lookInvoice(item)}
                   >
                     {item?.codeid}
                   </TableCell>
@@ -126,13 +129,22 @@ const CheckTovarPage = () => {
                     component="th"
                     scope="row"
                     style={{ width: "5%", textAlign: "center" }}
+                    onClick={() => lookInvoice(item)}
                   >
                     <input type="checkbox" value={true} />
                   </TableCell>
-                  <TableCell align="left" style={{ width: "25%" }}>
+                  <TableCell
+                    align="left"
+                    style={{ width: "20%" }}
+                    onClick={() => lookInvoice(item)}
+                  >
                     {item?.seller_to}
                   </TableCell>
-                  <TableCell align="left" style={{ width: "15%" }}>
+                  <TableCell
+                    align="left"
+                    style={{ width: "15%" }}
+                    onClick={() => lookInvoice(item)}
+                  >
                     {item?.date}
                   </TableCell>
                   <TableCell
@@ -141,15 +153,34 @@ const CheckTovarPage = () => {
                       width: "15%",
                       color: statusRevision?.[item?.status]?.c,
                     }}
+                    onClick={() => lookInvoice(item)}
                   >
                     {statusRevision?.[item?.status]?.t}
                   </TableCell>
-                  <TableCell align="left" style={{ width: "15%" }}>
+                  <TableCell
+                    align="left"
+                    style={{ width: "15%" }}
+                    onClick={() => lookInvoice(item)}
+                  >
                     {roundingNum(item?.total_price)} сом
                   </TableCell>
 
-                  <TableCell align="left" style={{ width: "20%" }}>
+                  <TableCell
+                    align="left"
+                    style={{ width: "15%" }}
+                    onClick={() => lookInvoice(item)}
+                  >
                     {item?.comment || "..."}
+                  </TableCell>
+                  <TableCell align="left" style={{ width: "15%" }}>
+                    <div className="edit">
+                      {item?.leftovers_pay || 0} сом
+                      <EditIcon
+                        width={17}
+                        height={17}
+                        onClick={() => setModalPay(item)}
+                      />
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
@@ -157,6 +188,11 @@ const CheckTovarPage = () => {
           </Table>
         </TableContainer>
       </div>
+      <ModaRevisonlPay
+        modalState={modalPay}
+        setModalState={setModalPay}
+        getData={getData}
+      />
     </>
   );
 };

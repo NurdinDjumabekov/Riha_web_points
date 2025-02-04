@@ -58,7 +58,7 @@ const RevisionRequestPage = () => {
               <TableCell align="center" style={{ width: "5%" }}>
                 ...
               </TableCell>
-              <TableCell style={{ width: "25%" }}>Продавцу</TableCell>
+              <TableCell style={{ width: "20%" }}>Продавцу</TableCell>
               <TableCell align="left" style={{ width: "15%" }}>
                 Дата
               </TableCell>
@@ -68,8 +68,11 @@ const RevisionRequestPage = () => {
               <TableCell align="left" style={{ width: "15%" }}>
                 Итоговая сумма
               </TableCell>
-              <TableCell align="left" style={{ width: "20%" }}>
+              <TableCell align="left" style={{ width: "15%" }}>
                 Комментарий
+              </TableCell>
+              <TableCell align="left" style={{ width: "15%" }}>
+                Остаток денег
               </TableCell>
             </TableRow>
           </TableHead>
@@ -95,7 +98,7 @@ const RevisionRequestPage = () => {
                 >
                   <input type="checkbox" value={true} />
                 </TableCell>
-                <TableCell align="left" style={{ width: "25%" }}>
+                <TableCell align="left" style={{ width: "20%" }}>
                   {item?.seller_to}
                 </TableCell>
                 <TableCell align="left" style={{ width: "15%" }}>
@@ -114,8 +117,11 @@ const RevisionRequestPage = () => {
                   {roundingNum(item?.total_price)} сом
                 </TableCell>
 
-                <TableCell align="left" style={{ width: "20%" }}>
+                <TableCell align="left" style={{ width: "15%" }}>
                   {item?.comment || "..."}
+                </TableCell>
+                <TableCell align="left" style={{ width: "15%" }}>
+                  <div className="edit">{item?.leftovers_pay || 0} сом</div>
                 </TableCell>
               </TableRow>
             ))}

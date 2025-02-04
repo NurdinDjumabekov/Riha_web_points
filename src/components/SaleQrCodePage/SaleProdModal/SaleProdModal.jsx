@@ -24,6 +24,7 @@ import { myAlert } from "../../../helpers/MyAlert";
 const SaleProdModal = (props) => {
   const { modal, setModal, closeModal } = props;
   const { invoice_guid, refInputSum, type } = props;
+  const { setPriceSoputkaProd, priceSoputkaProd } = props;
 
   const dispatch = useDispatch();
 
@@ -53,7 +54,7 @@ const SaleProdModal = (props) => {
       guid: modal?.guid,
       count: modal?.count,
       price: modal?.sale_price,
-      sale_price: modal?.sale_price,
+      sale_price: priceSoputkaProd,
       invoice_guid,
     };
 
@@ -88,6 +89,8 @@ const SaleProdModal = (props) => {
     if (check) {
       setModal({ ...modal, [e.target?.name]: e.target?.value });
       setLastInputTime(now);
+
+      if (e.target?.name == "soputka") setPriceSoputkaProd(e.target?.value);
     }
   };
 
@@ -147,7 +150,11 @@ const SaleProdModal = (props) => {
         </div>
 
         <div className="inputSend">
-          <p>Стоимость товара за {modal?.unit_codeid == 1 ? "шт" : "кг"}</p>
+          <p>
+            {" "}
+            {type == 2 ? "Цеховая цена" : "Цена"} товара за{" "}
+            {modal?.unit_codeid == 1 ? "шт" : "кг"}
+          </p>
           <input
             type="text"
             onChange={onChange}
@@ -158,6 +165,23 @@ const SaleProdModal = (props) => {
             required
           />
         </div>
+
+        {type == 2 && (
+          <div className="inputSend">
+            <p>
+              Отпускная цена товара за {modal?.unit_codeid == 1 ? "шт" : "кг"}
+            </p>
+            <input
+              type="text"
+              onChange={onChange}
+              onKeyPress={handleKeyPress}
+              value={priceSoputkaProd}
+              autoComplete="off"
+              name="soputka"
+              required
+            />
+          </div>
+        )}
 
         <div className="info labelRadio">
           <p>Единица измерения</p>

@@ -1169,6 +1169,24 @@ export const acceptInvoiceRevision = createAsyncThunk(
   }
 );
 
+/// editLeftoversPayRevision - редактирование остатков денег в ревизии
+export const editLeftoversPayRevision = createAsyncThunk(
+  "editLeftoversPayRevision",
+  async function (data, { dispatch, rejectWithValue }) {
+    const url = `${API}/tt/revision_edit_pay`;
+    try {
+      const response = await axios.post(url, data);
+      if (response.status >= 200 && response.status < 300) {
+        return response.data.result;
+      } else {
+        throw Error(`Error: ${response.status}`);
+      }
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const initialState = {
   preloader: false,
   chech: "",

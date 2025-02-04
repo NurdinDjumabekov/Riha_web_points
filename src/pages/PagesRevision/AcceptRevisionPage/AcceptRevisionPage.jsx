@@ -46,8 +46,6 @@ const AcceptRevisionPage = () => {
   const checkUser =
     data?.seller_guid == listAcceptInvoiceProd?.[0]?.seller_from_guid;
 
-  console.log(data, "asda");
-
   const keyName = {
     count: "count",
     price: "price",
@@ -62,7 +60,7 @@ const AcceptRevisionPage = () => {
           {checkUser && (
             <button className="saveAction " onClick={() => setConfirm(true)}>
               <LibraryAddIcon sx={{ width: 16, height: 16 }} />
-              <p>Принять ревизию</p>
+              <p>Подтвердить ревизию</p>
             </button>
           )}
         </div>
@@ -76,7 +74,7 @@ const AcceptRevisionPage = () => {
 
       <ConfirmationModal
         visible={!!confirm}
-        message="Принять ревизию?"
+        message="Подтвердить ревизию?"
         onYes={acceptInvoiceRevision}
         onNo={() => setConfirm("")}
         onClose={() => setConfirm("")}

@@ -49,6 +49,7 @@ const SaleProds = (props) => {
   const [qrCodeInput, setQrCodeInput] = useState("");
   const [modal, setModal] = useState({});
   const [confirm, setConfirm] = useState(false);
+  const [priceSoputkaProd, setPriceSoputkaProd] = useState("");
 
   const getData = () => dispatch(getProducts({ invoice_guid, type }));
 
@@ -76,6 +77,7 @@ const SaleProds = (props) => {
         unit_codeid: res?.unit_codeid || 1, /// default 1 - шт
       };
       setModal(past);
+      setPriceSoputkaProd(res?.sale_price);
       setTimeout(() => {
         refInputSum.current?.focus();
       }, 200);
@@ -132,6 +134,7 @@ const SaleProds = (props) => {
   const closeModal = () => {
     setModal({});
     setQrCodeInput("");
+    setPriceSoputkaProd("");
     refInput.current?.focus();
   };
 
@@ -186,7 +189,7 @@ const SaleProds = (props) => {
     3: (
       <button className="saveAction " onClick={() => setConfirm(true)}>
         <LibraryAddIcon sx={{ width: 16, height: 16 }} />
-        <p>Отправить принимаемой стороне</p>
+        <p>Оформить накладную</p>
       </button>
     ),
   };
@@ -349,6 +352,8 @@ const SaleProds = (props) => {
           refInputSum={refInputSum}
           invoice_guid={invoice_guid}
           type={type}
+          priceSoputkaProd={priceSoputkaProd}
+          setPriceSoputkaProd={setPriceSoputkaProd}
         />
       </div>
 

@@ -69,15 +69,13 @@ const SoputkaProdHistoryPage = () => {
 
   const listData = listProdSoputka?.[0]?.list;
 
-  console.log(listData, "listProdSoputka");
-
   return (
     <>
       <div className="everyProd soputkaHistoryParent">
         <div className="header">
           <div className="titleInAllPage">
             <NavPrev />
-            <h3 className="titlePage">{`Накладная № ${listData?.[0]?.codeid}`}</h3>
+            <h3 className="titlePage">{`Накладная № ${listProdSoputka?.[0]?.codeid}`}</h3>
           </div>
           {status && (
             <div className="actionBlockHeader">
@@ -106,7 +104,7 @@ const SoputkaProdHistoryPage = () => {
                   Кол-во (вес)
                 </TableCell>
                 <TableCell align="left" style={{ width: "15%" }}>
-                  Цена цеховая за кг (шт)
+                  Отпускная цена
                 </TableCell>
                 <TableCell align="left" style={{ width: "15%" }}>
                   Итоговая сумма
