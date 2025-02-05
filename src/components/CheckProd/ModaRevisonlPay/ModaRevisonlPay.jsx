@@ -29,6 +29,8 @@ const ModaRevisonlPay = ({ modalState, setModalState, getData }) => {
 
   const closeModal = () => setModalState({});
 
+  console.log(modalState, "modalState");
+
   const sendMoney = async (e) => {
     e.preventDefault();
     if (!!!modalState?.leftovers_pay) {
@@ -37,11 +39,24 @@ const ModaRevisonlPay = ({ modalState, setModalState, getData }) => {
     const send = {
       leftovers_pay: modalState?.leftovers_pay,
       invoice_guid: modalState?.invoice_guid,
+      comment_leftovers_pay: modalState?.comment_leftovers_pay,
     };
     const res = await dispatch(editLeftoversPayRevision(send)).unwrap();
     if (!!res) {
       myAlert("Данные обновлены");
       getData();
+      closeModal();
+    }
+  };
+
+  const onChange = (e) => {
+    const { name, value } = e.target;
+    if (name == "leftovers_pay") {
+      if (/^-?\d*\.?\d*$/.test(value)) {
+        setModalState({ ...modalState, leftovers_pay: e.target.value });
+      }
+    } else {
+      setModalState({ ...modalState, comment_leftovers_pay: e.target.value });
     }
   };
 
@@ -55,12 +70,17 @@ const ModaRevisonlPay = ({ modalState, setModalState, getData }) => {
         <form className="modalAddSpending" onSubmit={sendMoney}>
           <SendInput
             value={modalState?.leftovers_pay}
-            onChange={(e) =>
-              setModalState({ ...modalState, leftovers_pay: e.target.value })
-            }
+            onChange={onChange}
             title={"Сумма (сом)"}
-            name={"amount"}
+            name={"leftovers_pay"}
             type={"number"}
+          />
+          <SendInput
+            value={modalState?.comment_leftovers_pay}
+            onChange={onChange}
+            title={"Комментарий"}
+            name={"comment_leftovers_pay"}
+            typeInput={"textarea"}
           />
           <button className="saveAction" type="submit">
             <LibraryAddIcon sx={{ width: 16, height: 16 }} />
