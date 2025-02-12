@@ -59,7 +59,10 @@ const ViewInvoiceHisotry = ({ list, title, keyLink, type }) => {
                 Статус
               </TableCell>
               <TableCell align="left" style={{ width: "15%" }}>
-                Итоговая сумма
+                Итого (цеховая)
+              </TableCell>
+              <TableCell align="left" style={{ width: "15%" }}>
+                Итого (отпускная)
               </TableCell>
               <TableCell align="left" style={{ width: "20%" }}>
                 Комментарий
@@ -110,6 +113,9 @@ const ViewInvoiceHisotry = ({ list, title, keyLink, type }) => {
                 </TableCell>
                 <TableCell align="left" style={{ width: "15%" }}>
                   {roundingNum(item?.total_price)} сом
+                </TableCell>
+                <TableCell align="left" style={{ width: "15%" }}>
+                  {roundingNum(item?.total_sale_price)} сом
                 </TableCell>
 
                 <TableCell align="left" style={{ width: "20%" }}>

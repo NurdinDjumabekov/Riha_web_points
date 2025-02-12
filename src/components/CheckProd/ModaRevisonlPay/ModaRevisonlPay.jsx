@@ -17,7 +17,6 @@ import SendInput from "../../../common/SendInput/SendInput";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 
 ////// helpers
-import { transformLists } from "../../../helpers/transformLists";
 import { myAlert } from "../../../helpers/MyAlert";
 
 ////style
@@ -28,8 +27,6 @@ const ModaRevisonlPay = ({ modalState, setModalState, getData }) => {
   const dispatch = useDispatch();
 
   const closeModal = () => setModalState({});
-
-  console.log(modalState, "modalState");
 
   const sendMoney = async (e) => {
     e.preventDefault();

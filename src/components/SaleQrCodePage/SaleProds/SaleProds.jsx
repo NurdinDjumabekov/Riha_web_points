@@ -274,7 +274,9 @@ const SaleProds = (props) => {
                     </TableCell>
                     <TableCell style={{ width: "41%" }}>Продукт</TableCell>
                     <TableCell align="left" style={{ width: "15%" }}>
-                      Цена за кг (шт)
+                      {type == 2
+                        ? "Цена цеховая за кг (шт)"
+                        : "Цена за кг (шт)"}
                     </TableCell>
                     <TableCell align="left" style={{ width: "15%" }}>
                       Итоговый вес (шт)
