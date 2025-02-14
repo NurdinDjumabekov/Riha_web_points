@@ -1,0 +1,84 @@
+.sortMyListPage {
+  height: 100%;
+  width: 100%;
+  background: #fff;
+  box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.144);
+  border-radius: 5px;
+
+  &__inner {
+    height: calc(100% - 60px);
+    overflow-y: scroll;
+    border: 1px solid #e0e0e0;
+    border-radius: 0 0 5px 5px;
+
+    .mainCheckBox {
+      width: 32px;
+      height: 32px;
+      position: relative;
+
+      > span {
+        position: absolute !important;
+        left: calc(0px - 13px) !important;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+  }
+  .navMenu {
+    box-shadow: none !important;
+  }
+
+  .header {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    justify-content: space-between;
+    gap: 10px;
+
+    .myInputs {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      width: 280px;
+
+      > div {
+        width: 280px;
+        > div:nth-child(3) {
+          // border-radius: 0 !important;
+          padding: 1px 15px 1px 8px;
+          // background: rgb(237, 242, 249) !important;
+          > div:nth-child(1) {
+            > div {
+              font-size: 15px !important;
+              font-weight: 500 !important;
+            }
+          }
+        }
+      }
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+
+      > button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 38px;
+        background: #299b31;
+        padding: 0px 20px;
+        border-radius: 5px;
+        color: #fff;
+        gap: 5px;
+
+        p {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+}

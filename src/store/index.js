@@ -17,12 +17,14 @@ import saveDataSlice from "./reducers/saveDataSlice";
 import stateSlice from "./reducers/stateSlice";
 import saleSlice from "./reducers/saleSlice";
 import reportSlice from "./reducers/reportSlice";
+import settingSlice from "./reducers/settingSlice";
 const reducer = combineReducers({
   requestSlice,
   saveDataSlice,
   stateSlice,
   saleSlice,
   reportSlice,
+  settingSlice,
 });
 
 const persistConfig = {

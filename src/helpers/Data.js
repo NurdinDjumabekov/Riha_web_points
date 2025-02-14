@@ -9,6 +9,7 @@ import RuleIcon from "@mui/icons-material/Rule";
 import AppsIcon from "@mui/icons-material/Apps";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import SummarizeIcon from "@mui/icons-material/Summarize";
+import SettingsSuggestIcon from "@mui/icons-material/SettingsSuggest";
 
 export const dataCategory = [
   {
@@ -87,6 +88,13 @@ export const dataCategory = [
     link: "revision/main",
     pathApi: "revision/main",
     icon: <RuleIcon />,
+  },
+  {
+    codeid: 11,
+    name: "Настройки",
+    link: "setting/list",
+    pathApi: "setting/list",
+    icon: <SettingsSuggestIcon />,
   },
 ];
 
