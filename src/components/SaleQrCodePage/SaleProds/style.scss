@@ -11,7 +11,7 @@
     .header {
       display: flex;
       justify-content: space-between;
-      gap: 15px;
+      gap: 3px;
       padding: 0 20px 0 10px;
       align-items: center;
     }
@@ -27,14 +27,44 @@
       align-items: center;
       gap: 10px;
       margin: 10px;
+      position: relative;
 
-      .soputka {
-        position: relative;
+      .myInputs {
+        display: flex;
+        align-items: flex-end;
+        gap: 10px;
 
-        .search {
-          position: absolute;
-          left: 250px;
-          bottom: 0px;
+        > div {
+          h6 {
+            margin-bottom: 2px;
+          }
+
+          input {
+            width: 30%;
+            border: 1px solid #e1dede !important;
+            box-shadow: none !important;
+            cursor: pointer;
+            border-radius: 5px;
+            height: 38px;
+            color: rgba(0, 0, 0, 0.782);
+            padding: 3px 8px;
+            font-size: 18px;
+            width: 100%;
+
+            &::placeholder {
+              color: #6b72809e;
+            }
+
+            &:focus {
+              border: 1px solid rgba(89, 89, 89, 0.529);
+              outline: none;
+            }
+          }
+        }
+        .searchAction {
+          // position: absolute;
+          // left: 250px;
+          // bottom: 0px;
           height: 38px;
           background: #299b31;
           padding: 0px 20px 0px;
@@ -52,32 +82,6 @@
             font-size: 14px;
             margin-right: 10px;
           }
-        }
-      }
-
-      h6 {
-        margin-bottom: 2px;
-      }
-
-      input {
-        width: 30%;
-        border: 1px solid #e1dede !important;
-        box-shadow: none !important;
-        cursor: pointer;
-        border-radius: 5px;
-        height: 38px;
-        color: rgba(0, 0, 0, 0.782);
-        padding: 3px 8px;
-        font-size: 18px;
-        width: 100%;
-
-        &::placeholder {
-          color: #6b72809e;
-        }
-
-        &:focus {
-          border: 1px solid rgba(89, 89, 89, 0.529);
-          outline: none;
         }
       }
     }
@@ -130,12 +134,6 @@
 
       .headerIner {
         margin: 10px;
-      }
-    }
-
-    .checkTypeOne {
-      .inputSend {
-        width: 350px !important;
       }
     }
   }

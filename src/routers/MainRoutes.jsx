@@ -1,5 +1,5 @@
 ////// hooks
-import React, { lazy } from "react";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
 

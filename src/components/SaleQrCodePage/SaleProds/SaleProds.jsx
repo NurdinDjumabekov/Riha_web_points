@@ -113,9 +113,9 @@ const SaleProds = (props) => {
 
   const onChange = (e) => {
     setQrCodeInput(e.target.value);
-    if (type !== 2) {
-      searchData(e, e.target.value);
-    }
+    // if (type !== 2) {
+    //   searchData(e, e.target.value);
+    // }
   };
 
   const searchData = useCallback(
@@ -226,27 +226,25 @@ const SaleProds = (props) => {
               </div>
             ) : (
               <form
-                className={`actionAddProd ${
-                  checkTypeOne ? "checkTypeOne" : ""
-                }`}
+                className={`actionAddProd`}
                 onSubmit={(e) => sendProd(e, qrCodeInput)}
               >
-                <div
-                  className={`myInputs inputSend ${type == 2 ? "soputka" : ""}`}
-                >
-                  <h6>Поиск по штрих коду</h6>
-                  <input
-                    ref={refInput}
-                    type="search"
-                    onChange={onChange}
-                    value={qrCodeInput}
-                  />
-                  {type == 2 && (
-                    <button className="search" type="submit">
-                      <SearchIcon />
-                      <p>Поиск</p>
-                    </button>
-                  )}
+                <div className={`myInputs`}>
+                  <div>
+                    <h6>Поиск по штрих коду</h6>
+                    <input
+                      ref={refInput}
+                      type="search"
+                      onChange={onChange}
+                      value={qrCodeInput}
+                    />
+                  </div>
+                  {/* {type == 2 && (
+                      )} */}
+                  <button className="searchAction" type="submit">
+                    <SearchIcon />
+                    <p>Поиск</p>
+                  </button>
                 </div>
               </form>
             )}

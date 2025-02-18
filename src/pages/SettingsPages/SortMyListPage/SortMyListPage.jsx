@@ -146,3 +146,67 @@ export const sortFn = (list) => {
     }))
     ?.filter((i) => i?.prods?.length > 0); // Удаляем пустые объекты
 };
+
+// import React, { useState } from "react";
+
+// const SortMyListPage = () => {
+//   const [text, setText] = useState("");
+//   const [lastInputTime, setLastInputTime] = useState(0);
+//   const [isScanner, setIsScanner] = useState(false);
+//   const [showSearchButton, setShowSearchButton] = useState(false);
+
+//   const SCANNER_SPEED_THRESHOLD = 80; // Если ввод быстрее 80 мс, считаем сканером
+
+//   const handleInputChange = (e) => {
+//     const now = Date.now();
+//     const timeDiff = now - lastInputTime;
+
+//     // Если символы вводятся быстро → это сканер
+//     if (timeDiff < SCANNER_SPEED_THRESHOLD && text.length > 0) {
+//       setIsScanner(true);
+//       setShowSearchButton(false);
+//     } else {
+//       setIsScanner(false);
+//       setShowSearchButton(true); // Показываем кнопку только при ручном вводе
+//     }
+
+//     setLastInputTime(now);
+//     setText(e.target.value);
+//   };
+
+//   const handleManualSearch = () => {
+//     console.log("Ручной ввод:", text);
+//     setText(""); // Очищаем поле
+//     setShowSearchButton(false); // Скрываем кнопку после поиска
+//   };
+
+//   const handleKeyDown = (e) => {
+//     if (isScanner) {
+//       console.log("Сканер ввёл:", text);
+//       setText(""); // Очищаем поле после сканирования
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <form className="actionAddProd" onSubmit={(e) => e.preventDefault()}>
+//         <div className="myInputs inputSend">
+//           <h6>Поиск по штрих-коду</h6>
+//           <input
+//             type="search"
+//             onChange={handleInputChange}
+//             onKeyDown={handleKeyDown}
+//             value={text}
+//           />
+//         </div>
+//         {showSearchButton && (
+//           <button type="button" onClick={handleManualSearch}>
+//             Поиск
+//           </button>
+//         )}
+//       </form>
+//     </div>
+//   );
+// };
+
+// export default SortMyListPage;
